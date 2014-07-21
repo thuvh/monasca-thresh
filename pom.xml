@@ -9,9 +9,11 @@
     <url>http://github.com/hpcloud-mon/mon-thresh</url>
     <packaging>jar</packaging>
 
+<!--
     <prerequisites>
         <maven>3.0</maven>
     </prerequisites>
+-->
 
     <properties>
         <mon.common.version>1.0.0-SNAPSHOT</mon.common.version>
@@ -19,8 +21,10 @@
         <skipITs>true</skipITs>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <artifactNamedVersion>${project.name}-${project.version}-${timestamp}-${buildNumber}
+        <artifactNamedVersion>${project.artifactId}-${project.version}-${timestamp}-${buildNumber}
         </artifactNamedVersion>
+        <shadedJarName>${project.artifactId}-${project.version}-shaded
+        </shadedJarName>
     </properties>
 
     <scm>
@@ -114,7 +118,7 @@
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.10</artifactId>
+            <artifactId>kafka_2.9.2</artifactId>
             <version>0.8.0</version>
             <exclusions>
                 <exclusion>
@@ -192,7 +196,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.2</version>
+                <version>1.2</version>
                 <configuration>
                     <finalName>${artifactNamedVersion}</finalName>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
@@ -272,7 +276,7 @@
                             <dataSet>
                                 <data>
                                     <type>file</type>
-                                    <src>${project.build.directory}/${artifactNamedVersion}.jar
+                                    <src>${project.build.directory}/${shadedJarName}.jar
                                     </src>
                                     <dst>/opt/mon/mon-thresh.jar</dst>
                                 </data>
