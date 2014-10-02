@@ -31,7 +31,6 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
-import org.skife.jdbi.v2.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -297,81 +296,39 @@ public class AlarmDAOImpl implements AlarmDAO {
   private Set<MetricDefinitionAndTenantId> findAlarmedMetrics(Handle h, String alarmId) {
     final List<Map<String, Object>> result =
         h.createQuery(
-            "select metric_definition_id, metric_dimension_set_id from metric_definition_dimensions "
-            + "where id in (select metric_definition_dimensions_id from alarm_metric where alarm_id=:alarm_id)")
+            "select md.name as metric_name, md.tenant_id, md.region, mdi.name, mdi.value, mdd.id, mdd.metric_dimension_set_id " +
+            "from metric_definition_dimensions as mdd left join metric_definition as md on md.id = mdd.metric_definition_id " +
+            "left join metric_dimension as mdi on mdi.dimension_set_id = mdd.metric_dimension_set_id where mdd.id in " +
+            "(select metric_definition_dimensions_id from alarm_metric where alarm_id=:alarm_id)")
             .bind("alarm_id", alarmId).list();
     if ((result == null) || result.isEmpty()) {
       return new HashSet<>(0);
     }
-    final Set<byte[]> metricDefinitionIds = new HashSet<>();
-    final Set<byte[]> metricDimensionSetIds = new HashSet<>();
-    for (final Map<String, Object> row : result) {
-      metricDefinitionIds.add((byte[]) row.get("metric_definition_id"));
-      metricDimensionSetIds.add((byte[]) row.get("metric_dimension_set_id"));
-    }
 
-    final List<Map<String, Object>> metricDefinitionRows =
-        queryForIds(h, "select * from metric_definition where id in (%s)", metricDefinitionIds);
-    final Map<Sha1HashId, MetricDefinitionAndTenantId> mds = new HashMap<>(metricDefinitionRows.size());
-    for (final Map<String, Object> row : metricDefinitionRows) {
-      final byte[] id = (byte[]) row.get("id");
-      MetricDefinition md = new MetricDefinition();
-      md.name = (String) row.get("name");
-      mds.put(new Sha1HashId(id), new MetricDefinitionAndTenantId(md, (String) row.get("tenant_id")));
-    }
-
-    final List<Map<String, Object>> metricDimensionRows =
-        queryForIds(h, "select * from metric_dimension where dimension_set_id in (%s)",
-            metricDimensionSetIds);
-    final Map<Sha1HashId, Map<String, String>> dims = new HashMap<>(metricDimensionRows.size());
-    for (final Map<String, Object> row : metricDimensionRows) {
-      final Sha1HashId dimensionSetId = new Sha1HashId((byte[]) row.get("dimension_set_id"));
-      Map<String, String> dim = dims.get(dimensionSetId);
-      if (dim == null) {
-        dim = new HashMap<>();
-        dims.put(dimensionSetId, dim);
+    final Set<MetricDefinitionAndTenantId> alarmedMetrics = new HashSet<>(result.size());
+    Sha1HashId previous = null;
+    MetricDefinitionAndTenantId mdtid = null;
+    for (Map<String, Object> row : result) {
+      final Sha1HashId next = new Sha1HashId((byte[]) row.get("id"));
+      if (!next.equals(previous)) {
+        if (mdtid != null) {
+          alarmedMetrics.add(mdtid);
+        }
+        final String name = (String) row.get("metric_name");
+        final String tenantId = (String) row.get("tenant_id");
+        mdtid = new MetricDefinitionAndTenantId(new MetricDefinition(name, new HashMap<String, String>()), tenantId);
+        previous = next;
       }
       final String name = (String) row.get("name");
       final String value = (String) row.get("value");
-      dim.put(name, value);
-    }
-    final Set<MetricDefinitionAndTenantId> alarmedMetrics = new HashSet<>(result.size());
-    for (Map<String, Object> row : result) {
-      final Sha1HashId metricDefinitionId = new Sha1HashId((byte[]) row.get("metric_definition_id"));
-      final MetricDefinitionAndTenantId mdtid = mds.get(metricDefinitionId);
-      final Map<String, String> dim =
-          dims.get(new Sha1HashId((byte[]) row.get("metric_dimension_set_id")));
-      if (dim != null) {
-        mdtid.metricDefinition.dimensions = dim;
-      } else {
-        mdtid.metricDefinition.dimensions = new HashMap<>();
+      if ((name != null) && !name.isEmpty()) {
+        mdtid.metricDefinition.dimensions.put(name, value);
       }
+    }
+    if (mdtid != null) {
       alarmedMetrics.add(mdtid);
     }
     return alarmedMetrics;
-  }
-
-  private List<Map<String, Object>> queryForIds(Handle h, String sql, final Set<byte[]> ids) {
-    final String stmt = String.format(sql, createArgString(ids.size()));
-    final Query<Map<String, Object>> q = h.createQuery(stmt);
-    int index = 0;
-    for (Object metric_definition_id : ids) {
-      q.bind(String.format("i%d", index++), metric_definition_id);
-    }
-    final List<Map<String, Object>> metricDefinitionRows = q.list();
-    return metricDefinitionRows;
-  }
-
-  private String createArgString(final int count) {
-    final StringBuilder builder = new StringBuilder();
-    for (int i = 0; i < count; i++) {
-      if (builder.length() > 0) {
-        builder.append(',');
-      }
-      builder.append(":i");
-      builder.append(i);
-    }
-    return builder.toString();
   }
 
   @Override
