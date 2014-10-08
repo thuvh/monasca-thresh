@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa201ad_6cd94d56",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDAOImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 12512
+      },
+      "writtenOn": "2014-10-08T21:45:41Z",
+      "side": 1,
+      "message": "Where does the output of the asserts go?  Does it make it into the log?",
+      "revId": "5cb9ebc00c92294894f357981425b0725a84715e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
