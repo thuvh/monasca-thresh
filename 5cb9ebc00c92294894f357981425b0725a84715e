@@ -16,6 +16,24 @@
       "revId": "5cb9ebc00c92294894f357981425b0725a84715e",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa201ad_2febb7dc",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDAOImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2014-10-08T22:23:13Z",
+      "side": 1,
+      "message": "The test fails if the expression for the assertTrue returns false. It logs the whole stack trace",
+      "parentUuid": "baa201ad_6cd94d56",
+      "revId": "5cb9ebc00c92294894f357981425b0725a84715e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
