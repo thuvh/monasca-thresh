@@ -16,6 +16,24 @@
       "revId": "7c1fccec37e53a95b784243f22c7444411007262",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa201ad_f691669b",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2014-10-09T23:16:09Z",
+      "side": 1,
+      "message": "Collections.singletonList() required an arg so it couldn\u0027t create the empty list. But Collections.\u003cAlarm\u003eemptyList() gave an immutable list. Thanks for the suggestion. I learned something",
+      "parentUuid": "baa201ad_eb7503cd",
+      "revId": "7c1fccec37e53a95b784243f22c7444411007262",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
