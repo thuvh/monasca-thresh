@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa201ad_eb7503cd",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1976
+      },
+      "writtenOn": "2014-10-09T22:58:22Z",
+      "side": 1,
+      "message": "Try Collections.unmodifiableList(Collections.singletonList(0));",
+      "revId": "7c1fccec37e53a95b784243f22c7444411007262",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
