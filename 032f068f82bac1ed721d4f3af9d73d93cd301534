@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa201ad_1e7ee7e4",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricFilteringBolt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 12512
+      },
+      "writtenOn": "2014-10-10T21:14:13Z",
+      "side": 1,
+      "message": "better as an enum?",
+      "revId": "032f068f82bac1ed721d4f3af9d73d93cd301534",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
