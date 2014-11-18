@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a890539_96d58dbb",
+        "filename": "thresh/src/deb/init/monasca-thresh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12512
+      },
+      "writtenOn": "2014-11-18T20:39:42Z",
+      "side": 1,
+      "message": "i think backticks are deprecated. should it be $(...)?",
+      "revId": "e11d12266dae8081f946c4b5cf5b18844c1185eb",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
