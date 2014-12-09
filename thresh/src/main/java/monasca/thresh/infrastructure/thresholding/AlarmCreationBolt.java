@@ -92,6 +92,7 @@ public class AlarmCreationBolt extends BaseRichBolt {
         final MetricDefinitionAndTenantId metricDefinitionAndTenantId =
             (MetricDefinitionAndTenantId) tuple.getValue(0);
         handleNewMetricDefinition(metricDefinitionAndTenantId, tuple.getString(1));
+        sendNewMetricDefinition(existingAlarm, metricDefinitionAndTenantId);
       } else if (EventProcessingBolt.METRIC_SUB_ALARM_EVENT_STREAM_ID.equals(tuple
           .getSourceStreamId())) {
         final String eventType = tuple.getString(0);
