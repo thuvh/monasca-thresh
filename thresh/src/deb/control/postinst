@@ -3,8 +3,13 @@
 case "$1" in
   configure)
     chmod +x /etc/init.d/monasca-thresh
-    if ! [ `getent passwd thresh` ]; then
-      adduser --system --group thresh
+    if ! [ `getent passwd monasca-thresh` ]; then
+      adduser --system --group --no-create-home monasca-thresh
+    fi
+
+    if ! [ -d "/var/log/monasca/thresh"]; then
+      mkdir -p /var/log/monasca/thresh
+      chown monasca-thresh:monasca-thresh /var/log/monasca/thresh
     fi
 
     #Restart does not pick up upstart job config changes stop/start is needed
