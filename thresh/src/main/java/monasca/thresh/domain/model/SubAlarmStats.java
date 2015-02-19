@@ -122,10 +122,12 @@ public class SubAlarmStats {
     double[] values = stats.getViewValues();
     boolean thresholdExceeded = false;
     boolean hasEmptyWindows = false;
+    subAlarm.getCurrentValues().clear();
     for (double value : values) {
       if (Double.isNaN(value)) {
         hasEmptyWindows = true;
       } else {
+        subAlarm.getCurrentValues().add(value);
         emptyWindowObservations = 0;
 
         // Check if value is OK
@@ -173,8 +175,6 @@ public class SubAlarmStats {
   /**
    * If this.subAlarm.isCompatible(newExpression) is not true, all data
    * will be flushed
-   *
-   * @param subAlarm
    */
   public void updateSubAlarm(final AlarmSubExpression newExpression, long viewEndTimestamp) {
     // Save the old state

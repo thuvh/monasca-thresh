@@ -49,6 +49,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class AlarmThresholdingBoltTest {
   private AlarmDefinition alarmDefinition;
   private Alarm alarm;
   private List<SubAlarm> subAlarms;
-
+  private String subAlarmJson;
   private AlarmEventForwarder alarmEventForwarder;
   private AlarmDAO alarmDAO;
   private AlarmDefinitionDAO alarmDefinitionDAO;
@@ -121,8 +122,10 @@ public class AlarmThresholdingBoltTest {
             + "\"alarmName\":\"Test CPU Alarm\","
             + "\"alarmDescription\":\"Description of Alarm\",\"oldState\":\"OK\",\"newState\":\"ALARM\","
             + "\"actionsEnabled\":true,"
-            + "\"stateChangeReason\":\"Thresholds were exceeded for the sub-alarms: ["
-            + subAlarm.getExpression().getExpression() + "]\"," + "\"severity\":\"LOW\",\"timestamp\":1395587091}}";
+            + "\"stateChangeReason\":\"Thresholds were exceeded for the sub-alarms: "
+            + subAlarm.getExpression().getExpression() + " with the values: []\"," + "\"severity\":\"LOW\","
+            + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
+            + "\"timestamp\":1395587091}}";
 
     verify(alarmEventForwarder, times(1)).send(alarmJson);
     verify(alarmDAO, times(1)).updateState(alarmId, AlarmState.ALARM);
@@ -141,7 +144,13 @@ public class AlarmThresholdingBoltTest {
             + "\"alarmName\":\"Test CPU Alarm\","
             + "\"alarmDescription\":\"Description of Alarm\",\"oldState\":\"ALARM\",\"newState\":\"OK\","
             + "\"actionsEnabled\":true,"
-            + "\"stateChangeReason\":\"The alarm threshold(s) have not been exceeded\",\"severity\":\"LOW\",\"timestamp\":1395587091}}";
+            + "\"stateChangeReason\":\"The alarm threshold(s) have not been exceeded for the sub-alarms: "
+            + subAlarm.getExpression().getExpression() + " with the values: [], "
+            + subAlarms.get(1).getExpression().getExpression() + " with the values: [], "
+            + subAlarms.get(2).getExpression().getExpression() + " with the values: []"
+            + "\",\"severity\":\"LOW\","
+            + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
+            + "\"timestamp\":1395587091}}";
     verify(alarmEventForwarder, times(1)).send(okJson);
     verify(alarmDAO, times(1)).updateState(alarmId, AlarmState.OK);
   }
@@ -254,6 +263,19 @@ public class AlarmThresholdingBoltTest {
     // Load up the original Alarm
     emitSubAlarmStateChange(alarmId, subAlarms.get(0), AlarmState.ALARM);
     return alarmId;
+  }
+
+  private String buildSubAlarmJson(Collection<SubAlarm> subAlarms){
+    StringBuilder stringBuilder = new StringBuilder();
+    for(SubAlarm subAlarm: subAlarms){
+      if (stringBuilder.length() != 0) {
+        stringBuilder.append(",");
+      }
+      stringBuilder.append("{\"subAlarmExpression\":\"").append(subAlarm.getExpression().getExpression()).append("\",");
+      stringBuilder.append("\"subAlarmState\":\"").append(subAlarm.getState()).append("\",");
+      stringBuilder.append("\"currentValues\":").append(subAlarm.getCurrentValues()).append("}");
+    }
+  return stringBuilder.toString();
   }
 
   private void emitSubAlarmStateChange(String alarmId, final SubAlarm subAlarm, AlarmState state) {
