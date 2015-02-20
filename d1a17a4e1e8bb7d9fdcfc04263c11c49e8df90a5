@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba7be1f8_55aa1971",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-02-20T15:44:57Z",
+      "side": 1,
+      "message": "The first line is too long. Guidelines say 50 characters or less. Jenkins won\u0027t fail it on this repo but it will on the others",
+      "revId": "d1a17a4e1e8bb7d9fdcfc04263c11c49e8df90a5",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_d0f8d7e7",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-02-20T15:44:57Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "d1a17a4e1e8bb7d9fdcfc04263c11c49e8df90a5",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_d517e94f",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-02-20T15:44:57Z",
+      "side": 1,
+      "message": "I\u0027m fine with you changing this to a boolean as it is more clear but then you might as well rename to something spelled right",
+      "revId": "d1a17a4e1e8bb7d9fdcfc04263c11c49e8df90a5",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_15d8a1ee",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-02-20T15:44:57Z",
+      "side": 1,
+      "message": "Trailing whitespace",
+      "revId": "d1a17a4e1e8bb7d9fdcfc04263c11c49e8df90a5",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_b0e8c37d",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-02-20T15:44:57Z",
+      "side": 1,
+      "message": "In general this type of call is not recommended. You don\u0027t know if the method is returning the actual List or a copy of it. We do know in this case because SubAlarm is one of our classes, but it is better to get in the habit of the better pattern where there is a clearCurrentValues() and addCurrentValue() on SubAlarm",
+      "revId": "d1a17a4e1e8bb7d9fdcfc04263c11c49e8df90a5",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
