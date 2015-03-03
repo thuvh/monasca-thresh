@@ -112,13 +112,13 @@ public class MetricAggregationBoltTest {
     long t1 = System.currentTimeMillis() / 1000;
 
     bolt.aggregateValues(new MetricDefinitionAndTenantId(metricDef1, TENANT_ID), new Metric(
-        metricDef1.name, metricDef1.dimensions, t1, 100));
+        metricDef1.name, metricDef1.dimensions, t1, 100, null));
     bolt.aggregateValues(new MetricDefinitionAndTenantId(metricDef1, TENANT_ID), new Metric(
-        metricDef1.name, metricDef1.dimensions, t1, 80));
+        metricDef1.name, metricDef1.dimensions, t1, 80, null));
     bolt.aggregateValues(new MetricDefinitionAndTenantId(metricDef2, TENANT_ID), new Metric(
-        metricDef2.name, metricDef2.dimensions, t1, 50));
+        metricDef2.name, metricDef2.dimensions, t1, 50, null));
     bolt.aggregateValues(new MetricDefinitionAndTenantId(metricDef2, TENANT_ID), new Metric(
-        metricDef2.name, metricDef2.dimensions, t1, 40));
+        metricDef2.name, metricDef2.dimensions, t1, 40, null));
 
     SubAlarmStatsRepository orCreateSubAlarmStatsRepo = bolt.getOrCreateSubAlarmStatsRepo(new MetricDefinitionAndTenantId(metricDef1, TENANT_ID));
     SubAlarmStats alarmData =
@@ -142,9 +142,9 @@ public class MetricAggregationBoltTest {
 
     // Send metrics for subAlarm1
     long t1 = System.currentTimeMillis() / 1000;
-    bolt.execute(createMetricTuple(metricDef1, new Metric(metricDef1, t1, 100)));
-    bolt.execute(createMetricTuple(metricDef1, new Metric(metricDef1, t1 -= 60, 95)));
-    bolt.execute(createMetricTuple(metricDef1, new Metric(metricDef1, t1 -= 60, 88)));
+    bolt.execute(createMetricTuple(metricDef1, new Metric(metricDef1, t1, 100, null)));
+    bolt.execute(createMetricTuple(metricDef1, new Metric(metricDef1, t1 -= 60, 95, null)));
+    bolt.execute(createMetricTuple(metricDef1, new Metric(metricDef1, t1 -= 60, 88, null)));
 
     final Tuple tickTuple = createTickTuple();
     bolt.execute(tickTuple);
@@ -160,10 +160,10 @@ public class MetricAggregationBoltTest {
     reset(collector);
 
     // Drive subAlarm1 to ALARM
-    bolt.execute(createMetricTuple(metricDef1, new Metric(metricDef1, t1, 99)));
+    bolt.execute(createMetricTuple(metricDef1, new Metric(metricDef1, t1, 99, null)));
     // Drive subAlarm2 to ALARM and subAlarm3 to OK since they use the same MetricDefinition
     bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2,
-        System.currentTimeMillis() / 1000, 94)));
+        System.currentTimeMillis() / 1000, 94, null)));
     bolt.execute(tickTuple);
     verify(collector, times(1)).ack(tickTuple);
 
@@ -181,9 +181,9 @@ public class MetricAggregationBoltTest {
     bolt.setCurrentTime(t1);
     sendSubAlarmCreated(metricDef2, subAlarm2);
 
-    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1, 100)));
-    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1++, 95)));
-    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1++, 88)));
+    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1, 100, null)));
+    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1++, 95, null)));
+    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1++, 88, null)));
 
     t1 += 60;
     bolt.setCurrentTime(t1);
@@ -195,9 +195,9 @@ public class MetricAggregationBoltTest {
 
     sendSubAlarmResend(metricDef2, subAlarm2);
 
-    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1, 100)));
-    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1++, 95)));
-    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1++, 88)));
+    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1, 100, null)));
+    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1++, 95, null)));
+    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1++, 88, null)));
 
     t1 += 60;
     bolt.setCurrentTime(t1);
@@ -240,9 +240,9 @@ public class MetricAggregationBoltTest {
     sendSubAlarmCreated(metricDef2, subAlarm2);
     long t1 = System.currentTimeMillis() / 1000;
     bolt.setCurrentTime(t1);
-    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1, 1.0)));
+    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1, 1.0, null)));
     t1 += 1;
-    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1, 1.0)));
+    bolt.execute(createMetricTuple(metricDef2, new Metric(metricDef2, t1, 1.0, null)));
 
     bolt.setCurrentTime(t1 += 60);
     final Tuple tickTuple = createTickTuple();
