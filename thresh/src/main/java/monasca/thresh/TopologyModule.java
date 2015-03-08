@@ -17,6 +17,9 @@
 
 package monasca.thresh;
 
+import javax.inject.Named;
+
+import monasca.common.util.Injector;
 import monasca.thresh.infrastructure.thresholding.AlarmCreationBolt;
 import monasca.thresh.infrastructure.thresholding.AlarmThresholdingBolt;
 import monasca.thresh.infrastructure.thresholding.EventProcessingBolt;
@@ -25,9 +28,7 @@ import monasca.thresh.infrastructure.thresholding.MetricAggregationBolt;
 import monasca.thresh.infrastructure.thresholding.MetricFilteringBolt;
 import monasca.thresh.infrastructure.thresholding.MetricSpout;
 import monasca.thresh.infrastructure.thresholding.deserializer.EventDeserializer;
-
-import monasca.common.util.Injector;
-
+import monasca.thresh.utils.StatsdMetricConsumer;
 import backtype.storm.Config;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.topology.IRichSpout;
@@ -37,7 +38,6 @@ import backtype.storm.tuple.Fields;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
-import javax.inject.Named;
 
 /**
  * Configures types for the thresholding topology.
@@ -69,6 +69,28 @@ public class TopologyModule extends AbstractModule {
       stormConfig = new Config();
       stormConfig.setNumWorkers(config.numWorkerProcesses);
       stormConfig.setNumAckers(config.numAckerThreads);
+
+      // Configure the StatsdMetricConsumer
+      java.util.Map<Object, Object> statsdConfig = new java.util.HashMap<>();
+
+      // catch the case where the config file was not updated
+      // in /etc/monasca/thresh-config.yml
+      // note that you get default values if these are absent
+      if (config.statsdConfig.getHost() != null)
+          statsdConfig.put(StatsdMetricConsumer.STATSD_HOST,
+                  config.statsdConfig.getHost());
+      if (config.statsdConfig.getPort() != null)
+          statsdConfig.put(StatsdMetricConsumer.STATSD_PORT,
+                  config.statsdConfig.getPort());
+      if (config.statsdConfig.getPrefix() != null)
+          statsdConfig.put(StatsdMetricConsumer.STATSD_PREFIX,
+                  config.statsdConfig.getPrefix());
+      if (config.statsdConfig.getDimensions() != null)
+          statsdConfig.put(StatsdMetricConsumer.STATSD_DIMENSIONS,
+                  config.statsdConfig.getDimensions());
+
+      stormConfig.registerMetricsConsumer(StatsdMetricConsumer.class,
+              statsdConfig, 2);
     }
 
     return stormConfig;
