@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a80dd14_f7827ec6",
+        "filename": "thresh/src/main/java/monasca/thresh/TopologyModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 0,
+      "message": "Please don\u0027t reorder the imports",
+      "revId": "531cc527b65449af17611b9275b0ce1236b88d8d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a80dd14_9766a2b9",
+        "filename": "thresh/src/main/config/thresh-sample-config.yml",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 1,
+      "message": "It seems really weird to be mixing json and yaml here. This should be possible using something like:\n\ndimensions:\n    service: monitoring\n    component: storm",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_a0f19e6c",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 1,
+      "message": "This should be /** style comments",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_ab925f49",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 1,
+      "message": "Monasca stand indentation is 2 spaces",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_2beaefda",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 1,
+      "message": "Indentation is incorrect according the monasca standards. Should be 2 spaces",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_cbc07352",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 1,
+      "message": "The rest of the code doesn\u0027t handle udpclient being null",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_0bcd2bb7",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 1,
+      "message": "We can actually handle doubles. Why an int? Is there anything right of the decimal point?",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_abec1f2b",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 1,
+      "message": "This needs to use equals() not !\u003d. Ensure not null, though",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_6b3307f6",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-03-09T18:48:08Z",
+      "side": 1,
+      "message": "How come no public/private/protected?",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
