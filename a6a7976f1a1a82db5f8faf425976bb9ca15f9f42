@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_dae2c400",
+        "filename": "thresh/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "I\u0027ll take a look at Guava. This was a carryover from the port from endgameinc/storm-metrics-statsd",
+      "parentUuid": "9a80dd14_677152e0",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_9766a2b9",
         "filename": "thresh/src/main/config/thresh-sample-config.yml",
         "patchSetId": 5
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_1af8dc48",
+        "filename": "thresh/src/main/config/thresh-sample-config.yml",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "It\u0027s essentially a string that the code passes through as a payload.  It is only evaluated to be valid JSON and passed along.  I really didn\u0027t want to pollute the config file with lots of vars that the code really doesn\u0027t care about.  Instead of taking in the entire element and passing it along it would require more boilerplate code to evaluate this element and marshal it back in to what it is here.",
+      "parentUuid": "9a80dd14_9766a2b9",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_a0f19e6c",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
         "patchSetId": 5
@@ -82,6 +118,24 @@
       "writtenOn": "2015-03-09T18:48:08Z",
       "side": 1,
       "message": "This should be /** style comments",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_fa7f88a9",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Will fix, thanks.",
+      "parentUuid": "9a80dd14_a0f19e6c",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_1a7d3cb2",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Will fix, thanks.",
+      "parentUuid": "9a80dd14_ab925f49",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_0a9a5bc5",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
         "patchSetId": 5
@@ -116,6 +188,24 @@
       "writtenOn": "2015-03-10T14:45:45Z",
       "side": 1,
       "message": "If you are using IntelliJ then you should grab the Google Java Style template which will help with all these formatting issues.",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_da59e45c",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Eclipse was helping :-)",
+      "parentUuid": "9a80dd14_0a9a5bc5",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -173,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_ba0a7025",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Will fix, thanks.",
+      "parentUuid": "9a80dd14_cabcc309",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_2beaefda",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -184,6 +292,24 @@
       "writtenOn": "2015-03-09T18:48:08Z",
       "side": 1,
       "message": "Indentation is incorrect according the monasca standards. Should be 2 spaces",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_1a029c0b",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Will fix, thanks.",
+      "parentUuid": "9a80dd14_2beaefda",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -207,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_d53c57c2",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "That makes sense.  I\u0027ll make that change.  This will likely never get used since the user most likely will have a value set in the yml.  This is the default value if the one in the config file is invalid or null.",
+      "parentUuid": "9a80dd14_edb44137",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_adbfa9fb",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -218,6 +362,24 @@
       "writtenOn": "2015-03-10T14:45:45Z",
       "side": 1,
       "message": "Why LOG and logger?",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_9572dfab",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Porting issue, I\u0027ll fix that, thanks.",
+      "parentUuid": "9a80dd14_adbfa9fb",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -241,6 +403,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_15b50f31",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "hmm good point.  I\u0027ll take a look.",
+      "parentUuid": "9a80dd14_cd6a1d81",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_cbc07352",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -252,6 +432,24 @@
       "writtenOn": "2015-03-09T18:48:08Z",
       "side": 1,
       "message": "The rest of the code doesn\u0027t handle udpclient being null",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_95801f48",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Good catch, I\u0027ll fix that, thanks.",
+      "parentUuid": "9a80dd14_cbc07352",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -275,6 +473,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_55a5c7b3",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "I can look at a graceful way to bail out if this fails.  I was looking at this code as a second class citizen.  If it fails then so be it.  I didn\u0027t want to disrupt the processing pipeline.  If we can\u0027t send metrics from Storm/Thresh then there may be a system error or the agent/statsd daemon may be dead.  My thought was to log it and move on since you really need a holistic view of the system to know what\u0027s wrong, which we don\u0027t have in this context.\n\nAny suggestions to handle this another way?",
+      "parentUuid": "9a80dd14_cdc69d68",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_0bcd2bb7",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -286,6 +502,24 @@
       "writtenOn": "2015-03-09T18:48:08Z",
       "side": 1,
       "message": "We can actually handle doubles. Why an int? Is there anything right of the decimal point?",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_b593635b",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Porting carryover from endgameinc.  I\u0027ll make that change, thanks.",
+      "parentUuid": "9a80dd14_0bcd2bb7",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -309,6 +543,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_35877314",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Good catch, thanks.",
+      "parentUuid": "9a80dd14_abec1f2b",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_6b3307f6",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -320,6 +572,24 @@
       "writtenOn": "2015-03-09T18:48:08Z",
       "side": 1,
       "message": "How come no public/private/protected?",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_b57a8323",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:33:06Z",
+      "side": 1,
+      "message": "Carryover from the port.",
+      "parentUuid": "9a80dd14_6b3307f6",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
