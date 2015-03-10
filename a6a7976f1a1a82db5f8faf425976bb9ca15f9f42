@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a80dd14_677152e0",
+        "filename": "thresh/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-03-10T14:45:45Z",
+      "side": 1,
+      "message": "Google collections is deprecated. See https://code.google.com/p/google-collections/\n\nShouldn\u0027t this be google Guava. See https://code.google.com/p/guava-libraries/",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_9766a2b9",
         "filename": "thresh/src/main/config/thresh-sample-config.yml",
         "patchSetId": 5
@@ -53,6 +70,57 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_0a9a5bc5",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-03-10T14:45:45Z",
+      "side": 1,
+      "message": "If you are using IntelliJ then you should grab the Google Java Style template which will help with all these formatting issues.",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_0a5dfbec",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-03-10T14:45:45Z",
+      "side": 1,
+      "message": "This license/copyright header isn\u0027t correct.",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_cabcc309",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-03-10T14:45:45Z",
+      "side": 1,
+      "message": "This comment is not useful. Should be removed.",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_2beaefda",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -70,6 +138,57 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_edb44137",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-03-10T14:45:45Z",
+      "side": 1,
+      "message": "I probably wouldn\u0027t have the \"metrics\" suffix. it is kinda obvious that these are metrics.\n\nI\u0027m also wondering if \"storm\" should be \"thresh\"",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_adbfa9fb",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-03-10T14:45:45Z",
+      "side": 1,
+      "message": "Why LOG and logger?",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_cd6a1d81",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-03-10T14:45:45Z",
+      "side": 1,
+      "message": "Are there any exceptions that this constructor throws that should be caught, logged and rethrown.",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_cbc07352",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -81,6 +200,23 @@
       "writtenOn": "2015-03-09T18:48:08Z",
       "side": 1,
       "message": "The rest of the code doesn\u0027t handle udpclient being null",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_cdc69d68",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-03-10T14:45:45Z",
+      "side": 1,
+      "message": "So, you catch and log, but do you really just want to continue on?",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
