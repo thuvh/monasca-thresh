@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_95101faa",
+        "filename": "thresh/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T18:37:20Z",
+      "side": 1,
+      "message": "Agreed.  Do you have a pointer to the value_meta so I can see what that structure looks like and include it in the config template and/or UDP message?",
+      "parentUuid": "9a80dd14_b6c9b67b",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_677152e0",
         "filename": "thresh/pom.xml",
         "patchSetId": 5
