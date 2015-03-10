@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a80dd14_b6c9b67b",
+        "filename": "thresh/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 12108
+      },
+      "writtenOn": "2015-03-10T15:39:00Z",
+      "side": 1,
+      "message": "We need to standardize on one statsd library that supports dimensions and possibly the new value_meta for all Java projects.",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_677152e0",
         "filename": "thresh/pom.xml",
         "patchSetId": 5
@@ -30,6 +47,24 @@
       "writtenOn": "2015-03-09T18:48:08Z",
       "side": 1,
       "message": "It seems really weird to be mixing json and yaml here. This should be possible using something like:\n\ndimensions:\n    service: monitoring\n    component: storm",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_b69e1653",
+        "filename": "thresh/src/main/config/thresh-sample-config.yml",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 12108
+      },
+      "writtenOn": "2015-03-10T15:39:00Z",
+      "side": 1,
+      "message": "Yes, the way Craig suggests is how we do dimensions in the agent configuration.",
+      "parentUuid": "9a80dd14_9766a2b9",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -115,6 +150,23 @@
       "writtenOn": "2015-03-10T14:45:45Z",
       "side": 1,
       "message": "This comment is not useful. Should be removed.",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a80dd14_56115a5c",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 12108
+      },
+      "writtenOn": "2015-03-10T15:39:00Z",
+      "side": 1,
+      "message": "Again, I think we should have one library we use for all Java projects that supports dimensions and value_meta and not one specifically for Thresh/Storm, and a different one for the Persister and/or API.  Less maintenance that way.",
       "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
