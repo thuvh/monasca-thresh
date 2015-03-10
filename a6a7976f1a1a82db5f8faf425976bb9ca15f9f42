@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "9a80dd14_0d750332",
+        "filename": "thresh/src/main/config/thresh-sample-config.yml",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-03-10T20:29:40Z",
+      "side": 1,
+      "message": "Touché, I didn\u0027t really think of it that way.  I\u0027ll look at making those changes.",
+      "parentUuid": "9a80dd14_42e18a99",
+      "revId": "a6a7976f1a1a82db5f8faf425976bb9ca15f9f42",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a80dd14_a0f19e6c",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdConfig.java",
         "patchSetId": 5
