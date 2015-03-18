@@ -1,0 +1,15 @@
+Extension-Name: monasca-thresh
+Specification-Title: Monasca Threshold Engine
+Specification-Vendor: Hewlett-Packard
+Specification-Version: s0.1
+Implementation-Vendor: Hewlett-Packard
+Implementation-Title: Monasca Threshold Engine
+Implementation-Vendor-Id: com.hp
+Implementation-Version: i0.1
+Bundle-ManifestVersion: 1
+Bundle-Vendor: hp.com
+Bundle-Name: monasca-thresh
+Bundle-SymbolicName: monasca-thresh
+Bundle-License: Apache License Version 2.0
+Bundle-DocURL: https://github.com/stackforge/monasca-thresh
+Bundle-Version: b0.1
