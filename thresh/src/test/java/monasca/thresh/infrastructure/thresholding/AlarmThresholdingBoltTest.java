@@ -64,7 +64,6 @@ public class AlarmThresholdingBoltTest {
   private AlarmDefinition alarmDefinition;
   private Alarm alarm;
   private List<SubAlarm> subAlarms;
-  private String subAlarmJson;
   private AlarmEventForwarder alarmEventForwarder;
   private AlarmDAO alarmDAO;
   private AlarmDefinitionDAO alarmDefinitionDAO;
@@ -126,7 +125,7 @@ public class AlarmThresholdingBoltTest {
             + "\"stateChangeReason\":\"Thresholds were exceeded for the sub-alarms: "
             + subAlarm.getExpression().getExpression() + " with the values: []\"," + "\"severity\":\"LOW\","
             + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
-            + "\"timestamp\":1395587091}}";
+            + "\"timestamp\":1395587091003}}";
 
     verify(alarmEventForwarder, times(1)).send(alarmJson);
     verify(alarmDAO, times(1)).updateState(alarmId, AlarmState.ALARM);
@@ -151,7 +150,7 @@ public class AlarmThresholdingBoltTest {
             + subAlarms.get(2).getExpression().getExpression() + " with the values: []"
             + "\",\"severity\":\"LOW\","
             + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
-            + "\"timestamp\":1395587091}}";
+            + "\"timestamp\":1395587091003}}";
     verify(alarmEventForwarder, times(1)).send(okJson);
     verify(alarmDAO, times(1)).updateState(alarmId, AlarmState.OK);
   }
@@ -328,7 +327,7 @@ public class AlarmThresholdingBoltTest {
     @Override
     protected long getTimestamp() {
       // Have to keep the time stamp constant so JSON comparison works
-      return 1395587091;
+      return 1395587091003l;
     }
   }
 }
