@@ -36,6 +36,16 @@ public class StatsdConfig implements Serializable {
 
   private Map<String, String> dimensions;
 
+  public String getFilter() {
+    return filter;
+  }
+
+  public void setFilter(String filter) {
+    this.filter = filter;
+  }
+
+  private String filter;
+
   public Map<String, String> getDimensions() {
     return dimensions;
   }

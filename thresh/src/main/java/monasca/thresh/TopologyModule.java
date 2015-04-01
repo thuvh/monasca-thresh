@@ -91,6 +91,10 @@ public class TopologyModule extends AbstractModule {
       if (config.statsdConfig.getDimensions() != null)
           statsdConfig.put(StatsdMetricConsumer.STATSD_DIMENSIONS,
                   config.statsdConfig.getDimensions());
+      if (config.statsdConfig.getFilter() != null)
+        statsdConfig.put(StatsdMetricConsumer.STATSD_FILTER,
+            config.statsdConfig.getFilter());
+
 
       stormConfig.registerMetricsConsumer(StatsdMetricConsumer.class,
               statsdConfig, 2);

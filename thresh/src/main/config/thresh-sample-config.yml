@@ -8,6 +8,7 @@ statsdConfig:
   dimensions: !!map
     service : monitoring
     component : storm
+  filter: '(monasca\.storm\.aggregation-bolt\.execute-count\.filtering-bolt_alarm-creation-stream|monasca\.storm\.aggregation-bolt\.execute-count\.system_tick|monasca\.storm\.filtering-bolt\.execute-count\.event-bolt_metric-alarm-events|monasca\.storm\.thresholding-bolt\.execute-count\.event-bolt_alarm-definition-events|monasca\.storm\.system\.memory_heap\.committedBytes|monasca\.storm\.system\.memory_nonHeap\.committedBytes|monasca\.storm\.system\.newWorkerEvent|monasca\.storm\.system\.startTimeSecs|monasca\.storm\.system\.GC_ConcurrentMarkSweep\.timeMs)'
 
 metricSpoutConfig:
   maxWaitTime: 500
