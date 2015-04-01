@@ -20,8 +20,8 @@ package monasca.thresh.utils;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +49,7 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
   public static final String STATSD_PORT = "metrics.statsd.port";
   public static final String STATSD_PREFIX = "metrics.statsd.prefix";
   public static final String STATSD_DIMENSIONS = "metrics.statsd.dimensions";
+  public static final String STATSD_FILTER = "metrics.statsd.filter";
 
   String topologyName;
   String statsdHost = "localhost";
@@ -59,6 +60,7 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
       .append("{\"service\":\"monitoring\",\"component\":\"storm\"}")
       .toString();
   String statsdDimensions = defaultDimensions;
+  String statsdFilter = ".*";
 
   /*
    * https://github.com/stackforge/monasca-agent#statsd
@@ -164,6 +166,10 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
         statsdDimensions = monascaStatsdDimPrefix + statsdDimensions;
       }
     }
+
+    if (conf.containsKey(STATSD_FILTER)) {
+      statsdFilter = (String) conf.get(STATSD_FILTER);
+    }
   }
 
   private String mapToJsonStr(Map<String, String> inputMap) {
@@ -215,9 +221,11 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
   @Override
   public void handleDataPoints(TaskInfo taskInfo,
       Collection<DataPoint> dataPoints) {
+
     for (Metric metric : dataPointsToMetrics(taskInfo, dataPoints)) {
       report(metric.name, metric.value, metric.dimensions);
     }
+
   }
 
   public static class Metric {
@@ -262,7 +270,7 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
 
   private List<Metric> dataPointsToMetrics(TaskInfo taskInfo,
       Collection<DataPoint> dataPoints) {
-    List<Metric> res = new LinkedList<>();
+    List<Metric> res = new ArrayList<>();
 
     StringBuilder sb = new StringBuilder().append(
         clean(taskInfo.srcComponentId)).append(".");
@@ -298,6 +306,7 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
         }
       }
     }
+
     return res;
   }
 
@@ -307,11 +316,14 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
    */
   public void report(String s, Double number, String dimensions) {
     if (udpclient != null) {
-      StringBuilder statsdMessage = new StringBuilder().append(statsdPrefix)
-          .append(s).append(":").append(String.valueOf(number)).append("|c")
-          .append(statsdDimensions);
-      logger.debug("reporting: {}={}{}", s, number, dimensions);
-      udpclient.send(statsdMessage.toString());
+      StringBuilder statsdMessage = new StringBuilder().append(statsdPrefix).append(s);
+      /* See if the current metric is one we need to send per config file */
+      if (statsdMessage.toString().matches(statsdFilter)) {
+        statsdMessage.append(":").append(String.valueOf(number)).append("|c")
+            .append(statsdDimensions);
+        logger.debug("reporting: {}={}{}", s, number, dimensions);
+        udpclient.send(statsdMessage.toString());
+      }
     }
     else {
       /* Try to setup the UDP client since it was null */
