@@ -58,6 +58,42 @@ A change has been submitted to StackForge to switch to bare-trusty for this buil
 Combining monasca-common, monasca-thresh, monasaca-api and monasca-persister into one build would vastly simplify the builds but that is a future task.
 
 =======
+# Configuration
+
+/etc/monasca/thresh-config.yml
+
+### Storm / Threshold Engine Metrics Produced via StatsD through Monasca Agent
+```
+statsdConfig:
+  host: localhost
+  port: 8125
+  prefix: monasca.storm.
+  dimensions: !!map
+    service : monitoring
+    component : storm
+  filter: ''
+```
+
+host: IP or host where the Monasca Agent running a StatsD is running that will consume
+      the metrics produced by Storm / Threshold Engine
+
+port: UDP port number where the Monasca Agent running a StatsD is running that will consume
+      the metrics produced by Storm / Threshold Engine
+
+prefix: This string will be prefixed to the internal metric
+dimensions: A map of key/value pairs that will be passed along as dimensions for each metric
+
+filter: A regular expression that filters out how much internal Storm / Threshold Engine metrics
+        will be sent.  There is a default expression configured that allows the monitoring of
+        Monasca/monitoring (MoM) to display the health in the Horizon dashboard (Monasca Health)
+        available from the overview panel.
+        If you want everything specify: '.*'
+        If you want nothing specify ''
+        If it doesn't exist you will get everything.
+        Note: The default configuration produces ~40 metrics per minute and this can/will change
+              if the topology changes.
+
+=======
 # License
 
 Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
