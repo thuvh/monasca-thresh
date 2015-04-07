@@ -1,0 +1,8 @@
+Verified+2: Jenkins
+Code-Review+2: Deklan Dieterly <deklan.dieterly@hp.com>
+Workflow+1: Deklan Dieterly <deklan.dieterly@hp.com>
+Submitted-by: Jenkins
+Submitted-at: Tue, 07 Apr 2015 23:03:17 +0000
+Reviewed-on: https://review.openstack.org/171424
+Project: stackforge/monasca-thresh
+Branch: refs/heads/master
