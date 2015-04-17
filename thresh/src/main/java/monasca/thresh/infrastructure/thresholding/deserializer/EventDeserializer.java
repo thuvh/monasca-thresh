@@ -28,6 +28,7 @@ import monasca.common.util.Serialization;
 import backtype.storm.tuple.Fields;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,8 +55,9 @@ public class EventDeserializer implements TupleDeserializer, Serializable {
   @Override
   public List<List<?>> deserialize(byte[] tuple) {
     try {
+      String tupleStr = new String(tuple, "UTF-8");
       return Collections.<List<?>>singletonList(Collections.singletonList(Serialization
-          .fromJson(tuple)));
+          .fromJson(tupleStr)));
     } catch (Exception ignore) {
       return null;
     }
