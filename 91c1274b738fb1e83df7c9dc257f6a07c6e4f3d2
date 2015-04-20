@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dac4157f_e151f563",
+        "filename": "thresh/src/deb/etc/thresh-config.yml-sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 12512
+      },
+      "writtenOn": "2015-04-20T17:19:18Z",
+      "side": 1,
+      "message": "not sure if these spaces matter. i.e., should we remove them?",
+      "revId": "91c1274b738fb1e83df7c9dc257f6a07c6e4f3d2",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
