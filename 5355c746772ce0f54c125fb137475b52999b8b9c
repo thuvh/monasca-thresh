@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aca2d91_9fc0002c",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmThresholdingBolt.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-05-08T17:49:31Z",
+      "side": 1,
+      "message": "There should be space after the if",
+      "revId": "5355c746772ce0f54c125fb137475b52999b8b9c",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
