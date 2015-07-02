@@ -115,6 +115,8 @@ public class PersistenceModule extends AbstractModule {
     properties.put("hibernate.hikari.dataSource.initialConnections", dbConfig.getMinSize());
     properties.put("hibernate.hikari.dataSource.maxConnections", dbConfig.getMaxSize());
     properties.put("hibernate.hikari.connectionTestQuery", dbConfig.getValidationQuery());
+    properties.put("hibernate.hikari.connectionTimeout", "5000");
+    properties.put("hibernate.hikari.initializationFailFast", "false");
     return properties;
   }
 }
