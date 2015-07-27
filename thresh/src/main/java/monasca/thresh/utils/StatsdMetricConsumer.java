@@ -19,8 +19,11 @@ package monasca.thresh.utils;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.String;
 import java.nio.charset.Charset;
+import java.util.*;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -47,14 +50,20 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
 
   public static final String STATSD_HOST = "metrics.statsd.host";
   public static final String STATSD_PORT = "metrics.statsd.port";
-  public static final String STATSD_PREFIX = "metrics.statsd.prefix";
+  public static final String STATSD_METRICMAP = "metrics.statsd.metricmap";
+  public static final String STATSD_WHITELIST = "metrics.statsd.whitelist";
   public static final String STATSD_DIMENSIONS = "metrics.statsd.dimensions";
+  public static final String STATSD_DEBUGMETRICS = "metrics.statsd.debugmetrics";
 
   String topologyName;
   String statsdHost = "localhost";
   int statsdPort = 8125;
-  String statsdPrefix = "monasca.storm.";
   String monascaStatsdDimPrefix = "|#";
+  List<String> whitelist = new ArrayList<String>();
+  Map<String, String> metricmap;
+  Boolean debugMetrics = false;
+
+
   String defaultDimensions = new StringBuilder().append(monascaStatsdDimPrefix)
       .append("{\"service\":\"monitoring\",\"component\":\"storm\"}")
       .toString();
@@ -102,8 +111,7 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
     initClient();
 
     logger.info(
-        "statsdPrefix ({}), topologyName ({}), clean(topologyName) ({})",
-        new Object[] { statsdPrefix, topologyName, clean(topologyName) });
+        "topologyName ({}), clean(topologyName) ({})", new Object[] { topologyName, clean(topologyName) });
   }
 
   private void initClient() {
@@ -142,13 +150,6 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
 
     if (conf.containsKey(STATSD_PORT)) {
       statsdPort = ((Number) conf.get(STATSD_PORT)).intValue();
-    }
-
-    if (conf.containsKey(STATSD_PREFIX)) {
-      statsdPrefix = (String) conf.get(STATSD_PREFIX);
-      if (!statsdPrefix.endsWith(".")) {
-        statsdPrefix += ".";
-      }
     }
 
     if (conf.containsKey(STATSD_DIMENSIONS)) {
@@ -216,19 +217,17 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
   public void handleDataPoints(TaskInfo taskInfo,
       Collection<DataPoint> dataPoints) {
     for (Metric metric : dataPointsToMetrics(taskInfo, dataPoints)) {
-      report(metric.name, metric.value, metric.dimensions);
+      reportUOM(metric.name, metric.value);
     }
   }
 
   public static class Metric {
     String name;
     Double value;
-    String dimensions;
 
-    public Metric(String name, Double value, String dimensions) {
+    public Metric(String name, Double value) {
       this.name = name;
       this.value = value;
-      this.dimensions = dimensions;
     }
 
     @Override
@@ -248,15 +247,12 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
         return false;
       if (value != other.value)
         return false;
-      if (!dimensions.equals(other.dimensions))
-        return false;
       return true;
     }
 
     @Override
     public String toString() {
-      return "Metric [name=" + name + ", value=" + value + ", dimensions="
-          + dimensions + "]";
+      return "Metric [name=" + name + ", value=" + value + "]";
     }
   }
 
@@ -278,8 +274,7 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
           new Object[] { p.name, p.value });
 
       if (p.value instanceof Number) {
-        res.add(new Metric(sb.toString(), ((Number) p.value).doubleValue(),
-            statsdDimensions));
+        res.add(new Metric(sb.toString(), ((Number) p.value).doubleValue()));
       }
       // There is a map of data points and it's not empty
       else if (p.value instanceof Map && !(((Map<?, ?>) (p.value)).isEmpty())) {
@@ -292,8 +287,7 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
             sb.delete(hdrAndNameLength, sb.length());
             sb.append(".").append(clean(subName.toString()));
 
-            res.add(new Metric(sb.toString(),
-                ((Number) subValue).doubleValue(), statsdDimensions));
+            res.add(new Metric(sb.toString(), ((Number) subValue).doubleValue()));
           }
         }
       }
@@ -305,17 +299,41 @@ public class StatsdMetricConsumer implements IMetricsConsumer {
    * Since the Java client doesn't support the Monasca metric type we need to
    * build it with a raw UDP request
    */
-  public void report(String s, Double number, String dimensions) {
+  public void report(String s) {
     if (udpclient != null) {
-      StringBuilder statsdMessage = new StringBuilder().append(statsdPrefix)
-          .append(s).append(":").append(String.valueOf(number)).append("|c")
-          .append(statsdDimensions);
-      logger.debug("reporting: {}={}{}", s, number, dimensions);
-      udpclient.send(statsdMessage.toString());
+      logger.debug("reporting: {}", s);
+      udpclient.send(s);
     }
     else {
       /* Try to setup the UDP client since it was null */
       initClient();
+    }
+  }
+
+  private void reportUOM(String s, Double number) {
+    String uom = null;
+    StringBuilder results = new StringBuilder();
+
+    if (whitelist.contains(s)) {
+      if (metricmap.containsKey(s)) {
+        uom = metricmap.get(s);
+      }
+      // send the unmapped uom as the same name storm calls it
+      else {
+        uom = s;
+      }
+    }
+
+    if (debugMetrics) {
+      logger.info(", StormMetricName, {}, uom, {}, val, {}", new Object[]
+          { s, metricmap.get(s), number});
+    }
+
+    if (uom != null && !uom.isEmpty()) {
+      results = results.append(uom).append(":")
+          .append(String.valueOf(number)).append("|c").append(statsdDimensions);
+
+      report(results.toString());
     }
   }
 
