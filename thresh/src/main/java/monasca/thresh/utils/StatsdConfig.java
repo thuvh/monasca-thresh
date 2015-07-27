@@ -19,6 +19,7 @@ package monasca.thresh.utils;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.List;
 
 /*
  * Intended to deserialize the statsdConfig element in the
@@ -29,11 +30,10 @@ public class StatsdConfig implements Serializable {
   private static final long serialVersionUID = 3634080153227179376L;
 
   private String host;
-
   private Integer port;
-
-  private String prefix;
-
+  private List<String> whitelist;
+  private Boolean debugmetrics;
+  private Map<String, String> metricmap;
   private Map<String, String> dimensions;
 
   public Map<String, String> getDimensions() {
@@ -42,6 +42,30 @@ public class StatsdConfig implements Serializable {
 
   public void setDimensions(Map<String, String> dimensions) {
     this.dimensions = dimensions;
+  }
+
+  public List<String> getWhitelist() {
+    return whitelist;
+  }
+
+  public void setWhitelist(List<String> whitelist) {
+    this.whitelist = whitelist;
+  }
+
+  public Boolean getDebugmetrics() {
+    return debugmetrics;
+  }
+
+  public void setDebugmetrics(Boolean debugmetrics) {
+    this.debugmetrics = debugmetrics;
+  }
+
+  public Map<String, String> getMetricmap() {
+    return metricmap;
+  }
+
+  public void setMetricmap(Map<String, String> metricmap) {
+    this.metricmap = metricmap;
   }
 
   public String getHost() {
@@ -60,11 +84,5 @@ public class StatsdConfig implements Serializable {
     this.port = port;
   }
 
-  public String getPrefix() {
-    return prefix;
-  }
-
-  public void setPrefix(String prefix) {
-    this.prefix = prefix;
-  }
 }
+
