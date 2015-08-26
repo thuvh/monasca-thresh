@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa1b9901_bca43008",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-08-26T22:13:19Z",
+      "side": 1,
+      "message": "Don\u0027t import using *",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa1b9901_3c902095",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-08-26T22:13:19Z",
+      "side": 1,
+      "message": "This should all be private",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da20952f_eae785aa",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-08-26T22:13:19Z",
+      "side": 1,
+      "message": "This is always the right one. Why do you have the first parseConfig? It never finds anything",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa1b9901_fce86818",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-08-26T22:13:19Z",
+      "side": 1,
+      "message": "Use (List\u003cString\u003e)",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa1b9901_1cec3c28",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-08-26T22:13:19Z",
+      "side": 1,
+      "message": "Use (Map\u003cString, String\u003e)",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da20952f_8a9049ee",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-08-26T22:13:19Z",
+      "side": 1,
+      "message": "This gives no idea of whether the metric will be output or not",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da20952f_2a633d1c",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-08-26T22:13:19Z",
+      "side": 1,
+      "message": "Does this handle a metric name with a colon in it?",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
