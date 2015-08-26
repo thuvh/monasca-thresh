@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da20952f_0cba1ae2",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/sql/AlarmDefinitionSqlImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 12512
+      },
+      "writtenOn": "2015-08-26T20:44:06Z",
+      "side": 1,
+      "message": "I think a better name would be \n\n\u0027monasca.thresh.infrastructure.persistence.hibernate\u0027",
+      "revId": "283fc3ef5c0f333155e09ca038bd738cbc14ac26",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
