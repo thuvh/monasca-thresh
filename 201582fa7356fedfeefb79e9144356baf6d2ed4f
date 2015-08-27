@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da20952f_4d4bf487",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-08-27T18:59:26Z",
+      "side": 1,
+      "message": "IDE helping me out again.",
+      "parentUuid": "fa1b9901_bca43008",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa1b9901_3c902095",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-26T22:13:19Z",
       "side": 1,
       "message": "This should all be private",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da20952f_550944dc",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-08-27T18:59:26Z",
+      "side": 1,
+      "message": "Default is package-private if nothing is specified.  I\u0027ll update them to class-private.",
+      "parentUuid": "fa1b9901_3c902095",
       "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "da20952f_d5f554cb",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-08-27T18:59:26Z",
+      "side": 1,
+      "message": "Carryover from the port.  First parseConfig() sets up the config.",
+      "parentUuid": "da20952f_eae785aa",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa1b9901_fce86818",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2015-08-26T22:13:19Z",
       "side": 1,
       "message": "Use (List\u003cString\u003e)",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da20952f_f0b0a6df",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-08-27T18:59:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa1b9901_fce86818",
       "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "da20952f_70aed686",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-08-27T18:59:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa1b9901_1cec3c28",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da20952f_8a9049ee",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "da20952f_908feacb",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-08-27T18:59:26Z",
+      "side": 1,
+      "message": "Added boolean",
+      "parentUuid": "da20952f_8a9049ee",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da20952f_2a633d1c",
         "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
         "patchSetId": 5
@@ -115,6 +223,24 @@
       "writtenOn": "2015-08-26T22:13:19Z",
       "side": 1,
       "message": "Does this handle a metric name with a colon in it?",
+      "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da20952f_0de97c80",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-08-27T18:59:26Z",
+      "side": 1,
+      "message": "Should this be enforced at this level?  The Monasca Agent apparently can\u0027t handle it directly either.\n\nvagrant@mini-mon:~$ echo \"b:ar:1|c\" | nc -u -w0 127.0.0.1 8125\n\n\n2015-08-27 18:55:07 UTC | ERROR | statsd | monasca_agent.statsd.udp(udp.py:207) | Error receiving datagram\nTraceback (most recent call last):\n  File \"/opt/monasca/local/lib/python2.7/site-packages/monasca_agent/statsd/udp.py\", line 195, in start\n    self.submit_packets(message)\n  File \"/opt/monasca/local/lib/python2.7/site-packages/monasca_agent/statsd/udp.py\", line 156, in submit_packets\n    name, value, mtype, dimensions, sample_rate \u003d self._parse_metric_packet(packet)\n  File \"/opt/monasca/local/lib/python2.7/site-packages/monasca_agent/statsd/udp.py\", line 126, in _parse_metric_packet\n    raise Exception(\u0027Metric value must be a number: %s, %s\u0027 % (name, raw_value))\nException: Metric value must be a number: b, ar:1",
+      "parentUuid": "da20952f_2a633d1c",
       "revId": "201582fa7356fedfeefb79e9144356baf6d2ed4f",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
