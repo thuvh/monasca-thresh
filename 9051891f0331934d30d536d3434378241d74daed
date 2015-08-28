@@ -16,6 +16,24 @@
       "revId": "9051891f0331934d30d536d3434378241d74daed",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da20952f_f24149aa",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 12149
+      },
+      "writtenOn": "2015-08-28T20:01:33Z",
+      "side": 1,
+      "message": "In the testing I did I did see some 0 value metrics so this is still helpful in eliminating them.",
+      "parentUuid": "da20952f_928fad29",
+      "revId": "9051891f0331934d30d536d3434378241d74daed",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
