@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da20952f_928fad29",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-08-28T19:57:44Z",
+      "side": 1,
+      "message": "Now that we have finally figured out where the value 0 metrics are coming from there is no reason to filter them here.",
+      "revId": "9051891f0331934d30d536d3434378241d74daed",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
