@@ -16,6 +16,24 @@
       "revId": "283fc3ef5c0f333155e09ca038bd738cbc14ac26",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da20952f_52e56335",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/sql/AlarmDefinitionSqlImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2015-08-31T09:40:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da20952f_0cba1ae2",
+      "revId": "283fc3ef5c0f333155e09ca038bd738cbc14ac26",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
