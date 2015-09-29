@@ -1,0 +1,9 @@
+Verified+2: Jenkins
+Code-Review+1: Roland Hochmuth <roland.hochmuth@hp.com>
+Code-Review+2: Witold Bedyk <witold.bedyk@est.fujitsu.com>
+Workflow+1: Witold Bedyk <witold.bedyk@est.fujitsu.com>
+Submitted-by: Jenkins
+Submitted-at: Tue, 29 Sep 2015 15:07:53 +0000
+Reviewed-on: https://review.openstack.org/221151
+Project: stackforge/monasca-thresh
+Branch: refs/heads/master
