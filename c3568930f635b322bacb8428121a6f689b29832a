@@ -16,6 +16,24 @@
       "revId": "c3568930f635b322bacb8428121a6f689b29832a",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a29b11f_f8161bf0",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-10-20T16:27:30Z",
+      "side": 1,
+      "message": "I didn\u0027t change it to https://git.openstack.org/openstack/monasca-agent#statsd because that doesn\u0027t work for me when I tried to open it in a browser",
+      "parentUuid": "3a29b11f_5c088a91",
+      "revId": "c3568930f635b322bacb8428121a6f689b29832a",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
