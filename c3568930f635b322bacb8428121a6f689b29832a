@@ -34,6 +34,24 @@
       "revId": "c3568930f635b322bacb8428121a6f689b29832a",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a29b11f_615ed677",
+        "filename": "thresh/src/main/java/monasca/thresh/utils/StatsdMetricConsumer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2015-10-20T17:30:14Z",
+      "side": 1,
+      "message": "OK, So now I understand the philosophy. If it is in a document or comment, they should probably use the github, else should use the git.openstack.org.",
+      "parentUuid": "3a29b11f_f8161bf0",
+      "revId": "c3568930f635b322bacb8428121a6f689b29832a",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
