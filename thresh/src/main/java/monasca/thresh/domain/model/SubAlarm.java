@@ -193,4 +193,24 @@ public class SubAlarm extends AbstractEntity implements Serializable {
     // Operator and Threshold can vary
     return true;
   }
+
+  public boolean canEvaluateImmediately() {
+    switch (this.getExpression().getFunction()) {
+      case MIN:
+      case MAX:
+        return true;
+      case COUNT:
+        switch(this.getExpression().getOperator()) {
+          case GT:
+          case GTE:
+            return true;
+          default:
+            return false;
+        }
+      // SUM can decrease if a negative value comes in
+      // AVG can't be computed until all the metrics have come in
+      default:
+        return false;
+    }
+  }
 }
