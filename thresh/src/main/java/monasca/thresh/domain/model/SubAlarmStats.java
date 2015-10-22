@@ -17,6 +17,7 @@
 
 package monasca.thresh.domain.model;
 
+import monasca.common.model.alarm.AlarmOperator;
 import monasca.common.model.alarm.AlarmState;
 import monasca.common.model.alarm.AlarmSubExpression;
 import monasca.common.util.stats.SlidingWindowStats;
@@ -123,6 +124,15 @@ public class SubAlarmStats {
     if (!stats.shouldEvaluate(now, alarmDelay)) {
       return false;
     }
+    final AlarmState newState = determineAlarmState();
+    if (shouldSendStateChange(newState)) {
+      setSubAlarmState(newState);
+      return true;
+    }
+    return false;
+  }
+
+  private AlarmState determineAlarmState() {
     double[] values = stats.getViewValues();
     boolean thresholdExceeded = false;
     boolean hasEmptyWindows = false;
@@ -137,22 +147,14 @@ public class SubAlarmStats {
         // Check if value is OK
         if (!subAlarm.getExpression().getOperator()
             .evaluate(value, subAlarm.getExpression().getThreshold())) {
-          if (!shouldSendStateChange(AlarmState.OK)) {
-            return false;
-          }
-          setSubAlarmState(AlarmState.OK);
-          return true;
+          return AlarmState.OK;
         } else
           thresholdExceeded = true;
       }
     }
 
     if (thresholdExceeded && !hasEmptyWindows) {
-      if (!shouldSendStateChange(AlarmState.ALARM)) {
-        return false;
-      }
-      setSubAlarmState(AlarmState.ALARM);
-      return true;
+      return AlarmState.ALARM;
     }
 
     // Window is empty at this point
@@ -160,15 +162,15 @@ public class SubAlarmStats {
 
     if ((emptyWindowObservations >= emptyWindowObservationThreshold)
         && shouldSendStateChange(AlarmState.UNDETERMINED) && !subAlarm.isSporadicMetric()) {
-      setSubAlarmState(AlarmState.UNDETERMINED);
-      return true;
+      return AlarmState.UNDETERMINED;
     }
 
-    return false;
+    // Hasn't transitioned to UNDETERMINED yet, so use the current state
+    return null;
   }
 
   private boolean shouldSendStateChange(AlarmState newState) {
-    return !subAlarm.getState().equals(newState) || subAlarm.isNoState();
+    return newState != null && (!subAlarm.getState().equals(newState) || subAlarm.isNoState());
   }
 
   private void setSubAlarmState(AlarmState newState) {
@@ -188,6 +190,44 @@ public class SubAlarmStats {
     if (!compatible) {
       logger.debug("Changing {} to {} and flushing measurements", this.subAlarm, subAlarm);
       this.initialize(subAlarm, TimeResolution.MINUTES, viewEndTimestamp);
+    }
+  }
+
+  public boolean tryImmediateEvaluation(long currentTimeSeconds, long alarmDelay) {
+    if (!canEvaluateImmediately()) {
+      // Maybe the bucket can be evaluated now
+      return evaluateAndSlideWindow(currentTimeSeconds, alarmDelay);
+    }
+    // Only immediately transition to ALARM state
+    if (!shouldSendStateChange(AlarmState.ALARM)) {
+      return false;
+    }
+    final AlarmState newState = determineAlarmState();
+    if (newState == AlarmState.ALARM) {
+      setSubAlarmState(newState);
+      return true;
+    }
+    return false;
+  }
+
+  private boolean canEvaluateImmediately() {
+    switch (this.subAlarm.getExpression().getFunction())
+    {
+      // These two can't be evaluated until the end of the bucket.
+      case MIN:
+      case MAX:
+        return true;
+      case COUNT:
+        switch(this.subAlarm.getExpression().getOperator()) {
+          case GT:
+          case GTE:
+            return true;
+          default:
+            return false;
+        }
+      // SUM can decrease if a negative value comes in
+      default:
+        return false;
     }
   }
 }
