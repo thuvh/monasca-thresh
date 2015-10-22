@@ -120,13 +120,32 @@ public class SubAlarmStats {
    * @param alarmDelay How long to give metrics a chance to arrive
    */
   boolean evaluate(final long now, long alarmDelay) {
-    if (!stats.shouldEvaluate(now, alarmDelay)) {
-      return false;
+
+    final AlarmState newState;
+    if (immediateAlarmEvaluate()) {
+      newState = AlarmState.ALARM;
     }
-    double[] values = stats.getViewValues();
+    else {
+      if (!stats.shouldEvaluate(now, alarmDelay)) {
+        return false;
+      }
+      newState = determineAlarmState();
+    }
+    if (shouldSendStateChange(newState) && (stats.shouldEvaluate(now, alarmDelay) || (newState == AlarmState.ALARM && canEvaluateImmediately()))) {
+      setSubAlarmState(newState);
+      return true;
+    }
+    return false;
+  }
+
+  private AlarmState determineAlarmState() {
     boolean thresholdExceeded = false;
     boolean hasEmptyWindows = false;
     subAlarm.clearCurrentValues();
+    if (immediateAlarmEvaluate()) {
+      return AlarmState.ALARM;
+    }
+    double[] values = stats.getViewValues();
     for (double value : values) {
       if (Double.isNaN(value)) {
         hasEmptyWindows = true;
@@ -137,38 +156,61 @@ public class SubAlarmStats {
         // Check if value is OK
         if (!subAlarm.getExpression().getOperator()
             .evaluate(value, subAlarm.getExpression().getThreshold())) {
-          if (!shouldSendStateChange(AlarmState.OK)) {
-            return false;
-          }
-          setSubAlarmState(AlarmState.OK);
-          return true;
+          return AlarmState.OK;
         } else
           thresholdExceeded = true;
       }
     }
 
     if (thresholdExceeded && !hasEmptyWindows) {
-      if (!shouldSendStateChange(AlarmState.ALARM)) {
-        return false;
-      }
-      setSubAlarmState(AlarmState.ALARM);
-      return true;
+      return AlarmState.ALARM;
     }
 
     // Window is empty at this point
     emptyWindowObservations++;
-
     if ((emptyWindowObservations >= emptyWindowObservationThreshold)
         && shouldSendStateChange(AlarmState.UNDETERMINED) && !subAlarm.isSporadicMetric()) {
-      setSubAlarmState(AlarmState.UNDETERMINED);
-      return true;
+      return AlarmState.UNDETERMINED;
     }
 
+    // Hasn't transitioned to UNDETERMINED yet, so use the current state
+    return null;
+  }
+
+  private boolean immediateAlarmEvaluate() {
+    if (!canEvaluateImmediately()) {
+      return false;
+    }
+    // Check the future slots as well
+    final double[] allValues = stats.getWindowValues();
+    subAlarm.clearCurrentValues();
+    int alarmRun = 0;
+    for (final double value : allValues) {
+      if (Double.isNaN(value)) {
+        alarmRun = 0;
+        subAlarm.clearCurrentValues();
+      } else {
+
+        // Check if value is OK
+        if (!subAlarm.getExpression().getOperator()
+            .evaluate(value, subAlarm.getExpression().getThreshold())) {
+          alarmRun = 0;
+          subAlarm.clearCurrentValues();
+        }
+        else {
+          subAlarm.addCurrentValue(value);
+          alarmRun++;
+          if (alarmRun == subAlarm.getExpression().getPeriods()) {
+            return true;
+          }
+        }
+      }
+    }
     return false;
   }
 
   private boolean shouldSendStateChange(AlarmState newState) {
-    return !subAlarm.getState().equals(newState) || subAlarm.isNoState();
+    return newState != null && (!subAlarm.getState().equals(newState) || subAlarm.isNoState());
   }
 
   private void setSubAlarmState(AlarmState newState) {
@@ -188,6 +230,27 @@ public class SubAlarmStats {
     if (!compatible) {
       logger.debug("Changing {} to {} and flushing measurements", this.subAlarm, subAlarm);
       this.initialize(subAlarm, TimeResolution.MINUTES, viewEndTimestamp);
+    }
+  }
+
+  boolean canEvaluateImmediately() {
+    switch (this.subAlarm.getExpression().getFunction())
+    {
+      // These two can't be evaluated until the end of the bucket.
+      case MIN:
+      case MAX:
+        return true;
+      case COUNT:
+        switch(this.subAlarm.getExpression().getOperator()) {
+          case GT:
+          case GTE:
+            return true;
+          default:
+            return false;
+        }
+      // SUM can decrease if a negative value comes in
+      default:
+        return false;
     }
   }
 }
