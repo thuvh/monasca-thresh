@@ -16,6 +16,24 @@
       "revId": "bc93e453b60efd967a3b42d9790fd418b7c0943b",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a26ad4f_f503bdb6",
+        "filename": "thresh/src/test/java/monasca/thresh/domain/model/SubAlarmStatsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2015-10-28T19:56:24Z",
+      "side": 1,
+      "message": "It should be 8 not 9. I corrected the other comment but not this one. Will correct this one in the next patch set.\n\nThe reason it is 8 is because the expression is \"avg(hpcs.compute.cpu{id\u003d5}, 60) \u003e 3 times 3\". The alarm doesn\u0027t change to alarm until there have 2 * the number of periods where there are no metrics in any of the periods under evaluation. This works out to Periods * 3 - 1.\n\nThe API doc says:\n\nUNDETERMINED - No metrics for at least one of the subexpressions has been received in (period + 2) times periods (see below for definition of period and periods\n\nHowever this is incorrect. I\u0027ll have to update it.",
+      "parentUuid": "1a26ad4f_5df65d90",
+      "revId": "bc93e453b60efd967a3b42d9790fd418b7c0943b",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
