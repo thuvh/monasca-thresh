@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a26ad4f_5df65d90",
+        "filename": "thresh/src/test/java/monasca/thresh/domain/model/SubAlarmStatsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 12133
+      },
+      "writtenOn": "2015-10-28T16:26:28Z",
+      "side": 1,
+      "message": "Can you explain what the observation threshold is for this metric.  Wondering why it cannot be evaluated after 3 minutes in this case.  If 6 slides additional slides is needed, shouldn\u0027t this be 8 times total?",
+      "revId": "bc93e453b60efd967a3b42d9790fd418b7c0943b",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
