@@ -109,6 +109,27 @@
             </exclusions>
         </dependency>
         <dependency>
+          <groupId>org.jooq</groupId>
+          <artifactId>jooq</artifactId>
+          <version>3.6.2</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jooq</groupId>
+          <artifactId>jooq-meta</artifactId>
+          <version>3.6.2</version>
+        </dependency>
+        <dependency>
+          <groupId>com.zaxxer</groupId>
+          <artifactId>HikariCP</artifactId>
+          <version>2.4.0</version>
+          <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>monasca-common</groupId>
+            <artifactId>monasca-common-jooq</artifactId>
+            <version>${mon.common.version}</version>
+        </dependency>
+        <dependency>
             <groupId>monasca-common</groupId>
             <artifactId>monasca-common-model</artifactId>
             <version>${mon.common.version}</version>
@@ -121,11 +142,6 @@
         <dependency>
             <groupId>monasca-common</groupId>
             <artifactId>monasca-common-streaming</artifactId>
-            <version>${mon.common.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>monasca-common</groupId>
-            <artifactId>monasca-common-hibernate</artifactId>
             <version>${mon.common.version}</version>
         </dependency>
         <dependency>
@@ -216,7 +232,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.16</version>
                 <configuration>
-                    <excludedGroups>performance,functional,integration,database,slow,orm
+                    <excludedGroups>performance,functional,integration,slow,orm
                     </excludedGroups>
                 </configuration>
             </plugin>
@@ -225,7 +241,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.16</version>
                 <configuration>
-                    <groups>performance,functional,integration,database,slow,orm</groups>
+                    <groups>performance,functional,integration,slow,orm</groups>
                     <skipTests>${skipITs}</skipTests>
                 </configuration>
                 <executions>

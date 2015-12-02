@@ -18,6 +18,7 @@
 
 
     <logger name="monasca" level = "debug"/>
+    <logger name="org.jooq" level = "debug"/>
 
     <root level="info">
         <appender-ref ref="STDOUT" />
