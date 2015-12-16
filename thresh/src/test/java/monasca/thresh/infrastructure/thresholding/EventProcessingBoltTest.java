@@ -216,7 +216,8 @@ public class EventProcessingBoltTest {
     }
     final AlarmUpdatedEvent event =
         new AlarmUpdatedEvent(alarm.getId(), alarmDefinition.getId(),
-            alarmDefinition.getTenantId(), alarmedMetrics, subAlarmMap, newState, alarm.getState());
+            alarmDefinition.getTenantId(), alarmedMetrics, subAlarmMap, newState, alarm.getState(),
+            alarm.getLink(), alarm.getLifecycleState());
    return event;
   }
 

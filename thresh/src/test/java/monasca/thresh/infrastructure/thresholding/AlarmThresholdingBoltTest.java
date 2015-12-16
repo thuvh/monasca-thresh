@@ -124,6 +124,7 @@ public class AlarmThresholdingBoltTest {
             + "\"actionsEnabled\":true,"
             + "\"stateChangeReason\":\"Thresholds were exceeded for the sub-alarms: "
             + subAlarm.getExpression().getExpression() + " with the values: []\"," + "\"severity\":\"LOW\","
+            + "\"link\":null," + "\"lifecycleState\":null,"
             + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
             + "\"timestamp\":1395587091003}}";
 
@@ -149,6 +150,7 @@ public class AlarmThresholdingBoltTest {
             + subAlarms.get(1).getExpression().getExpression() + " with the values: [], "
             + subAlarms.get(2).getExpression().getExpression() + " with the values: []"
             + "\",\"severity\":\"LOW\","
+            + "\"link\":null," + "\"lifecycleState\":null,"
             + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
             + "\"timestamp\":1395587091003}}";
     verify(alarmEventForwarder, times(1)).send(okJson);

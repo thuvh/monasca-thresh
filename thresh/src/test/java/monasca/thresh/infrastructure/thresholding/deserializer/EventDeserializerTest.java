@@ -86,7 +86,7 @@ public class EventDeserializerTest {
     final MetricDefinition md = new MetricDefinition("load", dimensions);
     alarmMetrics.add(md);
     roundTrip(new AlarmUpdatedEvent(ALARM_ID, ALARM_DEFINITION_ID, TENANT_ID, alarmMetrics,
-        subAlarms, AlarmState.OK, AlarmState.UNDETERMINED));
+        subAlarms, AlarmState.OK, AlarmState.UNDETERMINED, null, null));
   }
 
   private void roundTrip(Object event) {

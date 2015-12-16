@@ -236,7 +236,8 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
         new AlarmStateTransitionedEvent(alarmDefinition.getTenantId(), alarm.getId(),
             alarmDefinition.getId(), alarmedMetrics, alarmDefinition.getName(),
             alarmDefinition.getDescription(), initialState, alarm.getState(),
-            alarmDefinition.getSeverity(), alarmDefinition.isActionsEnabled(), stateChangeReason, 
+            alarmDefinition.getSeverity(), alarm.getLink(), alarm.getLifecycleState(),
+            alarmDefinition.isActionsEnabled(), stateChangeReason,
             alarm.getTransitionSubAlarms(), getTimestamp());
     try {
       alarmEventForwarder.send(Serialization.toJson(event));
@@ -262,6 +263,8 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
     }
 
     oldAlarm.setState(alarmUpdatedEvent.alarmState);
+    oldAlarm.setLink(alarmUpdatedEvent.link);
+    oldAlarm.setLifecycleState(alarmUpdatedEvent.lifecycleState);
 
   }
 

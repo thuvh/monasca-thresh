@@ -42,6 +42,8 @@ public class Alarm extends AbstractEntity {
   private Map<String, SubAlarm> subAlarms;
   private Set<MetricDefinitionAndTenantId> alarmedMetrics = new HashSet<>();
   private AlarmState state;
+  private String link;
+  private String lifecycleState;
   private String stateChangeReason;
   private String alarmDefinitionId;
   private List<AlarmTransitionSubAlarm> transitionSubAlarms = new ArrayList<>();
@@ -179,6 +181,10 @@ public class Alarm extends AbstractEntity {
     return state;
   }
 
+  public String getLink() { return link; }
+
+  public String getLifecycleState() { return lifecycleState; }
+
   public String getStateChangeReason() {
     return stateChangeReason;
   }
@@ -205,6 +211,14 @@ public class Alarm extends AbstractEntity {
 
   public void setState(AlarmState state) {
     this.state = state;
+  }
+
+  public void setLink(String newLink) {
+    this.link = newLink;
+  }
+
+  public void setLifecycleState(String newLifecycleState) {
+    this.lifecycleState = newLifecycleState;
   }
 
   public void setSubAlarms(List<SubAlarm> subAlarms) {
