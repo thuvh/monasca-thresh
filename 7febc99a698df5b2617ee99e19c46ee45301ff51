@@ -1,0 +1,11 @@
+Code-Review+2: Fabio Giannetti <fgiannet@cisco.com>
+Code-Review+2: Michael Hoppal <michael.jam.hoppal@hp.com>
+Workflow+1: Michael Hoppal <michael.jam.hoppal@hp.com>
+Code-Review+2: Roland Hochmuth <roland.hochmuth@hp.com>
+Workflow+1: Roland Hochmuth <roland.hochmuth@hp.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 06 Jan 2016 16:27:19 +0000
+Reviewed-on: https://review.openstack.org/254403
+Project: openstack/monasca-thresh
+Branch: refs/heads/master
