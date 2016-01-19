@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba63e191_657dba1b",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 2419
+      },
+      "writtenOn": "2016-01-19T21:16:31Z",
+      "side": 1,
+      "message": "Probably should add link and lifecycleState to hashCode. \n\nAlso, looks like equals was never overridden.",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 10
+      },
+      "revId": "722b5e22a83c9a7c6661457a9f7f4887d0ae86b2",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
