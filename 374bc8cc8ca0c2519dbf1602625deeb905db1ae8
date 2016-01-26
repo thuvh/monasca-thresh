@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a68dd71_f801793a",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 15027
+      },
+      "writtenOn": "2016-01-26T18:27:35Z",
+      "side": 1,
+      "message": "update the copyright :)",
+      "range": {
+        "startLine": 2,
+        "startChar": 21,
+        "endLine": 2,
+        "endChar": 22
+      },
+      "revId": "374bc8cc8ca0c2519dbf1602625deeb905db1ae8",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a68dd71_d8735514",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
         "patchSetId": 1
