@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a68dd71_0c11b25d",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-01-26T18:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a68dd71_f801793a",
+      "range": {
+        "startLine": 2,
+        "startChar": 21,
+        "endLine": 2,
+        "endChar": 22
+      },
+      "revId": "374bc8cc8ca0c2519dbf1602625deeb905db1ae8",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a68dd71_d8735514",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "I agree with Michael here",
       "parentUuid": "9a68dd71_d8735514",
+      "range": {
+        "startLine": 188,
+        "startChar": 51,
+        "endLine": 188,
+        "endChar": 53
+      },
+      "revId": "374bc8cc8ca0c2519dbf1602625deeb905db1ae8",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a68dd71_cf12ac58",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-01-26T18:56:30Z",
+      "side": 1,
+      "message": "Just a type. I\u0027ve reverted it to the original message",
+      "parentUuid": "9a68dd71_8c6122d6",
       "range": {
         "startLine": 188,
         "startChar": 51,
