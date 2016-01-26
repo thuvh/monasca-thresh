@@ -45,6 +45,30 @@
       "revId": "374bc8cc8ca0c2519dbf1602625deeb905db1ae8",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a68dd71_8c6122d6",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 18179
+      },
+      "writtenOn": "2016-01-26T18:44:42Z",
+      "side": 1,
+      "message": "I agree with Michael here",
+      "parentUuid": "9a68dd71_d8735514",
+      "range": {
+        "startLine": 188,
+        "startChar": 51,
+        "endLine": 188,
+        "endChar": 53
+      },
+      "revId": "374bc8cc8ca0c2519dbf1602625deeb905db1ae8",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
