@@ -1,0 +1,8 @@
+Code-Review+2: Roland Hochmuth <roland.hochmuth@hp.com>
+Workflow+1: Roland Hochmuth <roland.hochmuth@hp.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 27 Jan 2016 21:36:52 +0000
+Reviewed-on: https://review.openstack.org/258676
+Project: openstack/monasca-thresh
+Branch: refs/heads/master
