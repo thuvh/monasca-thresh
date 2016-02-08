@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 # Download maven 3 if the system maven isn't maven 3
 VERSION=`mvn -v | grep "Apache Maven 3"`
 if [ -z "${VERSION}" ]; then
@@ -27,8 +28,10 @@ for ARG in $*; do
    fi
 done
 
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+
 if [ $RUN_BUILD = "true" ]; then
-    ( cd common; ./build_common.sh ${MVN} ${COMMON_VERSION} )
+    ( cd common; ./build_common.sh ${MVN} ${COMMON_VERSION} ${BRANCH} )
     RC=$?
     if [ $RC != 0 ]; then
         exit $RC
