@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bae84128_ac2e3a40",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 12512
+      },
+      "writtenOn": "2016-02-24T16:57:38Z",
+      "side": 1,
+      "message": "This does not do a deep copy. Are you sure you don\u0027t want a deep copy?",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 234,
+        "endChar": 3
+      },
+      "revId": "23af942dbc04ba0f76e1e3d64279e3020b342448",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
