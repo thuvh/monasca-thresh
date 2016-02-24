@@ -220,7 +220,7 @@ public class MetricAggregationBolt extends BaseRichBolt {
   private void sendSubAlarmStateChange(SubAlarmStats subAlarmStats) {
     logger.debug("Alarm state changed for {}", subAlarmStats);
     collector.emit(new Values(subAlarmStats.getSubAlarm().getAlarmId(), subAlarmStats
-        .getSubAlarm()));
+        .getSubAlarm().clone()));
   }
 
   /**

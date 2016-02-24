@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Sub-alarm. Decorates an AlarmSubExpression.
  */
-public class SubAlarm extends AbstractEntity implements Serializable {
+public class SubAlarm extends AbstractEntity implements Serializable, Cloneable {
   private static final long serialVersionUID = -3946708553723868124L;
 
   private String alarmId;
@@ -222,5 +222,14 @@ public class SubAlarm extends AbstractEntity implements Serializable {
       default:
         return false;
     }
+  }
+
+  public SubAlarm clone() {
+    final SubAlarm newSubAlarm =
+        new SubAlarm(this.id, this.alarmId, new SubExpression(this.alarmSubExpressionId,
+            this.expression), this.state);
+    newSubAlarm.noState = this.noState;
+    newSubAlarm.sporadicMetric = this.sporadicMetric;
+    return newSubAlarm;
   }
 }
