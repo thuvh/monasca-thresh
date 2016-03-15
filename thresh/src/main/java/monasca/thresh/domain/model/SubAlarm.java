@@ -37,10 +37,6 @@ public class SubAlarm extends AbstractEntity implements Serializable {
   private AlarmState state;
   private boolean noState;
   private List<Double> currentValues;
-  /**
-   * Whether metrics for this sub-alarm are received sporadically.
-   */
-  private boolean sporadicMetric;
 
   public SubAlarm(String id, String alarmId, SubExpression expression) {
     this(id, alarmId, expression, AlarmState.UNDETERMINED);
@@ -145,11 +141,7 @@ public class SubAlarm extends AbstractEntity implements Serializable {
   }
 
   public boolean isSporadicMetric() {
-    return sporadicMetric;
-  }
-
-  public void setSporadicMetric(boolean sporadicMetric) {
-    this.sporadicMetric = sporadicMetric;
+    return this.expression.getMetricDefinition().isSporadic();
   }
 
   public void setState(AlarmState state) {
@@ -166,7 +158,8 @@ public class SubAlarm extends AbstractEntity implements Serializable {
 
   @Override
   public String toString() {
-    return String.format("SubAlarm [id=%s, alarmId=%s, alarmSubExpressionId=%s, expression=%s, state=%s, noState=%s, currentValues:[", id,
+    return String.format("SubAlarm [id=%s, alarmId=%s, alarmSubExpressionId=%s, expression=%s, " +
+        "state=%s, noState=%s, currentValues:[", id,
         alarmId, alarmSubExpressionId, expression, state, noState) + currentValues + "]]";
   }
 

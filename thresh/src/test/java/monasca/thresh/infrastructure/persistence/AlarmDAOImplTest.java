@@ -32,6 +32,8 @@ import monasca.thresh.domain.model.SubAlarm;
 import monasca.thresh.domain.model.SubExpression;
 import monasca.thresh.domain.service.AlarmDAO;
 
+import com.beust.jcommander.internal.Lists;
+import com.google.common.io.Resources;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import org.testng.annotations.AfterClass;
@@ -39,6 +41,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -57,8 +60,12 @@ public class AlarmDAOImplTest {
   private static String ALARM_NAME = "90% CPU";
   private static String ALARM_DESCR = "Description for " + ALARM_NAME;
   private static Boolean ALARM_ENABLED = Boolean.TRUE;
+  private static String SPORADIC_ALARM_NAME = "count(log.error)";
+  private static String SPORADIC_ALARM_DESCR = "Description for " + ALARM_NAME;
+  private static Boolean SPORADIC_ALARM_ENABLED = Boolean.TRUE;
   private MetricDefinitionAndTenantId newMetric;
 
+  private AlarmDefinition sporadicAlarmDef;
   private AlarmDefinition alarmDef;
 
   private DBI db;
@@ -68,7 +75,7 @@ public class AlarmDAOImplTest {
   @BeforeClass
   protected void setupClass() throws Exception {
     // See class comment
-    db = new DBI("jdbc:mysql://192.168.10.4/mon", "monapi", "password");
+    db = new DBI("jdbc:mysql://localhost/mon", "monapi", "password");
     handle = db.open();
     dao = new AlarmDAOImpl(db);
   }
@@ -96,6 +103,18 @@ public class AlarmDAOImplTest {
         new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, new AlarmExpression(
             expr), "LOW", ALARM_ENABLED, new ArrayList<String>());
     AlarmDefinitionDAOImplTest.insertAlarmDefinition(handle, alarmDef);
+
+    final String exprSporadic = "count(log.error{path=/var/log/test},sporadic=true,20) > 5";
+    this.sporadicAlarmDef = new AlarmDefinition(
+        TENANT_ID,
+        SPORADIC_ALARM_NAME,
+        SPORADIC_ALARM_DESCR,
+        new AlarmExpression(exprSporadic),
+        "HIGH",
+        SPORADIC_ALARM_ENABLED,
+        Lists.<String>newArrayList()
+    );
+    AlarmDefinitionDAOImplTest.insertAlarmDefinition(handle, this.sporadicAlarmDef);
 
     final Map<String, String> dimensions = new HashMap<String, String>();
     dimensions.put("first", "first_value");
@@ -233,5 +252,26 @@ public class AlarmDAOImplTest {
     assertEquals(1, handle.select("select * from metric_definition_dimensions").size());
     List<Map<String, Object>> rows = handle.select("select * from metric_dimension");
     assertEquals(2, rows.size());
+  }
+
+  public void shouldPersistSporadic() {
+    final Alarm alarm1 = new Alarm(this.sporadicAlarmDef, AlarmState.OK);
+    final MetricDefinition definition = this.sporadicAlarmDef
+        .getSubExpressions()
+        .get(0)
+        .getAlarmSubExpression()
+        .getMetricDefinition();
+    final MetricDefinitionAndTenantId mtid = new MetricDefinitionAndTenantId(
+        definition,
+        TENANT_ID
+    );
+
+    alarm1.addAlarmedMetric(mtid);
+    dao.createAlarm(alarm1);
+
+    final Alarm byId = dao.findById(alarm1.getId());
+
+    assertEquals(byId, alarm1);
+    assertEquals(1, byId.getSporadicSubAlarms().size());
   }
 }

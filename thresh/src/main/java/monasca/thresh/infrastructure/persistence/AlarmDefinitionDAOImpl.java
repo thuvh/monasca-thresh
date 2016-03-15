@@ -89,12 +89,14 @@ public class AlarmDefinitionDAOImpl implements AlarmDefinitionDAO {
       // Need to convert the results appropriately based on type.
       Integer period = Conversions.variantToInteger(row.get("period"));
       Integer periods = Conversions.variantToInteger(row.get("periods"));
+      Boolean sporadic = "1".equalsIgnoreCase(row.get("sporadic").toString());
       Map<String, String> dimensions = new HashMap<>();
       while (addedDimension(dimensions, id, rows, index)) {
         index++;
       }
-      subExpressions.add(new SubExpression(id, new AlarmSubExpression(function,
-          new MetricDefinition(metricName, dimensions), operator, threshold, period, periods)));
+      final MetricDefinition md = new MetricDefinition(metricName, dimensions, sporadic);
+      subExpressions.add(new SubExpression(id, new AlarmSubExpression(function, md, operator,
+          threshold, period, periods)));
     }
 
     return subExpressions;

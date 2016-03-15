@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -274,4 +275,23 @@ public class SubAlarmStatsTest {
       }
     }
   }
+
+  public void shouldNotAllowSporadicSubAlarmEnterUndetermined(){
+    final SubExpression subExpr = new SubExpression(UUID.randomUUID().toString(),
+        AlarmSubExpression.of("sum(sporadic.test{id=1},sporadic,1) >= 1"));
+
+    final SubAlarm subAlarm = new SubAlarm("42", "4242", subExpr);
+
+    final SubAlarmStats stats = new SubAlarmStats(subAlarm, subExpr.getAlarmSubExpression().getPeriod());
+
+    // add some value
+    stats.getStats().addValue(1.0, 0);
+
+    // evaluate
+    stats.evaluateAndSlideWindow(0, 1);
+
+    // should be already in OK state
+    assertEquals(stats.getSubAlarm().getState(), AlarmState.OK);
+  }
+
 }
