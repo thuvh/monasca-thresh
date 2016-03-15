@@ -116,21 +116,36 @@ public class SubAlarmStats {
   }
 
   /**
+   * Evaluation logic for stats:
+   *
+   * TODO(trebskit) provide explanation for checks once logic is finished
+   *
    * @param now Current time
    * @param alarmDelay How long to give metrics a chance to arrive
    */
   boolean evaluate(final long now, long alarmDelay) {
-
     final AlarmState newState;
-    if (immediateAlarmEvaluate()) {
+
+    if(this.immediateSporadicEvaluate()){
+      logger.trace("{} is sporadic and in {}, proceeding directly to {}",
+          this.getSubAlarm(),
+          AlarmState.UNDETERMINED,
+          AlarmState.OK
+      );
+      newState = AlarmState.OK;
+    }else if (this.immediateAlarmEvaluate()) {
+      logger.trace("{} is candidate for immediate evaluation from state {}",
+          this.getSubAlarm(),
+          this.getSubAlarm().getState()
+      );
       newState = AlarmState.ALARM;
-    }
-    else {
+    } else {
       if (!stats.shouldEvaluate(now, alarmDelay)) {
         return false;
       }
       newState = determineAlarmStateUsingView();
     }
+
     if (shouldSendStateChange(newState) &&
         (stats.shouldEvaluate(now, alarmDelay) ||
          (newState == AlarmState.ALARM && this.subAlarm.canEvaluateImmediately()))) {
@@ -168,12 +183,27 @@ public class SubAlarmStats {
     // Window is empty at this point
     emptyWindowObservations++;
     if ((emptyWindowObservations >= emptyWindowObservationThreshold)
-        && shouldSendStateChange(AlarmState.UNDETERMINED) && !subAlarm.isSporadicMetric()) {
-      return AlarmState.UNDETERMINED;
+        && shouldSendStateChange(AlarmState.UNDETERMINED)) {
+      if (!subAlarm.isSporadicMetric()) {
+        return AlarmState.UNDETERMINED;
+      } else {
+        return AlarmState.OK;
+      }
     }
 
     // Hasn't transitioned to UNDETERMINED yet, so use the current state
     return null;
+  }
+
+  /**
+   * Will return true if {@link SubAlarm} is sporadic and current state is set to
+   * {@link AlarmState#UNDETERMINED}.
+   *
+   * @return true/false
+   */
+  private boolean immediateSporadicEvaluate() {
+    final SubAlarm alarm = this.getSubAlarm();
+    return alarm.isSporadicMetric() && alarm.getState().equals(AlarmState.UNDETERMINED);
   }
 
   private boolean immediateAlarmEvaluate() {

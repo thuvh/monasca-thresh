@@ -386,7 +386,7 @@ public class AlarmCreationBoltTest {
         build("cpu", "hostname", "eleanore", "amplifier", "2", "service", "vivi");
 
     bolt.handleNewMetricDefinition(new MetricDefinitionAndTenantId(metric, TENANT_ID),
-        alarmDefinition.getId());
+        alarmDefinition.getId(), sporadic);
 
     assertEquals(this.createdAlarms.size(), 1);
     verifyCreatedAlarm(this.createdAlarms.get(0), alarmDefinition, collector,
@@ -408,7 +408,7 @@ public class AlarmCreationBoltTest {
         build("cpu", "hostname", "eleanore", "amplifier", "3", "service", "vivi");
 
     bolt.handleNewMetricDefinition(new MetricDefinitionAndTenantId(metric3, TENANT_ID),
-        alarmDefinition.getId());
+        alarmDefinition.getId(), sporadic);
 
     assertEquals(this.createdAlarms.size(), 2);
 
@@ -426,7 +426,7 @@ public class AlarmCreationBoltTest {
         build("cpu", "hostname", "eleanore", "amplifier", "2", "service", "vivi");
 
     bolt.handleNewMetricDefinition(new MetricDefinitionAndTenantId(metric, TENANT_ID),
-        alarmDefinition.getId());
+        alarmDefinition.getId(), sporadic);
 
     assertEquals(this.createdAlarms.size(), 1);
     verifyCreatedAlarm(this.createdAlarms.get(0), alarmDefinition, collector,
@@ -436,7 +436,7 @@ public class AlarmCreationBoltTest {
         build("cpu", "hostname", "eleanore", "amplifier", "3", "service", "vivi");
 
     bolt.handleNewMetricDefinition(new MetricDefinitionAndTenantId(metric3, TENANT_ID),
-        alarmDefinition.getId());
+        alarmDefinition.getId(), sporadic);
 
     assertEquals(this.createdAlarms.size(), 2);
 
@@ -514,7 +514,7 @@ public class AlarmCreationBoltTest {
         build("cpu", "hostname", "eleanore", "service", "2", "other", "vivi");
 
     bolt.handleNewMetricDefinition(new MetricDefinitionAndTenantId(metric, TENANT_ID),
-        alarmDefinition.getId());
+        alarmDefinition.getId(), sporadic);
 
     assertEquals(this.createdAlarms.size(), 1);
     verifyCreatedAlarm(this.createdAlarms.get(0), alarmDefinition, collector,
@@ -557,18 +557,18 @@ public class AlarmCreationBoltTest {
         build("cpu", "hostname", "eleanore", "service", "2", "other", "vivi");
 
     MetricDefinitionAndTenantId cpuMtid = new MetricDefinitionAndTenantId(cpuMetric, TENANT_ID);
-    bolt.handleNewMetricDefinition(cpuMtid, alarmDefinition.getId());
+    bolt.handleNewMetricDefinition(cpuMtid, alarmDefinition.getId(), sporadic);
 
     // Send it again to ensure it handles case where the metric is sent twice.
     // Should not happen but make sure bolt handles it
-    bolt.handleNewMetricDefinition(cpuMtid, alarmDefinition.getId());
+    bolt.handleNewMetricDefinition(cpuMtid, alarmDefinition.getId(), sporadic);
 
     final MetricDefinition loadAvgMetric =
         build("load.avg", "hostname", "eleanore", "service", "2", "other", "vivi");
 
     MetricDefinitionAndTenantId loadAvgMtid =
         new MetricDefinitionAndTenantId(loadAvgMetric, TENANT_ID);
-    bolt.handleNewMetricDefinition(loadAvgMtid, alarmDefinition.getId());
+    bolt.handleNewMetricDefinition(loadAvgMtid, alarmDefinition.getId(), sporadic);
 
     assertEquals(this.createdAlarms.size(), 1);
     verifyCreatedAlarm(this.createdAlarms.get(0), alarmDefinition, collector, cpuMtid, loadAvgMtid);
@@ -576,7 +576,7 @@ public class AlarmCreationBoltTest {
     // Send it again to ensure it handles case where the metric is sent after
     // the alarm has been created.
     // Should not happen but make sure bolt handles it
-    bolt.handleNewMetricDefinition(cpuMtid, alarmDefinition.getId());
+    bolt.handleNewMetricDefinition(cpuMtid, alarmDefinition.getId(), sporadic);
 
     assertEquals(this.createdAlarms.size(), 1);
     // Make sure it did not get added to the existing alarm

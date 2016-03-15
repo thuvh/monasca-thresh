@@ -17,6 +17,17 @@
 
 package monasca.thresh.infrastructure.thresholding;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
@@ -24,12 +35,18 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import org.apache.storm.guava.base.Optional;
+import org.apache.storm.guava.base.Predicate;
+import org.apache.storm.guava.collect.FluentIterable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import monasca.common.model.alarm.AlarmState;
 import monasca.common.model.alarm.AlarmSubExpression;
 import monasca.common.model.event.AlarmDefinitionDeletedEvent;
 import monasca.common.model.event.AlarmDefinitionUpdatedEvent;
 import monasca.common.model.event.AlarmDeletedEvent;
+import monasca.common.model.metric.Metric;
 import monasca.common.model.metric.MetricDefinition;
 import monasca.common.streaming.storm.Logging;
 import monasca.common.util.Injector;
@@ -42,16 +59,6 @@ import monasca.thresh.domain.model.TenantIdAndMetricName;
 import monasca.thresh.domain.service.AlarmDAO;
 import monasca.thresh.domain.service.AlarmDefinitionDAO;
 import monasca.thresh.infrastructure.persistence.PersistenceModule;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Handles creation of Alarms and Alarmed Metrics.
@@ -95,7 +102,22 @@ public class AlarmCreationBolt extends BaseRichBolt {
       if (MetricFilteringBolt.NEW_METRIC_FOR_ALARM_DEFINITION_STREAM.equals(tuple.getSourceStreamId())) {
         final MetricDefinitionAndTenantId metricDefinitionAndTenantId =
             (MetricDefinitionAndTenantId) tuple.getValue(0);
-        handleNewMetricDefinition(metricDefinitionAndTenantId, tuple.getString(1));
+        final String alarmDefinitionId = tuple.getString(1);
+        final Metric metric = (Metric) tuple.getValue(2);
+
+        logger.debug("Received {} with arguments metricDefId={}, alarmDefinitionId={}, metric={}",
+            MetricFilteringBolt.NEW_METRIC_FOR_ALARM_DEFINITION_STREAM,
+            metricDefinitionAndTenantId.metricDefinition.getId(),
+            alarmDefinitionId,
+            metric
+        );
+
+        this.handleNewMetricDefinition(
+            metricDefinitionAndTenantId,
+            alarmDefinitionId,
+            metric
+        );
+
       } else if (EventProcessingBolt.METRIC_SUB_ALARM_EVENT_STREAM_ID.equals(tuple
           .getSourceStreamId())) {
         final String eventType = tuple.getString(0);
@@ -211,7 +233,10 @@ public class AlarmCreationBolt extends BaseRichBolt {
   }
 
   protected void handleNewMetricDefinition(
-      final MetricDefinitionAndTenantId metricDefinitionAndTenantId, final String alarmDefinitionId) {
+      final MetricDefinitionAndTenantId metricDefinitionAndTenantId,
+      final String alarmDefinitionId,
+      final Metric metric) {
+
     final long start = System.currentTimeMillis();
     final AlarmDefinition alarmDefinition = lookUpAlarmDefinition(alarmDefinitionId);
     if (alarmDefinition == null) {
@@ -242,16 +267,20 @@ public class AlarmCreationBolt extends BaseRichBolt {
         logger.info("Metric {} fits into existing alarm {}", metricDefinitionAndTenantId,
             matchingAlarm.getId());
         addToExistingAlarm(matchingAlarm, metricDefinitionAndTenantId);
-        sendNewMetricDefinition(matchingAlarm, metricDefinitionAndTenantId);
+        sendNewMetricDefinition(matchingAlarm, metricDefinitionAndTenantId, metric);
       }
     } else {
-      final List<Alarm> newAlarms =
-          finishesAlarm(alarmDefinition, metricDefinitionAndTenantId, existingAlarms);
+      final List<Alarm> newAlarms = this.finishesAlarm(
+          alarmDefinition,
+          metricDefinitionAndTenantId,
+          existingAlarms,
+          metric
+      );
       for (final Alarm newAlarm : newAlarms) {
         logger.info("Metric {} finishes waiting alarm {}", metricDefinitionAndTenantId, newAlarm);
         existingAlarms.add(newAlarm);
         for (final MetricDefinitionAndTenantId md : newAlarm.getAlarmedMetrics()) {
-          sendNewMetricDefinition(newAlarm, md);
+          sendNewMetricDefinition(newAlarm, md, metric);
         }
       }
     }
@@ -297,18 +326,28 @@ public class AlarmCreationBolt extends BaseRichBolt {
   }
 
   private void sendNewMetricDefinition(Alarm existingAlarm,
-      MetricDefinitionAndTenantId metricDefinitionAndTenantId) {
+                                       MetricDefinitionAndTenantId metricDefinitionAndTenantId,
+                                       Metric metric) {
+
+    this.checkSporadic(metric, existingAlarm);
+
     for (final SubAlarm subAlarm : existingAlarm.getSubAlarms()) {
       if (metricFitsInAlarmSubExpr(subAlarm.getExpression(),
           metricDefinitionAndTenantId.metricDefinition)) {
+
         final TenantIdAndMetricName timn = new TenantIdAndMetricName(metricDefinitionAndTenantId);
-        final Values values =
-            new Values(EventProcessingBolt.CREATED, timn, metricDefinitionAndTenantId,
-                existingAlarm.getAlarmDefinitionId(), subAlarm);
+        final Values values = new Values(
+            EventProcessingBolt.CREATED,
+            timn,
+            metricDefinitionAndTenantId,
+            existingAlarm.getAlarmDefinitionId(),
+            subAlarm
+        );
         logger.debug("Emitting new SubAlarm {}", values);
         collector.emit(ALARM_CREATION_STREAM, values);
       }
     }
+
   }
 
   public static boolean metricFitsInAlarmSubExpr(AlarmSubExpression subExpr,
@@ -352,24 +391,36 @@ public class AlarmCreationBolt extends BaseRichBolt {
     return waiting == null ? null: Integer.valueOf(waiting.size());
   }
 
-  private List<Alarm> finishesAlarm(AlarmDefinition alarmDefinition,
-      MetricDefinitionAndTenantId metricDefinitionAndTenantId, List<Alarm> existingAlarms) {
-    final List<Alarm> waitingAlarms =
-        findMatchingWaitingAlarms(getWaitingAlarmsForAlarmDefinition(alarmDefinition),
-            alarmDefinition, metricDefinitionAndTenantId);
+  private List<Alarm> finishesAlarm(
+      AlarmDefinition alarmDefinition,
+      MetricDefinitionAndTenantId metricDefinitionAndTenantId,
+      List<Alarm> existingAlarms,
+      final Metric metric
+  ) {
+    final List<Alarm> waitingAlarms = this.findMatchingWaitingAlarms(
+        this.getWaitingAlarmsForAlarmDefinition(alarmDefinition),
+        alarmDefinition,
+        metricDefinitionAndTenantId
+    );
     final List<Alarm> result = new LinkedList<>();
     if (waitingAlarms.isEmpty()) {
+
       final Alarm newAlarm = new Alarm(alarmDefinition, AlarmState.UNDETERMINED);
+
       newAlarm.addAlarmedMetric(metricDefinitionAndTenantId);
-      reuseExistingMetric(newAlarm, alarmDefinition, existingAlarms);
+
+      this.reuseExistingMetric(newAlarm, alarmDefinition, existingAlarms);
+      this.checkSporadic(metric, newAlarm);
+
       if (alarmIsComplete(newAlarm)) {
-        logger.debug("New alarm is complete. Saving");
+        logger.debug("New alarm {} is complete. Saving", newAlarm);
         saveAlarm(newAlarm);
         result.add(newAlarm);
       } else {
-        logger.debug("Adding new alarm to the waiting list");
+        logger.debug("Adding new alarm {} to the waiting list", newAlarm);
         addToWaitingAlarms(newAlarm, alarmDefinition);
       }
+
     } else {
       for (final Alarm waiting : waitingAlarms) {
         waiting.addAlarmedMetric(metricDefinitionAndTenantId);
@@ -381,6 +432,41 @@ public class AlarmCreationBolt extends BaseRichBolt {
       }
     }
     return result;
+  }
+
+  private void checkSporadic(final Metric metric, final Alarm newAlarm) {
+    // run through sub alarm to mark sporadic where needed prior to saving
+    final Collection<SubAlarm> subAlarms = newAlarm.getSubAlarms();
+    final Set<MetricDefinitionAndTenantId> alarmedMetrics = newAlarm.getAlarmedMetrics();
+
+    logger.trace("Analyzing {} sub alarms for alarm {}", subAlarms.size(), newAlarm.getId());
+
+    if(subAlarms.isEmpty()){
+      return;
+    }
+
+    for(final SubAlarm subAlarm : subAlarms){
+      final Optional<MetricDefinitionAndTenantId> match = FluentIterable
+          .from(alarmedMetrics)
+          .firstMatch(new Predicate<MetricDefinitionAndTenantId>() {
+            @Override
+            public boolean apply(@Nullable final MetricDefinitionAndTenantId input) {
+              if (input != null) {
+                if (metricFitsInAlarmSubExpr(subAlarm.getExpression(),
+                    input.metricDefinition)) {
+                  return true;
+                }
+              }
+              return false;
+            }
+          });
+
+      if(match.isPresent()){
+        logger.trace("For metric {} marking {} as sporadic", metric, subAlarm);
+        subAlarm.setSporadicMetric(metric.isSparse());
+      }
+
+    }
   }
 
   private void reuseExistingMetric(Alarm newAlarm, final AlarmDefinition alarmDefinition,

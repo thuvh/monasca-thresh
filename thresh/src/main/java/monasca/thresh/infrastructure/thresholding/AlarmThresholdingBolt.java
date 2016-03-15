@@ -102,7 +102,6 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
         if (alarm == null) {
           return;
         }
-
         SubAlarm subAlarm = (SubAlarm) tuple.getValue(1);
         evaluateThreshold(alarm, subAlarm);
       } else if (EventProcessingBolt.ALARM_EVENT_STREAM_ID.equals(tuple.getSourceStreamId())) {
@@ -196,6 +195,7 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
 
   private void evaluateThreshold(Alarm alarm, SubAlarm subAlarm) {
     logger.debug("Received state change for {}", subAlarm);
+
     subAlarm.setNoState(false);
     alarm.updateSubAlarm(subAlarm);
 
@@ -231,7 +231,7 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
     for (final MetricDefinitionAndTenantId mdtid : alarm.getAlarmedMetrics()) {
       alarmedMetrics.add(mdtid.metricDefinition);
     }
-    logger.debug("Alarm {} transitioned from {} to {}", alarm, initialState, alarm.getState());
+    logger.debug("Alarm {} q from {} to {}", alarm, initialState, alarm.getState());
     AlarmStateTransitionedEvent event =
         new AlarmStateTransitionedEvent(alarmDefinition.getTenantId(), alarm.getId(),
             alarmDefinition.getId(), alarmedMetrics, alarmDefinition.getName(),
