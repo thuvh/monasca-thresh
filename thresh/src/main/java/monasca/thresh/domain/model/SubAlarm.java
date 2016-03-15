@@ -166,8 +166,9 @@ public class SubAlarm extends AbstractEntity implements Serializable {
 
   @Override
   public String toString() {
-    return String.format("SubAlarm [id=%s, alarmId=%s, alarmSubExpressionId=%s, expression=%s, state=%s, noState=%s, currentValues:[", id,
-        alarmId, alarmSubExpressionId, expression, state, noState) + currentValues + "]]";
+    return String.format("SubAlarm [id=%s, alarmId=%s, alarmSubExpressionId=%s, expression=%s, " +
+        "state=%s, noState=%s, sporadicMetric=%s, currentValues:[", id,
+        alarmId, alarmSubExpressionId, expression, state, noState, sporadicMetric) + currentValues + "]]";
   }
 
   /**

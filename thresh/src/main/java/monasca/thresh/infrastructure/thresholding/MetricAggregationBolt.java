@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +18,11 @@
 
 package monasca.thresh.infrastructure.thresholding;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import backtype.storm.Config;
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
@@ -25,11 +31,16 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import com.google.common.collect.Maps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import monasca.common.model.metric.Metric;
+import monasca.common.model.metric.MetricPeriod;
 import monasca.common.streaming.storm.Logging;
 import monasca.common.streaming.storm.Streams;
 import monasca.common.streaming.storm.Tuples;
+import monasca.common.util.stats.SlidingWindowStats;
 import monasca.thresh.ThresholdingConfiguration;
 import monasca.thresh.domain.model.MetricDefinitionAndTenantId;
 import monasca.thresh.domain.model.SubAlarm;
@@ -37,15 +48,6 @@ import monasca.thresh.domain.model.SubAlarmStats;
 import monasca.thresh.domain.model.SubExpression;
 import monasca.thresh.domain.model.TenantIdAndMetricName;
 import monasca.thresh.domain.service.SubAlarmStatsRepository;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Aggregates metrics for individual alarms. Receives metric/alarm tuples and tick tuples, and
@@ -79,8 +81,7 @@ public class MetricAggregationBolt extends BaseRichBolt {
   private final Map<String, SubAlarmStats> subAlarmToSubAlarmStats = new HashMap<>();
 
   private transient Logger logger;
-  /** Namespaces for which metrics are received sporadically */
-  private Set<String> sporadicMetricNamespaces = Collections.emptySet();
+  private Map<String, Long> periodicMetricMap = Maps.newHashMap();
   private OutputCollector collector;
   private boolean upToDate = true;
 
@@ -175,23 +176,73 @@ public class MetricAggregationBolt extends BaseRichBolt {
     SubAlarmStatsRepository subAlarmStatsRepo =
         getOrCreateSubAlarmStatsRepo(metricDefinitionAndTenantId);
     if (subAlarmStatsRepo == null || metric == null) {
+      logger.debug(
+          "Couldn't locate stats repo or metric was null [statsRepo={},metric={}]",
+          subAlarmStatsRepo,
+          metric
+      );
       return;
     }
 
+    // handle periodic metrics
+    if (metric.isPeriodic()) {
+      this.periodicMetricMap.put(metric.getName(), metric.getPeriod());
+    } else if (this.periodicMetricMap.containsKey(metric.getName()) && !metric.isPeriodic()) {
+      this.periodicMetricMap.remove(metric.getName());
+    }
+    // handle periodic metrics
+
     for (SubAlarmStats stats : subAlarmStatsRepo.get()) {
-      long timestamp_secs = metric.timestamp/1000;
-      if (stats.getStats().addValue(metric.value, timestamp_secs)) {
+      final long timestampSeconds = metric.timestamp / 1000;
+      final SubAlarm subAlarm = stats.getSubAlarm();
+      final SlidingWindowStats slidingWindowStats = stats.getStats();
+
+      // if metric is sparse pass it on to associated sub alarm
+      if (metric.isSparse()) {
+        logger.debug("Metric {} is sporadic, marking at sub alarm", metric.name);
+        subAlarm.setSporadicMetric(true);
+      }
+
+      if (slidingWindowStats.addValue(metric.value, timestampSeconds)) {
         logger.trace("Aggregated value {} at {} for {}. Updated {}", metric.value,
-            metric.timestamp, metricDefinitionAndTenantId, stats.getStats());
-        if (stats.evaluateAndSlideWindow(timestamp_secs, config.alarmDelay)) {
+            metric.timestamp, metricDefinitionAndTenantId, slidingWindowStats);
+
+        final long alarmDelay = this.getAlarmDelay(metric.getName(), metric.getPeriod());
+        final boolean windowSlid = stats.evaluateAndSlideWindow(timestampSeconds, alarmDelay);
+
+        if (windowSlid) {
+          logger.trace("Window for metric {} has been slid", metric.getName());
           sendSubAlarmStateChange(stats);
         }
+
       } else {
         logger.warn("Metric is too old, age {} seconds: timestamp {} for {}, {}",
-            currentTimeSeconds() - timestamp_secs, timestamp_secs, metricDefinitionAndTenantId,
-            stats.getStats());
+            currentTimeSeconds() - timestampSeconds, timestampSeconds, metricDefinitionAndTenantId,
+            slidingWindowStats);
       }
     }
+  }
+
+  private long getAlarmDelay(final String metricName, final long period) {
+    final long alarmDelay;
+
+    if(MetricPeriod.isPeriodic(period)){
+      alarmDelay = period;
+      logger.trace(
+          "{} metric is periodic, using {} as alarm delay",
+          metricName,
+          alarmDelay
+      );
+    } else {
+      alarmDelay = config.alarmDelay;
+      logger.trace(
+          "{} metric is not periodic, using default alarm delay {}",
+          metricName,
+          config.alarmDelay
+      );
+    }
+
+    return alarmDelay;
   }
 
   /**
@@ -201,15 +252,28 @@ public class MetricAggregationBolt extends BaseRichBolt {
   void evaluateAlarmsAndSlideWindows() {
     logger.debug("evaluateAlarmsAndSlideWindows called");
     long newWindowTimestamp = currentTimeSeconds();
+    long alarmDelay = config.alarmDelay;
     for (SubAlarmStats subAlarmStats : subAlarmStatsSet) {
+
+      // check if metric for subAlarmStats was saved in periodicMetricMap with custom delay
+      final String metricName = subAlarmStats
+          .getSubAlarm()
+          .getExpression()
+          .getMetricDefinition()
+          .name;
+      if(this.periodicMetricMap.containsKey(metricName)){
+        alarmDelay = this.getAlarmDelay(metricName, this.periodicMetricMap.get(metricName));
+      }
+
       if (upToDate) {
         logger.debug("Evaluating {}", subAlarmStats);
-        if (subAlarmStats.evaluateAndSlideWindow(newWindowTimestamp, config.alarmDelay)) {
+        if (subAlarmStats.evaluateAndSlideWindow(newWindowTimestamp, alarmDelay)) {
           sendSubAlarmStateChange(subAlarmStats);
         }
       } else {
-        subAlarmStats.slideWindow(newWindowTimestamp, config.alarmDelay);
+        subAlarmStats.slideWindow(newWindowTimestamp, alarmDelay);
       }
+
     }
     if (!upToDate) {
       logger.info("Did not evaluate SubAlarms because Metrics are not up to date");

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +27,7 @@ import monasca.thresh.domain.model.SubAlarm;
 import monasca.thresh.domain.model.SubExpression;
 import monasca.thresh.domain.service.AlarmDAO;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.skife.jdbi.v2.DBI;
@@ -39,6 +41,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import javax.inject.Inject;
@@ -73,7 +76,8 @@ public class AlarmDAOImpl implements AlarmDAO {
     try (final Handle h = db.open()) {
 
       final String ALARMS_SQL =
-            "select a.id, a.alarm_definition_id, a.state, sa.id as sub_alarm_id, sa.expression, sa.sub_expression_id, ad.tenant_id from alarm a "
+            "select a.id, a.alarm_definition_id, a.state, sa.id as sub_alarm_id, sa.expression, " +
+                "sa.sub_expression_id, sa.sporadic as sa_sporadic, ad.tenant_id from alarm a "
           + "inner join sub_alarm sa on sa.alarm_id = a.id "
           + "inner join alarm_definition ad on a.alarm_definition_id = ad.id "
           + "where ad.deleted_at is null and %s "
@@ -99,7 +103,7 @@ public class AlarmDAOImpl implements AlarmDAO {
           alarm.setId(alarmId);
           alarm.setAlarmDefinitionId(getString(row, "alarm_definition_id"));
           alarm.setState(AlarmState.valueOf(getString(row, "state")));
-          subAlarms = new ArrayList<SubAlarm>();
+          subAlarms = Lists.newArrayListWithExpectedSize(rows.size());
           alarms.add(alarm);
           alarmMap.put(alarmId, alarm);
           tenantIdMap.put(alarmId, getString(row, "tenant_id"));
@@ -109,6 +113,7 @@ public class AlarmDAOImpl implements AlarmDAO {
                 row, "expression")));
         final SubAlarm subAlarm =
             new SubAlarm(getString(row, "sub_alarm_id"), alarmId, subExpression);
+        subAlarm.setSporadicMetric(Objects.equals(this.getString(row, "sa_sporadic"), "1"));
         subAlarms.add(subAlarm);
         prevAlarmId = alarmId;
       }
@@ -248,9 +253,14 @@ public class AlarmDAOImpl implements AlarmDAO {
 
       for (final SubAlarm subAlarm : alarm.getSubAlarms()) {
         h.insert(
-            "insert into sub_alarm (id, alarm_id, sub_expression_id, expression, created_at, updated_at) values (?, ?, ?, ?, NOW(), NOW())",
-            subAlarm.getId(), subAlarm.getAlarmId(), subAlarm.getAlarmSubExpressionId(), subAlarm
-                .getExpression().getExpression());
+            "insert into sub_alarm (id, alarm_id, sub_expression_id, expression, " +
+                "sporadic, created_at, updated_at) values (?, ?, ?, ?, ?, NOW(), NOW())",
+            subAlarm.getId(),
+            subAlarm.getAlarmId(),
+            subAlarm.getAlarmSubExpressionId(),
+            subAlarm.getExpression().getExpression(),
+            subAlarm.isSporadicMetric() ? "1": "0"
+        );
       }
       for (final MetricDefinitionAndTenantId md : alarm.getAlarmedMetrics()) {
         createAlarmedMetric(h, md, alarm.getId());
