@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,8 +73,18 @@ public class MetricSpout extends KafkaSpout {
     if (metric.dimensions == null) {
       metric.dimensions = EMPTY_DIMENSIONS;
     }
-    collector.emit(new Values(new TenantIdAndMetricName(tenantId, metricEnvelope.metric
-        .definition().name), metricEnvelope.creationTime, metric));
+
+    if(metric.hasPeriod()){
+      logger.debug("Metric {} has defined period value, period is {}",
+          metric.getName(),
+          metric.getPeriod());
+    }
+
+    collector.emit(new Values(
+        new TenantIdAndMetricName(tenantId, metricEnvelope.metric.definition().name),
+        metricEnvelope.creationTime,
+        metric
+    ));
   }
 
   @Override
