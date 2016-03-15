@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -249,9 +250,9 @@ public class MetricFilteringBoltTest {
 
     // Now ensure metrics pass the filter
     verifyMetricPassed(alarms, collector1, bolt1);
-    verifyNewMetricDefinitionMessagesSent(alarms, collector1, bolt1);
+    verifyNewMetricDefinitionMessagesSent(alarms, collector1);
     verifyMetricPassed(alarms, collector2, bolt2);
-    verifyNoNewMetricDefinitionMessagesSent(alarms, collector2, bolt2);
+    verifyNoNewMetricDefinitionMessagesSent(alarms, collector2);
 
     testDeleteAlarms(alarms, bolt1, collector1, bolt2, collector2, true);
   }
@@ -264,22 +265,33 @@ public class MetricFilteringBoltTest {
     }
   }
 
-  private void verifyMetricFiltered(List<Alarm> alarms, final OutputCollector collector1,
+  private void verifyMetricFiltered(
+      final List<Alarm> alarms,
+      final OutputCollector collector1,
       final MetricFilteringBolt bolt1) {
-    sendMetricsAndVerify(alarms, collector1, bolt1, never());
+    this.sendMetricsAndVerify(alarms, collector1, bolt1, never());
   }
 
-  private void verifyMetricPassed(List<Alarm> alarms, final OutputCollector collector1, final MetricFilteringBolt bolt1) {
-    sendMetricsAndVerify(alarms, collector1, bolt1, times(1));
+  private void verifyMetricPassed(
+      final List<Alarm> alarms,
+      final OutputCollector collector1,
+      final MetricFilteringBolt bolt1) {
+    this.sendMetricsAndVerify(alarms, collector1, bolt1, times(1));
   }
 
-  private void sendMetricsAndVerify(List<Alarm> alarms, final OutputCollector collector1,
-      final MetricFilteringBolt bolt1, VerificationMode howMany) {
+  private void sendMetricsAndVerify(
+      final List<Alarm> alarms,
+      final OutputCollector collector1,
+      final MetricFilteringBolt bolt1,
+      final VerificationMode howMany) {
     for (final Alarm alarm : alarms) {
       for (MetricDefinitionAndTenantId mtid : alarm.getAlarmedMetrics()) {
-        final Tuple exactTuple =
-            createMetricTuple(mtid.metricDefinition, metricTimestamp++, new Metric(
-                mtid.metricDefinition, metricTimestamp, 42.0, null));
+        final Metric metric = new Metric(mtid.metricDefinition, metricTimestamp, 42.0, null);
+        final Tuple exactTuple = this.createMetricTuple(
+            mtid.metricDefinition,
+            metricTimestamp++,
+            metric
+        );
         bolt1.execute(exactTuple);
         verify(collector1, times(1)).ack(exactTuple);
         verify(collector1, howMany)
@@ -296,22 +308,36 @@ public class MetricFilteringBoltTest {
     return inexactMetricDef;
   }
 
-  private void verifyNewMetricDefinitionMessagesSent(List<Alarm> alarms, final OutputCollector collector,
-      final MetricFilteringBolt bolt) {
-    verifyNewMetricDefinitionMessages(alarms, collector, bolt, times(1));
+  private void verifyNewMetricDefinitionMessagesSent(final List<Alarm> alarms,
+                                                     final OutputCollector collector) {
+    verifyNewMetricDefinitionMessages(alarms, collector, times(1));
   }
 
-  private void verifyNoNewMetricDefinitionMessagesSent(List<Alarm> alarms, final OutputCollector collector,
-      final MetricFilteringBolt bolt) {
-    verifyNewMetricDefinitionMessages(alarms, collector, bolt, never());
+  private void verifyNoNewMetricDefinitionMessagesSent(final List<Alarm> alarms,
+                                                       final OutputCollector collector) {
+    verifyNewMetricDefinitionMessages(alarms, collector, never());
   }
 
-  private void verifyNewMetricDefinitionMessages(List<Alarm> alarms, final OutputCollector collector,
-        final MetricFilteringBolt bolt, VerificationMode howMany) {
+  private void verifyNewMetricDefinitionMessages(final List<Alarm> alarms,
+                                                 final OutputCollector collector,
+                                                 final VerificationMode howMany) {
     for (final Alarm alarm : alarms) {
-      for (MetricDefinitionAndTenantId mtid : alarm.getAlarmedMetrics()) {
+      for (final MetricDefinitionAndTenantId mtid : alarm.getAlarmedMetrics()) {
+        final Values values = new Values(mtid, alarm.getAlarmDefinitionId(), null){
+          private static final long serialVersionUID = -5888646098138961572L;
+          @Override
+          public boolean equals(final Object o) {
+            final Values values1 = this;
+            final Values values2 = (Values) o;
+            return values1.get(0).equals(values2.get(0))
+                && values1.get(1).equals(values2.get(1));
+          }
+        };
         verify(collector, howMany)
-            .emit(MetricFilteringBolt.NEW_METRIC_FOR_ALARM_DEFINITION_STREAM, new Values(mtid, alarm.getAlarmDefinitionId()));
+            .emit(
+                MetricFilteringBolt.NEW_METRIC_FOR_ALARM_DEFINITION_STREAM,
+                values
+            );
       }
     }
   }
@@ -331,9 +357,9 @@ public class MetricFilteringBoltTest {
 
     // Now ensure metrics pass the filter
     verifyMetricPassed(initialAlarms, collector1, bolt1);
-    verifyNoNewMetricDefinitionMessagesSent(initialAlarms, collector1, bolt1);
+    verifyNoNewMetricDefinitionMessagesSent(initialAlarms, collector1);
     verifyMetricPassed(initialAlarms, collector2, bolt2);
-    verifyNoNewMetricDefinitionMessagesSent(initialAlarms, collector2, bolt2);
+    verifyNoNewMetricDefinitionMessagesSent(initialAlarms, collector2);
 
     testDeleteAlarms(initialAlarms, bolt1, collector1, bolt2, collector2, false);
   }
@@ -383,10 +409,10 @@ public class MetricFilteringBoltTest {
 
     int expected = newMetricsAlreadySent ? 1 : 0;
     // New alarms will be created for dupMetricAlarmDef because it still exists
-    verifyNewMetricDefinitionMessages(deletedAlarms, collector1, bolt1, times(expected + 1));
-    verifyNoNewMetricDefinitionMessagesSent(deletedAlarms, collector2, bolt2);
-    verifyNewMetricDefinitionMessages(notDeletedAlarms, collector1, bolt1, times(expected));
-    verifyNoNewMetricDefinitionMessagesSent(notDeletedAlarms, collector2, bolt2);
+    verifyNewMetricDefinitionMessages(deletedAlarms, collector1, times(expected + 1));
+    verifyNoNewMetricDefinitionMessagesSent(deletedAlarms, collector2);
+    verifyNewMetricDefinitionMessages(notDeletedAlarms, collector1, times(expected));
+    verifyNoNewMetricDefinitionMessagesSent(notDeletedAlarms, collector2);
 
     // Now delete all the alarms
     for (final Alarm alarm : alarms) {
@@ -409,10 +435,10 @@ public class MetricFilteringBoltTest {
     verifyMetricFiltered(alarms, collector1, bolt1);
     verifyMetricFiltered(alarms, collector2, bolt2);
 
-    verifyNewMetricDefinitionMessages(deletedAlarms, collector1, bolt1, times(expected + 1));
-    verifyNoNewMetricDefinitionMessagesSent(deletedAlarms, collector2, bolt2);
-    verifyNewMetricDefinitionMessages(notDeletedAlarms, collector1, bolt1, times(expected));
-    verifyNoNewMetricDefinitionMessagesSent(notDeletedAlarms, collector2, bolt2);
+    verifyNewMetricDefinitionMessages(deletedAlarms, collector1, times(expected + 1));
+    verifyNoNewMetricDefinitionMessagesSent(deletedAlarms, collector2);
+    verifyNewMetricDefinitionMessages(notDeletedAlarms, collector1, times(expected));
+    verifyNoNewMetricDefinitionMessagesSent(notDeletedAlarms, collector2);
   }
 
   private void deleteAlarmDefinition(final AlarmDefinition alarmDefinition,
