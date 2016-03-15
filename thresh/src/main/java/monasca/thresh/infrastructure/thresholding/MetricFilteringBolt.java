@@ -89,7 +89,7 @@ public class MetricFilteringBolt extends BaseRichBolt {
 
   public static final String NEW_METRIC_FOR_ALARM_DEFINITION_STREAM = "newMetricForAlarmDefinitionStream";
   public static final String[] NEW_METRIC_FOR_ALARM_DEFINITION_FIELDS =
-      new String[] {"metricDefinitionAndTenantId", "alarmDefinitionId"};
+      new String[] {"metricDefinitionAndTenantId", "alarmDefinitionId", "sporadic"};
   public static final String MIN_LAG_VALUE_KEY = "monasca.thresh.filtering.minLagValue";
   public static final int MIN_LAG_VALUE_DEFAULT = 10;
   public static final String MAX_LAG_MESSAGES_KEY = "monasca.thresh.filtering.maxLagMessages";
@@ -152,7 +152,7 @@ public class MetricFilteringBolt extends BaseRichBolt {
         checkLag(timestamp);
 
         logger.debug("metric definition and tenant id: {}", metricDefinitionAndTenantId);
-        if (checkForMatch(metricDefinitionAndTenantId)) {
+        if (this.checkForMatch(metricDefinitionAndTenantId, metric)) {
           collector.emit(new Values(timn, metric));
         }
       } else {
@@ -234,7 +234,10 @@ public class MetricFilteringBolt extends BaseRichBolt {
     }
   }
 
-  private boolean checkForMatch(MetricDefinitionAndTenantId metricDefinitionAndTenantId) {
+  private boolean checkForMatch(
+      final MetricDefinitionAndTenantId metricDefinitionAndTenantId,
+      final Metric metric
+  ) {
     final Set<String> alarmDefinitionIds = matcher.match(metricDefinitionAndTenantId);
     if (alarmDefinitionIds.isEmpty()) {
       return false;
@@ -247,10 +250,15 @@ public class MetricFilteringBolt extends BaseRichBolt {
     if (!alarmDefinitionIds.isEmpty()) {
       for (final String alarmDefinitionId : alarmDefinitionIds) {
         final AlarmDefinition alarmDefinition = alarmDefinitions.get(alarmDefinitionId);
-        logger.info("Add metric {} for Alarm Definition id = {} name = {}",
-            metricDefinitionAndTenantId, alarmDefinitionId, alarmDefinition.getName());
-        collector.emit(NEW_METRIC_FOR_ALARM_DEFINITION_STREAM,
-            new Values(metricDefinitionAndTenantId, alarmDefinitionId));
+
+        logger.info("Add metricDefinition={} for Alarm Definition id={} name={}",
+            metricDefinitionAndTenantId,
+            alarmDefinitionId,
+            alarmDefinition.getName()
+        );
+
+        final Values tuple = new Values(metricDefinitionAndTenantId, alarmDefinitionId, metric);
+        collector.emit(NEW_METRIC_FOR_ALARM_DEFINITION_STREAM, tuple);
         synchronized (SENTINAL) {
           alreadyFound.add(metricDefinitionAndTenantId, alarmDefinitionId);
         }

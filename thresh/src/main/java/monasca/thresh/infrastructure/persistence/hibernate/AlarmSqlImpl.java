@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 FUJITSU LIMITED
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -75,6 +75,7 @@ public class AlarmSqlImpl
   private static final int SUB_ALARM_ID = 3;
   private static final int ALARM_EXPRESSION = 4;
   private static final int SUB_EXPRESSION_ID = 5;
+  private static final int SUB_ALARM_IS_SPORADIC = 7;
   private static final int TENANT_ID = 6;
   private static final int MAX_COLUMN_LENGTH = 255;
   private final SessionFactory sessionFactory;
@@ -144,7 +145,7 @@ public class AlarmSqlImpl
 
       final DateTime now = DateTime.now();
 
-      final AlarmDb alarm = (AlarmDb) session.get(AlarmDb.class, id);
+      final AlarmDb alarm = session.get(AlarmDb.class, id);
       alarm.setState(state);
       alarm.setUpdatedAt(now);
       alarm.setStateUpdatedAt(now);
@@ -194,7 +195,7 @@ public class AlarmSqlImpl
       final DateTime now = DateTime.now();
       final AlarmDb alarm = new AlarmDb(
           newAlarm.getId(),
-          (AlarmDefinitionDb) session.get(AlarmDefinitionDb.class, newAlarm.getAlarmDefinitionId()),
+          session.get(AlarmDefinitionDb.class, newAlarm.getAlarmDefinitionId()),
           newAlarm.getState(),
           null,
           null,
@@ -206,9 +207,11 @@ public class AlarmSqlImpl
       session.save(alarm);
 
       for (final SubAlarm subAlarm : newAlarm.getSubAlarms()) {
+        LOGGER.trace("For alarm {} saving sub alarm {}", newAlarm, subAlarm);
         session.save(new SubAlarmDb()
+                .setSporadic(subAlarm.isSporadicMetric())
                 .setAlarm(alarm)
-                .setSubExpression((SubAlarmDefinitionDb) session.get(SubAlarmDefinitionDb.class, subAlarm.getAlarmSubExpressionId()))
+                .setSubExpression(session.get(SubAlarmDefinitionDb.class, subAlarm.getAlarmSubExpressionId()))
                 .setExpression(subAlarm.getExpression().getExpression())
                 .setUpdatedAt(now)
                 .setCreatedAt(now)
@@ -307,6 +310,7 @@ public class AlarmSqlImpl
                       .add(Projections.property("sa.expression"))
                       .add(Projections.property("sa.subExpression.id"))
                       .add(Projections.property("ad.tenantId"))
+                      .add(Projections.property("sa.sporadic"))
               )
               .setReadOnly(true)
       );
@@ -400,14 +404,16 @@ public class AlarmSqlImpl
         tenantIdMap.put(alarmId, (String) alarmRow[TENANT_ID]);
       }
 
-      subAlarms.add(new SubAlarm(
+      final SubAlarm subAlarm = new SubAlarm(
           (String) alarmRow[SUB_ALARM_ID],
           alarmId,
           new SubExpression(
               (String) alarmRow[SUB_EXPRESSION_ID],
               AlarmSubExpression.of((String) alarmRow[ALARM_EXPRESSION])
           )
-      ));
+      );
+      subAlarm.setSporadicMetric(Boolean.valueOf(alarmRow[SUB_ALARM_IS_SPORADIC].toString()));
+      subAlarms.add(subAlarm);
 
       prevAlarmId = alarmId;
     }
@@ -464,7 +470,7 @@ public class AlarmSqlImpl
                                             final MetricDefinitionAndTenantId metricDefinition,
                                             final String alarmId) {
     final MetricDefinitionDimensionsDb metricDefinitionDimension = this.insertMetricDefinitionDimension(session, metricDefinition);
-    final AlarmDb alarm = (AlarmDb) session.load(AlarmDb.class, alarmId);
+    final AlarmDb alarm = session.load(AlarmDb.class, alarmId);
     final AlarmMetricDb alarmMetric = new AlarmMetricDb(alarm, metricDefinitionDimension);
 
     session.save(alarmMetric);
