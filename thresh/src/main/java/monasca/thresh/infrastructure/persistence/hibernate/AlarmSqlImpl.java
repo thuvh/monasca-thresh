@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 FUJITSU LIMITED
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -75,6 +75,7 @@ public class AlarmSqlImpl
   private static final int SUB_ALARM_ID = 3;
   private static final int ALARM_EXPRESSION = 4;
   private static final int SUB_EXPRESSION_ID = 5;
+  private static final int SUB_ALARM_IS_SPORADIC = 7;
   private static final int TENANT_ID = 6;
   private static final int MAX_COLUMN_LENGTH = 255;
   private final SessionFactory sessionFactory;
@@ -144,7 +145,7 @@ public class AlarmSqlImpl
 
       final DateTime now = DateTime.now();
 
-      final AlarmDb alarm = (AlarmDb) session.get(AlarmDb.class, id);
+      final AlarmDb alarm = session.get(AlarmDb.class, id);
       alarm.setState(state);
       alarm.setUpdatedAt(now);
       alarm.setStateUpdatedAt(now);
@@ -194,7 +195,7 @@ public class AlarmSqlImpl
       final DateTime now = DateTime.now();
       final AlarmDb alarm = new AlarmDb(
           newAlarm.getId(),
-          (AlarmDefinitionDb) session.get(AlarmDefinitionDb.class, newAlarm.getAlarmDefinitionId()),
+          session.get(AlarmDefinitionDb.class, newAlarm.getAlarmDefinitionId()),
           newAlarm.getState(),
           null,
           null,
@@ -206,9 +207,10 @@ public class AlarmSqlImpl
       session.save(alarm);
 
       for (final SubAlarm subAlarm : newAlarm.getSubAlarms()) {
+        LOGGER.trace("For alarm {} saving sub alarm {}", newAlarm, subAlarm);
         session.save(new SubAlarmDb()
                 .setAlarm(alarm)
-                .setSubExpression((SubAlarmDefinitionDb) session.get(SubAlarmDefinitionDb.class, subAlarm.getAlarmSubExpressionId()))
+                .setSubExpression(session.get(SubAlarmDefinitionDb.class, subAlarm.getAlarmSubExpressionId()))
                 .setExpression(subAlarm.getExpression().getExpression())
                 .setUpdatedAt(now)
                 .setCreatedAt(now)
@@ -324,17 +326,20 @@ public class AlarmSqlImpl
     Map<String, List<MetricDefinition>> result = Maps.newHashMap();
     Map<BinaryId, List<MetricDefinition>> metricDefinitionList = Maps.newHashMap();
     Map<BinaryId, Map<String, Map<String, String>>> metricList = Maps.newHashMap();
+    Map<BinaryId, Boolean> metricSporadicList = Maps.newHashMap();
     Map<String, Set<BinaryId>> mapAssociationIds = Maps.newHashMap();
 
     for (Object[] alarmRow : alarmList) {
       String alarmId = (String) alarmRow[0];
       String metric_name = (String) alarmRow[1];
-      String dimension_name = (String) alarmRow[2];
-      String dimension_value = (String) alarmRow[3];
-      BinaryId dimensionSetId = (BinaryId) alarmRow[4];
+      Boolean metricSporadic = (Boolean) alarmRow[2];
+      String dimension_name = (String) alarmRow[3];
+      String dimension_value = (String) alarmRow[4];
+      BinaryId dimensionSetId = (BinaryId) alarmRow[5];
 
       if (!metricList.containsKey(dimensionSetId)) {
         metricList.put(dimensionSetId, new HashMap<String, Map<String, String>>());
+        metricSporadicList.put(dimensionSetId, metricSporadic);
       }
       Map<String, Map<String, String>> dimensions = metricList.get(dimensionSetId);
       if (!dimensions.containsKey(metric_name)) {
@@ -348,10 +353,14 @@ public class AlarmSqlImpl
     }
 
     for (BinaryId keyDimensionSetId : metricList.keySet()) {
-      Map<String, Map<String, String>> metrics = metricList.get(keyDimensionSetId);
+
+      final Map<String, Map<String, String>> metrics = metricList.get(keyDimensionSetId);
+      final Boolean isSporadic = metricSporadicList.get(keyDimensionSetId);
+
       List<MetricDefinition> valueList = Lists.newArrayListWithExpectedSize(metrics.size());
       for (String keyMetricName : metrics.keySet()) {
         MetricDefinition md = new MetricDefinition(keyMetricName, metrics.get(keyMetricName));
+        md.setSporadic(isSporadic);
         valueList.add(md);
       }
       metricDefinitionList.put(keyDimensionSetId, valueList);
@@ -376,6 +385,11 @@ public class AlarmSqlImpl
                                    final List<Object[]> alarmList,
                                    final LookupHelper lookupHelper) {
     final List<Alarm> alarms = Lists.newArrayListWithCapacity(alarmList.size());
+    // exit fast if there is no data in alarm list
+    if(alarmList.isEmpty()){
+      return alarms;
+    }
+
     List<SubAlarm> subAlarms = null;
 
     String prevAlarmId = null;
@@ -400,14 +414,15 @@ public class AlarmSqlImpl
         tenantIdMap.put(alarmId, (String) alarmRow[TENANT_ID]);
       }
 
-      subAlarms.add(new SubAlarm(
+      final SubAlarm subAlarm = new SubAlarm(
           (String) alarmRow[SUB_ALARM_ID],
           alarmId,
           new SubExpression(
               (String) alarmRow[SUB_EXPRESSION_ID],
               AlarmSubExpression.of((String) alarmRow[ALARM_EXPRESSION])
           )
-      ));
+      );
+      subAlarms.add(subAlarm);
 
       prevAlarmId = alarmId;
     }
@@ -430,9 +445,11 @@ public class AlarmSqlImpl
                                  final LookupHelper binder) {
 
     String rawHQLQuery =
-        "select a.id, md.name as metric_def_name, mdg.id.name, mdg.value, mdg.id.dimensionSetId from MetricDefinitionDb as md, "
-            + "MetricDefinitionDimensionsDb as mdd, " + "AlarmMetricDb as am, " + "AlarmDb as a, "
-            + "MetricDimensionDb as mdg where md.id = mdd.metricDefinition.id and mdd.id = am.alarmMetricId.metricDefinitionDimensions.id and "
+        "select a.id, md.name as metric_def_name, md.sporadic as metric_def_sporadic, "
+            + "mdg.id.name, mdg.value, mdg.id.dimensionSetId from MetricDefinitionDb as md, "
+            + "MetricDefinitionDimensionsDb as mdd, AlarmMetricDb as am, AlarmDb as a, "
+            + "MetricDimensionDb as mdg where md.id = mdd.metricDefinition.id and "
+            + "mdd.id = am.alarmMetricId.metricDefinitionDimensions.id and "
             + "am.alarmMetricId.alarm.id = a.id and mdg.id.dimensionSetId = mdd.metricDimensionSetId and %s";
 
     final Query query = binder.apply(session.createQuery(binder.formatHQL(rawHQLQuery)));
@@ -464,7 +481,7 @@ public class AlarmSqlImpl
                                             final MetricDefinitionAndTenantId metricDefinition,
                                             final String alarmId) {
     final MetricDefinitionDimensionsDb metricDefinitionDimension = this.insertMetricDefinitionDimension(session, metricDefinition);
-    final AlarmDb alarm = (AlarmDb) session.load(AlarmDb.class, alarmId);
+    final AlarmDb alarm = session.load(AlarmDb.class, alarmId);
     final AlarmMetricDb alarmMetric = new AlarmMetricDb(alarm, metricDefinitionDimension);
 
     session.save(alarmMetric);
@@ -511,7 +528,9 @@ public class AlarmSqlImpl
             truncateString(mdtid.tenantId, MAX_COLUMN_LENGTH) +
             truncateString(region, MAX_COLUMN_LENGTH);
     final byte[] id = DigestUtils.sha(definitionIdStringToHash);
+
     final MetricDefinitionDb metricDefinition = new MetricDefinitionDb(id, mdtid.metricDefinition.name, mdtid.tenantId, region);
+    metricDefinition.setSporadic(mdtid.metricDefinition.isSporadic());
 
     if (session.get(MetricDefinitionDb.class, metricDefinition.getId()) == null) {
       session.persist(metricDefinition);

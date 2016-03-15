@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +18,13 @@
 
 package monasca.thresh.domain.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import monasca.common.model.alarm.AlarmState;
 import monasca.common.model.alarm.AlarmSubExpression;
 import monasca.common.util.stats.SlidingWindowStats;
 import monasca.common.util.time.TimeResolution;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Aggregates statistics for a specific SubAlarm.
@@ -120,23 +121,33 @@ public class SubAlarmStats {
    * @param alarmDelay How long to give metrics a chance to arrive
    */
   boolean evaluate(final long now, long alarmDelay) {
-
+    final boolean shouldEvaluate = this.stats.shouldEvaluate(now, alarmDelay);
     final AlarmState newState;
+
     if (immediateAlarmEvaluate()) {
       newState = AlarmState.ALARM;
-    }
-    else {
-      if (!stats.shouldEvaluate(now, alarmDelay)) {
+    } else {
+      if (!shouldEvaluate) {
         return false;
       }
-      newState = determineAlarmStateUsingView();
+      newState = this.determineAlarmStateUsingView();
     }
-    if (shouldSendStateChange(newState) &&
-        (stats.shouldEvaluate(now, alarmDelay) ||
-         (newState == AlarmState.ALARM && this.subAlarm.canEvaluateImmediately()))) {
+
+    final boolean shouldSendStateChange = this.shouldSendStateChange(newState);
+    final boolean immediateAlarmTransition =
+        newState == AlarmState.ALARM && this.subAlarm.canEvaluateImmediately();
+
+    if (shouldSendStateChange && (shouldEvaluate || immediateAlarmTransition)) {
+      logger.debug("SubAlarm[sporadic={}] {} transitions from {} to {}",
+          this.getSubAlarm().isSporadicMetric(),
+          this.getSubAlarm().getId(),
+          this.getSubAlarm().getState(),
+          newState
+      );
       setSubAlarmState(newState);
       return true;
     }
+
     return false;
   }
 
@@ -166,10 +177,26 @@ public class SubAlarmStats {
     }
 
     // Window is empty at this point
-    emptyWindowObservations++;
-    if ((emptyWindowObservations >= emptyWindowObservationThreshold)
-        && shouldSendStateChange(AlarmState.UNDETERMINED) && !subAlarm.isSporadicMetric()) {
-      return AlarmState.UNDETERMINED;
+    this.emptyWindowObservations++;
+    final boolean emptyWindowThresholdExceeded = this.emptyWindowObservations >=
+        this.emptyWindowObservationThreshold;
+
+    if (emptyWindowThresholdExceeded && this.shouldSendStateChange(AlarmState.UNDETERMINED)) {
+      final boolean sporadicMetric = this.subAlarm.isSporadicMetric();
+
+      final AlarmState state = sporadicMetric ? AlarmState.OK : AlarmState.UNDETERMINED;
+      final AlarmState subAlarmState = this.subAlarm.getState();
+
+      logger.debug(
+          "SubAlarm[sporadic={}] {} exceeded empty window threshold {}, transition to {} from {}",
+          sporadicMetric,
+          this.subAlarm.getId(),
+          this.emptyWindowObservationThreshold,
+          state,
+          subAlarmState
+      );
+      return state;
+
     }
 
     // Hasn't transitioned to UNDETERMINED yet, so use the current state

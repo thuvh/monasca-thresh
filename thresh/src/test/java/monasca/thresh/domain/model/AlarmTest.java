@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -181,5 +182,93 @@ public class AlarmTest {
 
     // Handle ALARM state
     assertTrue(expression.evaluate(subExpressionValues));
+  }
+
+  public void testShouldInitiallyProceedToOKIfAllSubAlarmsAreSporadic_Sporadic(){
+    final String expression1 = "count(log.error{path=/var/log/test.log}, sporadic=true, 1) > 10";
+    final String expression2 = "count(log.warning{path=/var/log/test.log}, sporadic=true, 1) > 5";
+    final String expression = String.format("%s or %s", expression1, expression2);
+
+    final AlarmExpression expr = new AlarmExpression(expression);
+    final Alarm alarm = this.createAlarm(expr);
+    final Iterator<SubAlarm> iter = alarm.getSubAlarms().iterator();
+
+    iter.next().setState(AlarmState.UNDETERMINED);
+    iter.next().setState(AlarmState.UNDETERMINED);
+
+    assertTrue(alarm.evaluate(expr));
+    assertTrue(alarm.isSporadic());
+    assertEquals(alarm.getState(), AlarmState.OK);
+  }
+
+  public void testShouldNotInitiallyProceedToOKIfNotAllSubAlarmsAreSporadic_Sporadic(){
+    final String expression1 = "count(log.error{path=/var/log/test.log}, sporadic=true, 1) > 10";
+    final String expression2 = "count(log.warning{path=/var/log/test.log}, sporadic=true, 1) > 5";
+    final String expression3 = "count(log.debug{path=/var/log/test.log}, sporadic=no, 1) > 1";
+    final String expression = String.format("(%s or %s) and %s",
+        expression1,
+        expression2,
+        expression3
+    );
+
+    final AlarmExpression expr = new AlarmExpression(expression);
+    final Alarm alarm = this.createAlarm(expr);
+    final Iterator<SubAlarm> iter = alarm.getSubAlarms().iterator();
+
+    iter.next().setState(AlarmState.UNDETERMINED);
+    iter.next().setState(AlarmState.UNDETERMINED);
+    iter.next().setState(AlarmState.UNDETERMINED);
+
+    assertFalse(alarm.evaluate(expr));
+    assertFalse(alarm.isSporadic());
+    assertEquals(alarm.getState(), AlarmState.UNDETERMINED);
+  }
+
+  public void testShouldStayInAlarm_Sporadic(){
+    final String expression = "count(log.error{path=/var/log/test.log}, sporadic=true, 1) > 5";
+    final AlarmExpression expr = new AlarmExpression(expression);
+    final Alarm alarm = this.createAlarm(expr);
+    final Iterator<SubAlarm> iter = alarm.getSubAlarms().iterator();
+
+    alarm.setState(AlarmState.ALARM);
+
+    SubAlarm subAlarm1 = iter.next();
+    subAlarm1.setState(AlarmState.ALARM);
+
+    assertFalse(alarm.evaluate(expr));
+    assertTrue(alarm.isSporadic());
+    assertEquals(alarm.getState(), AlarmState.ALARM);
+  }
+
+  public void testShouldStayInOk_Sporadic(){
+    final String expression = "count(log.error{path=/var/log/test.log}, sporadic=true, 1) > 5";
+    final AlarmExpression expr = new AlarmExpression(expression);
+    final Alarm alarm = this.createAlarm(expr);
+    final Iterator<SubAlarm> iter = alarm.getSubAlarms().iterator();
+
+    alarm.setState(AlarmState.OK);
+
+    SubAlarm subAlarm1 = iter.next();
+    subAlarm1.setState(AlarmState.UNDETERMINED);
+
+    assertTrue(alarm.evaluate(expr));
+    assertTrue(alarm.isSporadic());
+    assertEquals(alarm.getState(), AlarmState.OK);
+  }
+
+  public void testShouldEnterOkFromAlarm_Sporadic(){
+    final String expression = "count(log.error{path=/var/log/test.log}, sporadic=true, 1) > 5";
+    final AlarmExpression expr = new AlarmExpression(expression);
+    final Alarm alarm = this.createAlarm(expr);
+    final Iterator<SubAlarm> iter = alarm.getSubAlarms().iterator();
+
+    alarm.setState(AlarmState.ALARM);
+
+    SubAlarm subAlarm1 = iter.next();
+    subAlarm1.setState(AlarmState.OK);
+
+    assertTrue(alarm.evaluate(expr));
+    assertTrue(alarm.isSporadic());
+    assertEquals(alarm.getState(), AlarmState.OK);
   }
 }

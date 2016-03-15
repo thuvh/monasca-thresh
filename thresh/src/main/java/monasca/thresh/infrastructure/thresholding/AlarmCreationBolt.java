@@ -317,6 +317,9 @@ public class AlarmCreationBolt extends BaseRichBolt {
     if (!md.name.equals(check.name)) {
       return false;
     }
+    if (md.isSporadic() != check.isSporadic()) {
+      return false;
+    }
     if ((md.dimensions != null) && !md.dimensions.isEmpty()) {
       for (final Map.Entry<String, String> entry : md.dimensions.entrySet()) {
         if (!entry.getValue().equals(check.dimensions.get(entry.getKey()))) {

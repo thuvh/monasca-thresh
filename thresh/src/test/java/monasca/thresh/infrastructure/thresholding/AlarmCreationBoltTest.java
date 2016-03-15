@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,12 +30,25 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import backtype.storm.Testing;
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.testing.MkTupleParam;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import monasca.common.model.alarm.AlarmExpression;
 import monasca.common.model.alarm.AlarmState;
@@ -50,20 +64,6 @@ import monasca.thresh.domain.model.SubExpression;
 import monasca.thresh.domain.model.TenantIdAndMetricName;
 import monasca.thresh.domain.service.AlarmDAO;
 import monasca.thresh.domain.service.AlarmDefinitionDAO;
-
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Test
 public class AlarmCreationBoltTest {
@@ -136,6 +136,7 @@ public class AlarmCreationBoltTest {
   public void testmetricFitsInAlarmDefinition() {
     final AlarmDefinition alarmDefinition =
         createAlarmDefinition("max(cpu{service=2}) > 90 and max(load_avg) > 10", "hostname");
+
     final MetricDefinitionAndTenantId goodCpu =
         new MetricDefinitionAndTenantId(build("cpu", "hostname", "eleanore", "service", "2",
             "other", "vivi"), TENANT_ID);
@@ -170,6 +171,26 @@ public class AlarmCreationBoltTest {
     final MetricDefinitionAndTenantId badCpuWrongTenant =
         new MetricDefinitionAndTenantId(build("cpu"), TENANT_ID + "2");
     assertFalse(bolt.validMetricDefinition(alarmDefinition, badCpuWrongTenant));
+
+    // check sporadic
+    final AlarmDefinition sporadicAlarmDefinition =
+        createAlarmDefinition("count(log.error{},sporadic) > 2", "hostname");
+
+    // only single case here, rest assured above
+    MetricDefinitionAndTenantId validLogError =
+        new MetricDefinitionAndTenantId(buildSporadic("log.error", "hostname", "eleanore", "path",
+            "/var/log/test.log"), TENANT_ID);
+    assertTrue(bolt.validMetricDefinition(sporadicAlarmDefinition, validLogError));
+
+    // not sporadic, same tenant
+    MetricDefinitionAndTenantId invalidLogError =
+        new MetricDefinitionAndTenantId(build("log.error"), TENANT_ID);
+    assertFalse(bolt.validMetricDefinition(sporadicAlarmDefinition, invalidLogError));
+
+    // sporadic, different tenant
+    invalidLogError =
+        new MetricDefinitionAndTenantId(buildSporadic("log.error"), TENANT_ID + "234");
+    assertFalse(bolt.validMetricDefinition(sporadicAlarmDefinition, invalidLogError));
   }
 
   public void testMetricFitsInAlarm() {
@@ -640,6 +661,12 @@ public class AlarmCreationBoltTest {
       dimensionsMap.put(dimensions[i], dimensions[i + 1]);
     }
     return new MetricDefinition(name, dimensionsMap);
+  }
+
+  private MetricDefinition buildSporadic(final String name, String... dimensions) {
+    final MetricDefinition definition = this.build(name, dimensions);
+    definition.setSporadic(true);
+    return definition;
   }
 
   private String getNextId() {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +18,13 @@
 
 package monasca.thresh.domain.model;
 
-import monasca.common.model.alarm.AlarmState;
-import monasca.common.model.alarm.AlarmSubExpression;
-import monasca.common.model.domain.common.AbstractEntity;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import monasca.common.model.alarm.AlarmState;
+import monasca.common.model.alarm.AlarmSubExpression;
+import monasca.common.model.domain.common.AbstractEntity;
 
 /**
  * Sub-alarm. Decorates an AlarmSubExpression.
@@ -37,13 +38,9 @@ public class SubAlarm extends AbstractEntity implements Serializable {
   private AlarmState state;
   private boolean noState;
   private List<Double> currentValues;
-  /**
-   * Whether metrics for this sub-alarm are received sporadically.
-   */
-  private boolean sporadicMetric;
 
   public SubAlarm(String id, String alarmId, SubExpression expression) {
-    this(id, alarmId, expression, AlarmState.UNDETERMINED);
+    this(id, alarmId, expression, initialStateFromExpression(expression));
   }
 
   // Need this for kryo serialization/deserialization. Fixes a bug in default java
@@ -144,12 +141,20 @@ public class SubAlarm extends AbstractEntity implements Serializable {
     return result;
   }
 
+  /**
+   * Determines if {@link SubAlarm} is sporadic.
+   *
+   * Infrequency of sub alarm is determined based on underlying
+   * expression's ({@link #expression}).
+   *
+   * Note:
+   *  If sub alarm has no expression this method will return {@link Boolean#FALSE}.
+   *
+   * @return true/false
+   * @see AlarmSubExpression#isSporadic()
+   */
   public boolean isSporadicMetric() {
-    return sporadicMetric;
-  }
-
-  public void setSporadicMetric(boolean sporadicMetric) {
-    this.sporadicMetric = sporadicMetric;
+    return this.expression != null && this.expression.isSporadic();
   }
 
   public void setState(AlarmState state) {
@@ -166,7 +171,8 @@ public class SubAlarm extends AbstractEntity implements Serializable {
 
   @Override
   public String toString() {
-    return String.format("SubAlarm [id=%s, alarmId=%s, alarmSubExpressionId=%s, expression=%s, state=%s, noState=%s, currentValues:[", id,
+    return String.format("SubAlarm [id=%s, alarmId=%s, alarmSubExpressionId=%s, expression=%s, " +
+        "state=%s, noState=%s, currentValues:[", id,
         alarmId, alarmSubExpressionId, expression, state, noState) + currentValues + "]]";
   }
 
@@ -222,5 +228,10 @@ public class SubAlarm extends AbstractEntity implements Serializable {
       default:
         return false;
     }
+  }
+
+  private static AlarmState initialStateFromExpression(SubExpression expr) {
+    final AlarmSubExpression subExpression = expr.getAlarmSubExpression();
+    return subExpression.isSporadic() ? AlarmState.OK : AlarmState.UNDETERMINED;
   }
 }

@@ -97,6 +97,24 @@ public class AlarmDefinitionDAOImplTest {
         new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression3, "LOW",
             false, Arrays.asList("hostname", "dev"));
     insertAndCheck(alarmDefinition3);
+
+    final AlarmExpression expression4 = new AlarmExpression("max(cpu,sporadic=1) > 90");
+    final AlarmDefinition alarmDefinition4 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression4, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition4);
+
+    final AlarmExpression expression5 = new AlarmExpression("max(cpu,sporadic=yes) > 90");
+    final AlarmDefinition alarmDefinition5 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression5, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition5);
+
+    final AlarmExpression expression6 = new AlarmExpression("max(cpu,sporadic=true) > 90");
+    final AlarmDefinition alarmDefinition6 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression6, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition6);
   }
 
   public void testListAll() {
@@ -155,10 +173,13 @@ public class AlarmDefinitionDAOImplTest {
         handle
             .insert(
                 "insert into sub_alarm_definition (id, alarm_definition_id, function, metric_name, operator, "
-                    + "threshold, period, periods, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())",
+                    + "threshold, period, periods, sporadic, created_at, updated_at) values "
+                    + "(?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())",
                 subExpression.getId(), alarmDefinition.getId(), alarmSubExpr.getFunction().name(),
                 alarmSubExpr.getMetricDefinition().name, alarmSubExpr.getOperator().name(),
-                alarmSubExpr.getThreshold(), alarmSubExpr.getPeriod(), alarmSubExpr.getPeriods());
+                alarmSubExpr.getThreshold(), alarmSubExpr.getPeriod(), alarmSubExpr.getPeriods(),
+                alarmSubExpr.isSporadic()
+            );
         for (final Map.Entry<String, String> entry : alarmSubExpr.getMetricDefinition().dimensions.entrySet()) {
           handle
               .insert(
