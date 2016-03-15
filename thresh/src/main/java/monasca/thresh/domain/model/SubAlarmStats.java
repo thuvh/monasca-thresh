@@ -72,9 +72,19 @@ public class SubAlarmStats {
    *
    * @return true if the alarm's state changed, else false.
    */
-  public boolean evaluateAndSlideWindow(long slideToTimestamp, long alarmDelay) {
+  public boolean evaluateAndSlideWindow(long slideToTimestamp,
+                                        long metricPeriod,
+                                        long alarmDelay) {
+
+    final boolean isNotSparse = metricPeriod >= 0.0;
+    final boolean isSparse = !isNotSparse;
+
+    if(isNotSparse){
+      alarmDelay = metricPeriod;
+    }
+
     try {
-      return evaluate(slideToTimestamp, alarmDelay);
+      return this.evaluate(slideToTimestamp, isSparse, alarmDelay);
     } catch (Exception e) {
       logger.error("Failed to evaluate {}", this, e);
       return false;
@@ -119,28 +129,35 @@ public class SubAlarmStats {
    * @param now Current time
    * @param alarmDelay How long to give metrics a chance to arrive
    */
-  boolean evaluate(final long now, long alarmDelay) {
+  boolean evaluate(final long now,
+                   final boolean isMetricSparse,
+                   long alarmDelay) {
 
     final AlarmState newState;
+
     if (immediateAlarmEvaluate()) {
       newState = AlarmState.ALARM;
-    }
-    else {
-      if (!stats.shouldEvaluate(now, alarmDelay)) {
+    } else {
+      if (!this.stats.shouldEvaluate(now, alarmDelay)) {
         return false;
       }
-      newState = determineAlarmStateUsingView();
+      newState = this.determineAlarmStateUsingView(isMetricSparse);
     }
-    if (shouldSendStateChange(newState) &&
-        (stats.shouldEvaluate(now, alarmDelay) ||
-         (newState == AlarmState.ALARM && this.subAlarm.canEvaluateImmediately()))) {
+
+    final boolean shouldEvaluate = this.stats.shouldEvaluate(now, alarmDelay);
+    final boolean shouldChangeState = shouldSendStateChange(newState, isMetricSparse);
+    final boolean canEvaluateImmediately = (newState == AlarmState.ALARM
+        && this.subAlarm.canEvaluateImmediately());
+
+    if (shouldChangeState && (shouldEvaluate || canEvaluateImmediately)) {
       setSubAlarmState(newState);
       return true;
     }
+
     return false;
   }
 
-  private AlarmState determineAlarmStateUsingView() {
+  private AlarmState determineAlarmStateUsingView(final boolean isSparseMetric) {
     boolean thresholdExceeded = false;
     boolean hasEmptyWindows = false;
     subAlarm.clearCurrentValues();
@@ -166,9 +183,9 @@ public class SubAlarmStats {
     }
 
     // Window is empty at this point
-    emptyWindowObservations++;
-    if ((emptyWindowObservations >= emptyWindowObservationThreshold)
-        && shouldSendStateChange(AlarmState.UNDETERMINED) && !subAlarm.isSporadicMetric()) {
+    final boolean shouldChangeState = shouldSendStateChange(AlarmState.UNDETERMINED, isSparseMetric);
+    final boolean windowObsExceeded = ++this.emptyWindowObservations >= emptyWindowObservationThreshold;
+    if (windowObsExceeded && shouldChangeState && !subAlarm.isSporadicMetric()) {
       return AlarmState.UNDETERMINED;
     }
 
@@ -208,8 +225,14 @@ public class SubAlarmStats {
     return false;
   }
 
-  private boolean shouldSendStateChange(AlarmState newState) {
-    return newState != null && (!subAlarm.getState().equals(newState) || subAlarm.isNoState());
+  private boolean shouldSendStateChange(AlarmState newState, final boolean isSparseMetric) {
+    if(newState != null){
+      if(isSparseMetric && newState.equals(AlarmState.UNDETERMINED)){
+        return false;
+      }
+      return !subAlarm.getState().equals(newState);
+    }
+    return subAlarm.isNoState();
   }
 
   private void setSubAlarmState(AlarmState newState) {

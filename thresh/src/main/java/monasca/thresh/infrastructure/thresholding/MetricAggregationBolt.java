@@ -179,16 +179,19 @@ public class MetricAggregationBolt extends BaseRichBolt {
     }
 
     for (SubAlarmStats stats : subAlarmStatsRepo.get()) {
-      long timestamp_secs = metric.timestamp/1000;
-      if (stats.getStats().addValue(metric.value, timestamp_secs)) {
+      final long timestampSeconds = metric.timestamp / 1000;
+
+      if (stats.getStats().addValue(metric.value, timestampSeconds)) {
         logger.trace("Aggregated value {} at {} for {}. Updated {}", metric.value,
             metric.timestamp, metricDefinitionAndTenantId, stats.getStats());
-        if (stats.evaluateAndSlideWindow(timestamp_secs, config.alarmDelay)) {
+
+        if (stats.evaluateAndSlideWindow(timestampSeconds, metric.getPeriod(), config.alarmDelay)) {
           sendSubAlarmStateChange(stats);
         }
+
       } else {
         logger.warn("Metric is too old, age {} seconds: timestamp {} for {}, {}",
-            currentTimeSeconds() - timestamp_secs, timestamp_secs, metricDefinitionAndTenantId,
+            currentTimeSeconds() - timestampSeconds, timestampSeconds, metricDefinitionAndTenantId,
             stats.getStats());
       }
     }
@@ -204,7 +207,8 @@ public class MetricAggregationBolt extends BaseRichBolt {
     for (SubAlarmStats subAlarmStats : subAlarmStatsSet) {
       if (upToDate) {
         logger.debug("Evaluating {}", subAlarmStats);
-        if (subAlarmStats.evaluateAndSlideWindow(newWindowTimestamp, config.alarmDelay)) {
+        // TODO(trebskit) where to find metric period at this point :/ ???
+        if (subAlarmStats.evaluateAndSlideWindow(newWindowTimestamp, 0L, config.alarmDelay)) {
           sendSubAlarmStateChange(subAlarmStats);
         }
       } else {
