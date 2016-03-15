@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +49,7 @@ import monasca.thresh.domain.model.TenantIdAndMetricName;
 import monasca.thresh.domain.service.AlarmDAO;
 import monasca.thresh.domain.service.AlarmDefinitionDAO;
 
+import com.google.common.collect.Lists;
 import org.mockito.verification.VerificationMode;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -292,7 +294,7 @@ public class MetricFilteringBoltTest {
     final Map<String, String> extraDimensions = new HashMap<>(metricDefinition.dimensions);
     extraDimensions.put("group", "group_a");
     final MetricDefinition inexactMetricDef =
-        new MetricDefinition(metricDefinition.name, extraDimensions);
+        new MetricDefinition(metricDefinition.name, extraDimensions, metricDefinition.isSporadic());
     return inexactMetricDef;
   }
 
@@ -491,5 +493,36 @@ public class MetricFilteringBoltTest {
         Testing.testTuple(Arrays.asList(new TenantIdAndMetricName(TEST_TENANT_ID,
             metricDefinition.name), timestamp, metric), tupleParam);
     return tuple;
+  }
+
+  public void testAllInitialNonDeterministic() {
+    MetricFilteringBolt.clearMetricDefinitions();
+
+    final String expression1 =
+        "count(log.warning{path=/var/log/test_1.log},deterministic=false,1) > 5";
+    final String expression2 =
+        "count(log.warning{path=/var/log/test_2.log},deterministic=false,1) > 5";
+
+    final List<AlarmDefinition> initialAlarmDefinitions = Arrays.asList(
+        this.alarmDef1 = createAlarmDefinition(expression1, "count.log.warning"),
+        this.dupMetricAlarmDef = createAlarmDefinition(expression2, "count.log.warning")
+    );
+    final List<Alarm> initialAlarms = this.createMatchingAlarms(initialAlarmDefinitions);
+
+    final OutputCollector collector = mock(OutputCollector.class);
+    final MetricFilteringBolt bolt = createBolt(initialAlarmDefinitions, initialAlarms, collector, true);
+
+    final OutputCollector collector2 = mock(OutputCollector.class);
+    final MetricFilteringBolt bolt2 = createBolt(initialAlarmDefinitions, initialAlarms, collector2, false);
+
+    testDeleteAlarms(
+        initialAlarms,
+        bolt,
+        collector,
+        bolt2,
+        collector2,
+        false
+    );
+
   }
 }

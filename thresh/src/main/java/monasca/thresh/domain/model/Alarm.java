@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014,2016 Hewlett Packard Enterprise Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +18,6 @@
 
 package monasca.thresh.domain.model;
 
-import monasca.common.model.alarm.AlarmExpression;
-import monasca.common.model.alarm.AlarmState;
-import monasca.common.model.alarm.AlarmSubExpression;
-import monasca.common.model.alarm.AlarmTransitionSubAlarm;
-import monasca.common.model.domain.common.AbstractEntity;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,6 +27,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
+
+import monasca.common.model.alarm.AlarmExpression;
+import monasca.common.model.alarm.AlarmState;
+import monasca.common.model.alarm.AlarmSubExpression;
+import monasca.common.model.alarm.AlarmTransitionSubAlarm;
+import monasca.common.model.domain.common.AbstractEntity;
+
 /**
  * An alarm comprised of sub-alarms.
  *
@@ -39,6 +46,24 @@ import java.util.UUID;
  *
  */
 public class Alarm extends AbstractEntity {
+  private static final Predicate<SubAlarm> SPORADIC_PREDICATE = new Predicate<SubAlarm>() {
+    @Override
+    public boolean apply(@Nullable final SubAlarm input) {
+      return input != null && input.isSporadicMetric();
+    }
+  };
+  private static final Predicate<SubAlarm> PERIODIC_PREDICATE = new Predicate<SubAlarm>() {
+    @Override
+    public boolean apply(@Nullable final SubAlarm input) {
+      return !SPORADIC_PREDICATE.apply(input);
+    }
+  };
+  private static final Predicate<SubAlarm> NON_DETERMINISTIC_PREDICATE = new Predicate<SubAlarm>() {
+    @Override
+    public boolean apply(@Nullable final SubAlarm input) {
+      return input != null && !input.isDeterministic();
+    }
+  };
   private Map<String, SubAlarm> subAlarms;
   private Set<MetricDefinitionAndTenantId> alarmedMetrics = new HashSet<>();
   private AlarmState state;
@@ -134,9 +159,18 @@ public class Alarm extends AbstractEntity {
   /**
    * Evaluates the {@code alarm}, updating the alarm's state if necessary and returning true if the
    * alarm's state changed, else false.
+   *
+   * <b>Note:</b> All sub alarms need to be sporadic to keep alarm out of
+   * {@link AlarmState#UNDETERMINED} state.
+   * Otherwise alarm acts as if all sub alarms are periodic.
+   *
+   * @param expression expression to evaluate
+   *
+   * @return true if evaluation was successful, false otherwise
    */
   public boolean evaluate(AlarmExpression expression) {
     transitionSubAlarms.clear();
+
     AlarmState initialState = state;
     boolean uninitialized = false;
 
@@ -149,20 +183,34 @@ public class Alarm extends AbstractEntity {
     }
 
     // Handle UNDETERMINED state
+    // extra check if all sporadic, if so...proceed to ok ASAP
     if (uninitialized) {
-      if (AlarmState.UNDETERMINED.equals(initialState)) {
+
+      if (this.isNonDeterministic()) {
+        final String rawMsg = this.buildStateChangeReason(this.state);
+        final String sporadicDetails = String.format("All sub alarms were sporadic for alarm %s",
+            this.getId()
+        );
+
+        state = AlarmState.OK;
+        stateChangeReason = String.format("%s\n%s", rawMsg, sporadicDetails);
+
+        return true;
+      } else if (AlarmState.UNDETERMINED.equals(initialState)) {
         return false;
       }
+
       state = AlarmState.UNDETERMINED;
       stateChangeReason = buildStateChangeReason(state);
       return true;
     }
 
-    Map<AlarmSubExpression, Boolean> subExpressionValues =
-        new HashMap<AlarmSubExpression, Boolean>();
+    Map<AlarmSubExpression, Boolean> subExpressionValues = new HashMap<>(subAlarms.size());
     for (SubAlarm subAlarm : subAlarms.values()) {
-      subExpressionValues.put(subAlarm.getExpression(),
-          AlarmState.ALARM.equals(subAlarm.getState()));
+      subExpressionValues.put(
+          subAlarm.getExpression(),
+          AlarmState.ALARM.equals(subAlarm.getState())
+      );
     }
 
     // Handle ALARM state
@@ -293,5 +341,92 @@ public class Alarm extends AbstractEntity {
 
   public void setTransitionSubAlarms(List<AlarmTransitionSubAlarm> transitionSubAlarms) {
     this.transitionSubAlarms = transitionSubAlarms;
+  }
+
+  /**
+   * Returns list of sub alarms which are non deterministic.
+   *
+   * @return list of nondeterministic {@link SubAlarm}
+   * @see SubAlarm#isDeterministic()
+   * @see #isDeterministic()
+   * @see #isNonDeterministic()
+   */
+  public List<SubAlarm> getNondeterministicSubAlarms() {
+    if (this.subAlarms == null || this.subAlarms.isEmpty()) {
+      return Lists.newArrayList();
+    }
+    return FluentIterable.from(this.getSubAlarms())
+        .filter(NON_DETERMINISTIC_PREDICATE)
+        .toList();
+  }
+
+  /**
+   * Returns list of sub alarms which {@link monasca.common.model.metric.MetricDefinition}
+   * are sporadic.
+   *
+   * @return list of {@link SubAlarm} with sporadic metrics
+   * @see #getPeriodicSubAlarms()
+   */
+  public List<SubAlarm> getSporadicSubAlarms() {
+    if (this.subAlarms == null || this.subAlarms.isEmpty()) {
+      return Lists.newArrayList();
+    }
+    return FluentIterable.from(this.getSubAlarms())
+        .filter(SPORADIC_PREDICATE)
+        .toList();
+  }
+
+  /**
+   * Returns list of sub alarms which {@link monasca.common.model.metric.MetricDefinition}
+   * are not sporadic.
+   *
+   * @return list of {@link SubAlarm} with sporadic metrics
+   * @see #getSporadicSubAlarms()
+   */
+  public List<SubAlarm> getPeriodicSubAlarms() {
+    if (this.subAlarms == null || this.subAlarms.isEmpty()) {
+      return Lists.newArrayList();
+    }
+    return FluentIterable.from(this.getSubAlarms())
+        .filter(PERIODIC_PREDICATE)
+        .toList();
+  }
+
+  /**
+   * Verifies if given alarm is sporadic.
+   *
+   * Only if all sub alarms ({@link SubAlarm}) are sporadic an
+   * alarm is considered to be sporadic.
+   *
+   * @return true/false
+   */
+  public boolean isSporadic() {
+    return !this.subAlarms.isEmpty() &&
+        this.getSporadicSubAlarms().size() == this.getSubAlarms().size();
+  }
+
+  /**
+   * Verifies if given alarm is deterministic.
+   *
+   * At least one sub alarm needs to be deterministic for entire
+   * alarm to be such.
+   *
+   * @return true/false
+   */
+  public boolean isDeterministic() {
+    return !this.isNonDeterministic();
+  }
+
+  /**
+   * Verifies if given alarm is nondeterministic.
+   *
+   * All sub alarms need to be nondeterministic for entire
+   * alarm to be such.
+   *
+   * @return true/false
+   */
+  public boolean isNonDeterministic() {
+    return !this.subAlarms.isEmpty() &&
+        this.getSubAlarms().size() == this.getNondeterministicSubAlarms().size();
   }
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,14 +27,20 @@ import monasca.thresh.domain.model.SubAlarm;
 import monasca.thresh.domain.model.SubExpression;
 import monasca.thresh.domain.service.AlarmDAO;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.exec.ExecuteException;
+import org.apache.commons.io.IOUtils;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -73,7 +80,8 @@ public class AlarmDAOImpl implements AlarmDAO {
     try (final Handle h = db.open()) {
 
       final String ALARMS_SQL =
-            "select a.id, a.alarm_definition_id, a.state, sa.id as sub_alarm_id, sa.expression, sa.sub_expression_id, ad.tenant_id from alarm a "
+            "select a.id, a.alarm_definition_id, a.state, sa.id as sub_alarm_id, sa.expression, " +
+                "sa.sub_expression_id, ad.tenant_id from alarm a "
           + "inner join sub_alarm sa on sa.alarm_id = a.id "
           + "inner join alarm_definition ad on a.alarm_definition_id = ad.id "
           + "where ad.deleted_at is null and %s "
@@ -99,7 +107,7 @@ public class AlarmDAOImpl implements AlarmDAO {
           alarm.setId(alarmId);
           alarm.setAlarmDefinitionId(getString(row, "alarm_definition_id"));
           alarm.setState(AlarmState.valueOf(getString(row, "state")));
-          subAlarms = new ArrayList<SubAlarm>();
+          subAlarms = Lists.newArrayListWithExpectedSize(rows.size());
           alarms.add(alarm);
           alarmMap.put(alarmId, alarm);
           tenantIdMap.put(alarmId, getString(row, "tenant_id"));
@@ -131,7 +139,8 @@ public class AlarmDAOImpl implements AlarmDAO {
 
   private void getAlarmedMetrics(Handle h, final Map<String, Alarm> alarmMap,
       final Map<String, String> tenantIdMap, final String additionalWhereClause, String ... params) {
-    final String baseSql = "select a.id, md.name, group_concat(mdim.name, '=', mdim.value order by mdim.name) as dimensions "
+    final String baseSql = "select a.id, md.name, md.sporadic, "
+        + "group_concat(mdim.name, '=', mdim.value order by mdim.name) as dimensions "
         + "from metric_definition as md "
         + "inner join metric_definition_dimensions as mdd on md.id = mdd.metric_definition_id "
         + "inner join alarm_metric as am on mdd.id = am.metric_definition_dimensions_id "
@@ -222,8 +231,7 @@ public class AlarmDAOImpl implements AlarmDAO {
       }
     }
 
-    final byte[] dimensionIdSha1Hash = DigestUtils.sha(dimensionIdStringToHash.toString());
-    return dimensionIdSha1Hash;
+    return DigestUtils.sha(dimensionIdStringToHash.toString());
   }
 
   private Sha1HashId insertMetricDefinition(Handle h, MetricDefinitionAndTenantId mdtid) {
@@ -232,8 +240,11 @@ public class AlarmDAOImpl implements AlarmDAO {
         trunc(mdtid.metricDefinition.name, MAX_COLUMN_LENGTH)
             + trunc(mdtid.tenantId, MAX_COLUMN_LENGTH) + trunc(region, MAX_COLUMN_LENGTH);
     final byte[] id = DigestUtils.sha(definitionIdStringToHash);
-    h.insert("insert into metric_definition(id, name, tenant_id) values (?, ?, ?) " +
-             "on duplicate key update id=id", id, mdtid.metricDefinition.name, mdtid.tenantId);
+
+    h.insert("insert into metric_definition(id, name, tenant_id, sporadic) values (?, ?, ?, ?) " +
+             "on duplicate key update id=id", id, mdtid.metricDefinition.name, mdtid.tenantId,
+             mdtid.metricDefinition.isSporadic());
+
     return new Sha1HashId(id);
   }
 
@@ -306,19 +317,26 @@ public class AlarmDAOImpl implements AlarmDAO {
 
   private MetricDefinition createMetricDefinitionFromRow(final Map<String, Object> row) {
     final Map<String, String> dimensionMap = new HashMap<>();
-    final String dimensions = getString(row, "dimensions");
+
+    final String dimensions = this.getString(row, "dimensions");
+    final Boolean sporadic = this.getBoolean(row, "sporadic");
+    final String name = this.getString(row, "name");
+
     if (dimensions != null) {
       for (String dimension : dimensions.split(",")) {
         final String[] parsed_dimension = dimension.split("=");
         dimensionMap.put(parsed_dimension[0], parsed_dimension[1]);
       }
     }
-    final MetricDefinition md = new MetricDefinition(getString(row, "name"), dimensionMap);
-    return md;
+    return new MetricDefinition(name, dimensionMap, sporadic);
   }
 
   private String getString(final Map<String, Object> row, String fieldName) {
     return (String) row.get(fieldName);
+  }
+
+  private Boolean getBoolean(final Map<String, Object> row, String fieldName) {
+    return (Boolean) row.get(fieldName);
   }
   
   private String trunc(String s, int l) {

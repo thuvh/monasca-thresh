@@ -80,6 +80,24 @@ public class AlarmDefinitionSqlImplTest {
         new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression3, "LOW",
             false, Arrays.asList("hostname", "dev"));
     insertAndCheck(alarmDefinition3);
+
+    final AlarmExpression expression4 = new AlarmExpression("max(cpu,deterministic=false) > 90");
+    final AlarmDefinition alarmDefinition4 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression4, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition4);
+
+    final AlarmExpression expression5 = new AlarmExpression("max(cpu,deterministic=false) > 90");
+    final AlarmDefinition alarmDefinition5 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression5, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition5);
+
+    final AlarmExpression expression6 = new AlarmExpression("max(cpu,deterministic=false) > 90");
+    final AlarmDefinition alarmDefinition6 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression6, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition6);
   }
 
   public void testListAll() {

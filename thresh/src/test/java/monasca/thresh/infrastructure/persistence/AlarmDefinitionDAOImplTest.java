@@ -97,6 +97,36 @@ public class AlarmDefinitionDAOImplTest {
         new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression3, "LOW",
             false, Arrays.asList("hostname", "dev"));
     insertAndCheck(alarmDefinition3);
+
+    final AlarmExpression expression4 = new AlarmExpression("max(cpu,deterministic=0) > 90");
+    final AlarmDefinition alarmDefinition4 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression4, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition4);
+
+    final AlarmExpression expression5 = new AlarmExpression("max(cpu,deterministic=no) > 90");
+    final AlarmDefinition alarmDefinition5 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression5, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition5);
+
+    final AlarmExpression expression6 = new AlarmExpression("max(cpu,deterministic=false) > 90");
+    final AlarmDefinition alarmDefinition6 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression6, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition6);
+
+    final AlarmExpression expression7 = new AlarmExpression("max(cpu,deterministic=yes) > 90");
+    final AlarmDefinition alarmDefinition7 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression5, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition7);
+
+    final AlarmExpression expression8 = new AlarmExpression("max(cpu,deterministic=true) > 90");
+    final AlarmDefinition alarmDefinition8 =
+        new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, expression6, "LOW",
+            false, Arrays.asList("hostname", "dev"));
+    insertAndCheck(alarmDefinition8);
   }
 
   public void testListAll() {
@@ -155,10 +185,13 @@ public class AlarmDefinitionDAOImplTest {
         handle
             .insert(
                 "insert into sub_alarm_definition (id, alarm_definition_id, function, metric_name, operator, "
-                    + "threshold, period, periods, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())",
+                    + "threshold, period, periods, is_deterministic, created_at, updated_at) "
+                    + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())",
                 subExpression.getId(), alarmDefinition.getId(), alarmSubExpr.getFunction().name(),
                 alarmSubExpr.getMetricDefinition().name, alarmSubExpr.getOperator().name(),
-                alarmSubExpr.getThreshold(), alarmSubExpr.getPeriod(), alarmSubExpr.getPeriods());
+                alarmSubExpr.getThreshold(), alarmSubExpr.getPeriod(), alarmSubExpr.getPeriods(),
+                alarmSubExpr.isDeterministic()
+            );
         for (final Map.Entry<String, String> entry : alarmSubExpr.getMetricDefinition().dimensions.entrySet()) {
           handle
               .insert(

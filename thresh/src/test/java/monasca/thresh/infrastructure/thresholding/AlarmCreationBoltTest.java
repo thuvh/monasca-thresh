@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,12 +30,25 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import backtype.storm.Testing;
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.testing.MkTupleParam;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import monasca.common.model.alarm.AlarmExpression;
 import monasca.common.model.alarm.AlarmState;
@@ -50,20 +64,6 @@ import monasca.thresh.domain.model.SubExpression;
 import monasca.thresh.domain.model.TenantIdAndMetricName;
 import monasca.thresh.domain.service.AlarmDAO;
 import monasca.thresh.domain.service.AlarmDefinitionDAO;
-
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Test
 public class AlarmCreationBoltTest {
@@ -136,6 +136,7 @@ public class AlarmCreationBoltTest {
   public void testmetricFitsInAlarmDefinition() {
     final AlarmDefinition alarmDefinition =
         createAlarmDefinition("max(cpu{service=2}) > 90 and max(load_avg) > 10", "hostname");
+
     final MetricDefinitionAndTenantId goodCpu =
         new MetricDefinitionAndTenantId(build("cpu", "hostname", "eleanore", "service", "2",
             "other", "vivi"), TENANT_ID);
@@ -170,6 +171,26 @@ public class AlarmCreationBoltTest {
     final MetricDefinitionAndTenantId badCpuWrongTenant =
         new MetricDefinitionAndTenantId(build("cpu"), TENANT_ID + "2");
     assertFalse(bolt.validMetricDefinition(alarmDefinition, badCpuWrongTenant));
+
+    // check sporadic
+    final AlarmDefinition nonDeterministicDef =
+        createAlarmDefinition("count(log.error{},deterministic=no) > 2", "hostname");
+
+    // not sporadic, same tenant
+    MetricDefinitionAndTenantId validLogError =
+        new MetricDefinitionAndTenantId(build("log.error", "hostname", "eleanore", "path",
+            "/var/log/test.log"), TENANT_ID);
+    assertTrue(bolt.validMetricDefinition(nonDeterministicDef, validLogError));
+
+    // sporadic, same tenant
+    MetricDefinitionAndTenantId invalidLogError =
+        new MetricDefinitionAndTenantId(buildSporadic("log.error"), TENANT_ID);
+    assertFalse(bolt.validMetricDefinition(nonDeterministicDef, invalidLogError));
+
+    // not sporadic, different tenant
+    invalidLogError =
+        new MetricDefinitionAndTenantId(buildSporadic("log.error"), TENANT_ID + "234");
+    assertFalse(bolt.validMetricDefinition(nonDeterministicDef, invalidLogError));
   }
 
   public void testMetricFitsInAlarm() {
@@ -329,20 +350,28 @@ public class AlarmCreationBoltTest {
     bolt.execute(tuple);
   }
 
+  public void testCreateSimpleNonDeterministicAlarm() {
+    this.runCreateComplexAlarm(false);
+  }
+
+  public void testCreateSimpleNonDeterministicAlarmWithMatchBy() {
+    this.runCreateComplexAlarm(false, "hostname");
+  }
+
   public void testCreateSimpleAlarmWithMatchBy() {
-    runCreateSimpleAlarm("hostname");
+    this.runCreateSimpleAlarm(true, "hostname");
   }
 
   public void testCreateSimpleAlarm() {
-    runCreateSimpleAlarm();
+    this.runCreateSimpleAlarm(true);
   }
 
   public void testCreateComplexAlarmWithMatchBy() {
-    runCreateComplexAlarm("hostname");
+    this.runCreateComplexAlarm(true, "hostname");
   }
 
   public void testCreateComplexAlarm() {
-    runCreateComplexAlarm();
+    this.runCreateComplexAlarm(true);
   }
 
   public void testFinishesMultipleAlarms() {
@@ -461,7 +490,7 @@ public class AlarmCreationBoltTest {
   }
 
   public void testDeletedAlarm() {
-    final AlarmDefinition alarmDefinition = runCreateSimpleAlarm();
+    final AlarmDefinition alarmDefinition = runCreateSimpleAlarm(false);
     assertEquals(this.createdAlarms.size(), 1);
     final Alarm alarmToDelete = this.createdAlarms.get(0);
     this.createdAlarms.clear();
@@ -501,9 +530,10 @@ public class AlarmCreationBoltTest {
     assertEquals(this.createdAlarms.size(), numAlarms);
   }
 
-  private AlarmDefinition runCreateSimpleAlarm(final String... matchBy) {
-
-    final String expression = "max(cpu{service=2}) > 90";
+  private AlarmDefinition runCreateSimpleAlarm(final Boolean deterministic, final String... matchBy) {
+    final String expression = String.format(
+        "max(cpu{service=2}%s) > 90", (deterministic ? ",deterministic=true" : "")
+    );
     final AlarmDefinition alarmDefinition = createAlarmDefinition(expression, matchBy);
     createAlarms(alarmDefinition, matchBy);
     return alarmDefinition;
@@ -549,9 +579,18 @@ public class AlarmCreationBoltTest {
     }
   }
 
-  private void runCreateComplexAlarm(final String... matchBy) {
-    final AlarmDefinition alarmDefinition =
-        createAlarmDefinition("max(cpu{service=2}) > 90 or max(load.avg{service=2}) > 5", matchBy);
+  private void runCreateComplexAlarm(final boolean deterministic, final String... matchBy) {
+    final String rawExpression = "max(cpu{service=2}%s) > 90 or max(load.avg{service=2}%s) > 5";
+    final String expression;
+    final AlarmDefinition alarmDefinition;
+
+    if (!deterministic) {
+      expression = String.format(rawExpression, ",deterministic=false", ",deterministic=false");
+    } else {
+      expression = String.format(rawExpression, "", "");
+    }
+
+    alarmDefinition = this.createAlarmDefinition(expression, matchBy);
 
     final MetricDefinition cpuMetric =
         build("cpu", "hostname", "eleanore", "service", "2", "other", "vivi");
@@ -640,6 +679,12 @@ public class AlarmCreationBoltTest {
       dimensionsMap.put(dimensions[i], dimensions[i + 1]);
     }
     return new MetricDefinition(name, dimensionsMap);
+  }
+
+  private MetricDefinition buildSporadic(final String name, String... dimensions) {
+    final MetricDefinition definition = this.build(name, dimensions);
+    definition.setSporadic(true);
+    return definition;
   }
 
   private String getNextId() {

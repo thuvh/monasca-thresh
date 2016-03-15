@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import monasca.common.hibernate.db.AlarmDefinitionDb;
+import monasca.common.hibernate.db.MetricDefinitionDb;
 import monasca.common.hibernate.db.SubAlarmDefinitionDb;
 import monasca.common.hibernate.db.SubAlarmDefinitionDimensionDb;
 import monasca.common.hibernate.db.SubAlarmDefinitionDimensionId;
@@ -88,10 +89,10 @@ public class AlarmDefinitionSqlImpl
               alarmDefDb.getTenantId(),
               alarmDefDb.getName(),
               alarmDefDb.getDescription(),
-              new AlarmExpression(alarmDefDb.getExpression()),
+              AlarmExpression.of(alarmDefDb.getExpression()),
               alarmDefDb.getSeverity().name(),
               actionEnable,
-              this.findSubExpressions(session, alarmDefDb.getId()), // TODO add reverse model assoc and use it here
+              this.findSubExpressions(session, alarmDefDb.getId()),
               matchBy.isEmpty() ? Collections.<String>emptyList() : Lists.newArrayList(matchBy)
           ));
 
@@ -116,25 +117,26 @@ public class AlarmDefinitionSqlImpl
     try {
       session = sessionFactory.openSession();
 
-      AlarmDefinitionDb alarmDefDb = (AlarmDefinitionDb) session.get(AlarmDefinitionDb.class, id);
+      AlarmDefinitionDb alarmDefDb = session.get(AlarmDefinitionDb.class, id);
 
       if (alarmDefDb != null) {
 
         final Collection<String> matchBy = alarmDefDb.getMatchByAsCollection();
-        boolean actionEnable = alarmDefDb.isActionsEnabled();
+        final boolean actionEnabled = alarmDefDb.isActionsEnabled();
+        final AlarmExpression expression = AlarmExpression.of(alarmDefDb.getExpression());
 
         alarmDefinition = new AlarmDefinition(
             alarmDefDb.getId(),
             alarmDefDb.getTenantId(),
             alarmDefDb.getName(),
             alarmDefDb.getDescription(),
-            new AlarmExpression(alarmDefDb.getExpression()),
+            expression,
             alarmDefDb.getSeverity().name(),
-            actionEnable, null,
+            actionEnabled,
+            this.findSubExpressions(session, id),
             matchBy.isEmpty() ? Collections.<String>emptyList() : Lists.newArrayList(matchBy)
         );
 
-        alarmDefinition.setSubExpressions(findSubExpressions(session, alarmDefinition.getId()));
       }
 
       return alarmDefinition;
@@ -207,6 +209,7 @@ public class AlarmDefinitionSqlImpl
       final Double threshold = def.getThreshold();
       final Integer period = def.getPeriod();
       final Integer periods = def.getPeriods();
+      final Boolean deterministic = def.isDeterministic();
 
       Map<String, String> dimensions = dimensionMap.get(id);
 
@@ -222,7 +225,8 @@ public class AlarmDefinitionSqlImpl
                   operator,
                   threshold,
                   period,
-                  periods
+                  periods,
+                  deterministic
               )
           )
       );
