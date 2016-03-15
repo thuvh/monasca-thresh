@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014 Hewlett-Packard Development Company, L.P.
+ * Copyright 2016 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,24 +120,30 @@ public class SubAlarmStats {
    * @param now Current time
    * @param alarmDelay How long to give metrics a chance to arrive
    */
-  boolean evaluate(final long now, long alarmDelay) {
+  boolean evaluate(final long now,
+                   long alarmDelay) {
 
     final AlarmState newState;
+
     if (immediateAlarmEvaluate()) {
       newState = AlarmState.ALARM;
-    }
-    else {
-      if (!stats.shouldEvaluate(now, alarmDelay)) {
+    } else {
+      if (!this.stats.shouldEvaluate(now, alarmDelay)) {
         return false;
       }
-      newState = determineAlarmStateUsingView();
+      newState = this.determineAlarmStateUsingView();
     }
-    if (shouldSendStateChange(newState) &&
-        (stats.shouldEvaluate(now, alarmDelay) ||
-         (newState == AlarmState.ALARM && this.subAlarm.canEvaluateImmediately()))) {
+
+    final boolean shouldEvaluate = this.stats.shouldEvaluate(now, alarmDelay);
+    final boolean shouldChangeState = shouldSendStateChange(newState);
+    final boolean canEvaluateImmediately = (newState == AlarmState.ALARM
+        && this.subAlarm.canEvaluateImmediately());
+
+    if (shouldChangeState && (shouldEvaluate || canEvaluateImmediately)) {
       setSubAlarmState(newState);
       return true;
     }
+
     return false;
   }
 
@@ -166,9 +173,9 @@ public class SubAlarmStats {
     }
 
     // Window is empty at this point
-    emptyWindowObservations++;
-    if ((emptyWindowObservations >= emptyWindowObservationThreshold)
-        && shouldSendStateChange(AlarmState.UNDETERMINED) && !subAlarm.isSporadicMetric()) {
+    final boolean shouldChangeState = shouldSendStateChange(AlarmState.UNDETERMINED);
+    final boolean windowObsExceeded = ++this.emptyWindowObservations >= emptyWindowObservationThreshold;
+    if (windowObsExceeded && shouldChangeState && !subAlarm.isSporadicMetric()) {
       return AlarmState.UNDETERMINED;
     }
 
