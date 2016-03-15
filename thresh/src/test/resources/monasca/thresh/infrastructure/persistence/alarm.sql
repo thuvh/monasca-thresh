@@ -25,6 +25,7 @@ CREATE TABLE `sub_alarm_definition` (
   `periods` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `is_deterministic` tinyint(1) default '1',
   PRIMARY KEY (`id`)
 );
 

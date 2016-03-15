@@ -57,8 +57,12 @@ public class AlarmDAOImplTest {
   private static String ALARM_NAME = "90% CPU";
   private static String ALARM_DESCR = "Description for " + ALARM_NAME;
   private static Boolean ALARM_ENABLED = Boolean.TRUE;
+  private static String NON_DETERMINISTIC_ALARM_NAME = "count(log.error)";
+  private static String NON_DETERMINISTIC_ALARM_DESCRIPTION = "Description for " + ALARM_NAME;
+  private static Boolean NON_DETERMINISTIC_ALARM_ENABLED = Boolean.TRUE;
   private MetricDefinitionAndTenantId newMetric;
 
+  private AlarmDefinition nonDeterministicAlarmDef;
   private AlarmDefinition alarmDef;
 
   private DBI db;
@@ -68,7 +72,7 @@ public class AlarmDAOImplTest {
   @BeforeClass
   protected void setupClass() throws Exception {
     // See class comment
-    db = new DBI("jdbc:mysql://192.168.10.4/mon", "monapi", "password");
+    db = new DBI("jdbc:mysql://localhost/mon", "monapi", "password");
     handle = db.open();
     dao = new AlarmDAOImpl(db);
   }
@@ -96,6 +100,18 @@ public class AlarmDAOImplTest {
         new AlarmDefinition(TENANT_ID, ALARM_NAME, ALARM_DESCR, new AlarmExpression(
             expr), "LOW", ALARM_ENABLED, new ArrayList<String>());
     AlarmDefinitionDAOImplTest.insertAlarmDefinition(handle, alarmDef);
+
+    final String nonDeterministicExpr = "count(log.error{path=/var/log/test},deterministic=false,20) > 5";
+    this.nonDeterministicAlarmDef = new AlarmDefinition(
+        TENANT_ID,
+        NON_DETERMINISTIC_ALARM_NAME,
+        NON_DETERMINISTIC_ALARM_DESCRIPTION,
+        new AlarmExpression(nonDeterministicExpr),
+        "HIGH",
+        NON_DETERMINISTIC_ALARM_ENABLED,
+        new ArrayList<String>()
+    );
+    AlarmDefinitionDAOImplTest.insertAlarmDefinition(handle, this.nonDeterministicAlarmDef);
 
     final Map<String, String> dimensions = new HashMap<String, String>();
     dimensions.put("first", "first_value");
@@ -233,5 +249,26 @@ public class AlarmDAOImplTest {
     assertEquals(1, handle.select("select * from metric_definition_dimensions").size());
     List<Map<String, Object>> rows = handle.select("select * from metric_dimension");
     assertEquals(2, rows.size());
+  }
+
+  public void shouldPersistNonDeterministic() {
+    final Alarm alarm1 = new Alarm(this.nonDeterministicAlarmDef, AlarmState.OK);
+    final MetricDefinition definition = this.nonDeterministicAlarmDef
+        .getSubExpressions()
+        .get(0)
+        .getAlarmSubExpression()
+        .getMetricDefinition();
+    final MetricDefinitionAndTenantId mtid = new MetricDefinitionAndTenantId(
+        definition,
+        TENANT_ID
+    );
+
+    alarm1.addAlarmedMetric(mtid);
+    dao.createAlarm(alarm1);
+
+    final Alarm byId = dao.findById(alarm1.getId());
+
+    assertEquals(byId, alarm1);
+    assertEquals(1, byId.getNonDeterministicSubAlarms().size());
   }
 }

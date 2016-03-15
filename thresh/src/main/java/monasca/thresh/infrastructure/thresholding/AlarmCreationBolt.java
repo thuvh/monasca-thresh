@@ -359,7 +359,7 @@ public class AlarmCreationBolt extends BaseRichBolt {
             alarmDefinition, metricDefinitionAndTenantId);
     final List<Alarm> result = new LinkedList<>();
     if (waitingAlarms.isEmpty()) {
-      final Alarm newAlarm = new Alarm(alarmDefinition, AlarmState.UNDETERMINED);
+      final Alarm newAlarm = new Alarm(alarmDefinition);
       newAlarm.addAlarmedMetric(metricDefinitionAndTenantId);
       reuseExistingMetric(newAlarm, alarmDefinition, existingAlarms);
       if (alarmIsComplete(newAlarm)) {
