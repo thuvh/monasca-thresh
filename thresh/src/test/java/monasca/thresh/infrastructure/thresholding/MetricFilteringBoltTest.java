@@ -341,7 +341,7 @@ public class MetricFilteringBoltTest {
   private List<Alarm> createMatchingAlarms(List<AlarmDefinition> alarmDefinitions) {
     final List<Alarm> alarms = new LinkedList<>();
     for (final AlarmDefinition alarmDef : alarmDefinitions) {
-      final Alarm alarm = new Alarm(alarmDef, AlarmState.UNDETERMINED);
+      final Alarm alarm = new Alarm(alarmDef);
       for (final AlarmSubExpression subExpr : alarmDef.getAlarmExpression().getSubExpressions()) {
         // First do a MetricDefinition that is an exact match
         final MetricDefinition metricDefinition = subExpr.getMetricDefinition();
