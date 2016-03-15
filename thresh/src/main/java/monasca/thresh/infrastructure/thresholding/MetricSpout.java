@@ -72,6 +72,13 @@ public class MetricSpout extends KafkaSpout {
     if (metric.dimensions == null) {
       metric.dimensions = EMPTY_DIMENSIONS;
     }
+
+    if(metric.hasPeriod()){
+      logger.debug("Metric {} is periodic, period is {}",
+          metric.getName(),
+          metric.getPeriod());
+    }
+
     collector.emit(new Values(new TenantIdAndMetricName(tenantId, metricEnvelope.metric
         .definition().name), metricEnvelope.creationTime, metric));
   }
