@@ -250,6 +250,13 @@ public class AlarmThresholdingBoltTest {
     }
   }
 
+  public void sparseAlarmUpdate(){
+    final String alarmId = setUpInitialAlarm();
+    when(alarmDAO.findById(alarmId)).thenReturn(alarm);
+    when(alarmDefinitionDAO.findById(alarmDefinition.getId())).thenReturn(alarmDefinition);
+
+  }
+
   private Tuple createSubExpressionUpdated(final SubExpression newExpr,
                                            final String alarmDefinitionId) {
     final MkTupleParam tupleParam = new MkTupleParam();
