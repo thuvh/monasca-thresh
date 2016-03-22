@@ -45,6 +45,30 @@
       "revId": "418b5a3989a4a08f318930f65c4c25f4ba88ac8c",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa0719c6_51cb76a5",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-03-22T06:30:59Z",
+      "side": 1,
+      "message": "Do you mean something like:\n\n MetricPeriod.isPeriodic(period) \u0026\u0026 !MetricPeriod.isSparse(period)",
+      "parentUuid": "fa0719c6_d6ee75eb",
+      "range": {
+        "startLine": 233,
+        "startChar": 6,
+        "endLine": 233,
+        "endChar": 10
+      },
+      "revId": "418b5a3989a4a08f318930f65c4c25f4ba88ac8c",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
