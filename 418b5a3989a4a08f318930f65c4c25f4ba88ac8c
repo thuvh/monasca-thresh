@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fa0719c6_8c0c853c",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-03-23T12:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa0719c6_16e2add5",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 2,
+        "endChar": 13
+      },
+      "revId": "418b5a3989a4a08f318930f65c4c25f4ba88ac8c",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa0719c6_d6ee75eb",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
         "patchSetId": 6
