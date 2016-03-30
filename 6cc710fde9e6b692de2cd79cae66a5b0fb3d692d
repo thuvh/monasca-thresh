@@ -22,6 +22,29 @@
       "revId": "6cc710fde9e6b692de2cd79cae66a5b0fb3d692d",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba0121b8_689db309",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-03-30T15:32:33Z",
+      "side": 1,
+      "message": "Perhaps this should be also called in checkSporadic\n\n  checkSporadic(existingAlarm, metric)\n\nlogic seems to be the same IMHO.",
+      "range": {
+        "startLine": 337,
+        "startChar": 17,
+        "endLine": 337,
+        "endChar": 34
+      },
+      "revId": "6cc710fde9e6b692de2cd79cae66a5b0fb3d692d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
