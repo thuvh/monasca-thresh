@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba0121b8_e81b8371",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-03-30T15:00:32Z",
+      "side": 1,
+      "message": "I am not sure if that is how it supposed to look like in MySQL...",
+      "range": {
+        "startLine": 116,
+        "startChar": 35,
+        "endLine": 116,
+        "endChar": 42
+      },
+      "revId": "6cc710fde9e6b692de2cd79cae66a5b0fb3d692d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
