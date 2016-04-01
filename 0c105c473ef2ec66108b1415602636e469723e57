@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba0121b8_0018ead1",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 16222
+      },
+      "writtenOn": "2016-04-01T09:40:16Z",
+      "side": 1,
+      "message": "parameter for \u0027sporadic\u0027 is missing",
+      "range": {
+        "startLine": 257,
+        "startChar": 59,
+        "endLine": 257,
+        "endChar": 69
+      },
+      "revId": "0c105c473ef2ec66108b1415602636e469723e57",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
