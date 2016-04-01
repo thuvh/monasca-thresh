@@ -272,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "ba0121b8_29407606",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 16222
+      },
+      "writtenOn": "2016-04-01T11:58:24Z",
+      "side": 1,
+      "message": "Because of lines 170-172.",
+      "parentUuid": "ba0121b8_760fe936",
+      "range": {
+        "startLine": 179,
+        "startChar": 10,
+        "endLine": 183,
+        "endChar": 22
+      },
+      "revId": "0c105c473ef2ec66108b1415602636e469723e57",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba0121b8_0018ead1",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
         "patchSetId": 12
