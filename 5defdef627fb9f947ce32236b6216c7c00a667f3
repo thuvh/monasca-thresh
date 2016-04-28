@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a122d0e_adeb3a77",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "I believe you mean sub alarms instead of alarms here and in the next line",
+      "range": {
+        "startLine": 145,
+        "startChar": 22,
+        "endLine": 145,
+        "endChar": 28
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_a82328a6",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "fix formatting on this line",
+      "range": {
+        "startLine": 170,
+        "startChar": 3,
+        "endLine": 170,
+        "endChar": 20
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_c8c824ab",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "Should this instead by initial_state? If this alarm was in the ALARM state because of the last measurements that were received, don\u0027t you want to leave it in that state if no new measurements have been received?",
+      "range": {
+        "startLine": 171,
+        "startChar": 21,
+        "endLine": 171,
+        "endChar": 34
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_8d659e1f",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "probably sub alarms here as well.",
+      "range": {
+        "startLine": 180,
+        "startChar": 58,
+        "endLine": 180,
+        "endChar": 64
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_687bd08c",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "Formatting",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 334,
+        "endChar": 59
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_c87ae476",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "formatting",
+      "range": {
+        "startLine": 348,
+        "startChar": 0,
+        "endLine": 348,
+        "endChar": 59
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_aa695bfb",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "Can you also fix hashcode() and equals to use sporadicMetric correctly? The original code is wrong on that.",
+      "range": {
+        "startLine": 170,
+        "startChar": 31,
+        "endLine": 170,
+        "endChar": 48
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_aa379bfd",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "Leave the final on",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 24
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_8d4759bb",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "The below code might be easier to understand if you renamed sporadicEvaluate to something like sporadicAndUndetermined.",
+      "range": {
+        "startLine": 130,
+        "startChar": 18,
+        "endLine": 130,
+        "endChar": 34
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_ad0a1588",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "This is wrong. Even if the SubAlarm is sporadic and UNDETERMINED, it can transition immediately to ALARM. However, determineAlarmStateUsingView() needs to be called to do that. I think the changes to have determineAlarmStateUsingView() return OK for sporadic sub alarms gives you the right answer without changing this method at all.",
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_6d1bddca",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-04-28T15:16:25Z",
+      "side": 1,
+      "message": "How is this different than \"1\".equals(this.getString(row, \"sa_sporadic\")) ?",
+      "range": {
+        "startLine": 116,
+        "startChar": 35,
+        "endLine": 116,
+        "endChar": 89
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
