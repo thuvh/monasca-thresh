@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_a420eff8",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-06T06:05:14Z",
+      "side": 1,
+      "message": "It will get back to this in next patch set.\nBasically I modified SubAlarm to determine initial state set in model based on alarm\u0027s expression. \n\nUsing latest modification in gramma for expression it is possible to tell if one is sporadic or not therefore determine initial state for SubAlarm\n\n sporadic\u003dtrue \u003e AlarmState.OK\n sporadic\u003dfalse \u003e AlarmState.UNDETERMINED",
+      "parentUuid": "dab17558_939ff75e",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 26
+      },
+      "revId": "c367ef1f4d2d53be9ed296c249cc52c932634529",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_b3bafbbe",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-06T03:21:50Z",
       "side": 1,
       "message": "See comment above, but my understanding of this block is it is the case where the alarm is currently in the UNDETERMINED state, but that really shouldn\u0027t be possible (because it is sporadic). Therefore, let\u0027s set it to OK.\n\nIt might be better when initializing the alarm to put it in the OK state, rather that the UNDETERMINED state, if the UNDETERMINED state shouldn\u0027t be allowed.\n\nThen this if block is removed.",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 16
+      },
+      "revId": "c367ef1f4d2d53be9ed296c249cc52c932634529",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_c47d33e9",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-06T06:05:14Z",
+      "side": 1,
+      "message": "Check above.",
+      "parentUuid": "dab17558_b3bafbbe",
       "range": {
         "startLine": 142,
         "startChar": 8,
@@ -105,6 +153,30 @@
       "writtenOn": "2016-05-06T03:21:50Z",
       "side": 1,
       "message": "Shouldn\u0027t SUB_ALARM_IS_SPORADIC come after TENANT_ID?",
+      "range": {
+        "startLine": 78,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 22
+      },
+      "revId": "c367ef1f4d2d53be9ed296c249cc52c932634529",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_84efabaf",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/hibernate/AlarmSqlImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-06T06:05:14Z",
+      "side": 1,
+      "message": "That field should be actually removed from here.",
+      "parentUuid": "1a122d0e_063cc32d",
       "range": {
         "startLine": 78,
         "startChar": 17,
