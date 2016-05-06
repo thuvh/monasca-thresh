@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab17558_9fbb750e",
+        "filename": "thresh/src/test/java/monasca/thresh/TopologyTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-06T06:53:22Z",
+      "side": 1,
+      "message": "Would you remove white spaces ?",
+      "range": {
+        "startLine": 3,
+        "startChar": 2,
+        "endLine": 3,
+        "endChar": 3
+      },
+      "revId": "dd73696743b61b913111a0ff230053d0ce99c0a5",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
