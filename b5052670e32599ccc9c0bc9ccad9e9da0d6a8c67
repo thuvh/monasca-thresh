@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dab17558_52e6a444",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Yeah, sorry about that, I guess I need to finally do something about that in IntelliJ.",
+      "parentUuid": "dab17558_9cb5dfef",
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_59642921",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
         "patchSetId": 18
@@ -88,6 +106,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_72964840",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "But it may happen that all sub expressions are non-deterministic\n\nAlso this method returns true only if all sub expressions are non-deterministic. So, I assumed that the case here is similar to the one we had with sporadic metrics. If all metrics were to be sporadic we would immediately transition to ok. Also I wanted to present a detail msg for the notifications that something like that has happened.\n\nAs far as I know this is the place where the reason why state has been changed is computed, so if my assumption is wrong, let me know, I will fix that.",
+      "parentUuid": "dab17558_679d0459",
+      "range": {
+        "startLine": 189,
+        "startChar": 15,
+        "endLine": 189,
+        "endChar": 33
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_1c228f00",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
         "patchSetId": 18
@@ -99,6 +141,30 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "Should only have isDeterminstic() or isNotDeterministic. This is more confusing than just using !isNonDeterministic()",
+      "range": {
+        "startLine": 416,
+        "startChar": 17,
+        "endLine": 416,
+        "endChar": 32
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_12a6dcad",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_1c228f00",
       "range": {
         "startLine": 416,
         "startChar": 17,
@@ -134,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_52fb4447",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_470600cf",
+      "range": {
+        "startLine": 429,
+        "startChar": 0,
+        "endLine": 429,
+        "endChar": 39
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_67eb44b1",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
         "patchSetId": 18
@@ -151,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "dab17558_921acc7b",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_67eb44b1",
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_194d816c",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
         "patchSetId": 18
@@ -162,6 +270,24 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "No need for the sporadic changes. I know the original code is wrong, but this code isn\u0027t used so let\u0027s make this change only be deterministic",
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_d210d45b",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_194d816c",
       "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -191,6 +317,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_755472fe",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Giving it a second thought, I think you\u0027re right. The only difference would be that alarm would be allowed to transition to UNDETERMINED state which does not affect computing.",
+      "parentUuid": "dab17558_592709b6",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 221,
+        "endChar": 70
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_e7ee14b3",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
         "patchSetId": 18
@@ -208,6 +358,24 @@
     },
     {
       "key": {
+        "uuid": "dab17558_b5cd3ab9",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_e7ee14b3",
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_79ce4db5",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
         "patchSetId": 18
@@ -219,6 +387,30 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "We don\u0027t need any of these changes for the deterministic feature so just revert this file",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_35edcaef",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_79ce4db5",
       "range": {
         "startLine": 30,
         "startChar": 0,
@@ -254,6 +446,29 @@
     },
     {
       "key": {
+        "uuid": "dab17558_95b8f6c9",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/hibernate/AlarmSqlImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "In the name or removing sporadic - those lines got thrown away as well.",
+      "range": {
+        "startLine": 362,
+        "startChar": 11,
+        "endLine": 362,
+        "endChar": 22
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_795c8ded",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/hibernate/AlarmSqlImpl.java",
         "patchSetId": 18
@@ -265,6 +480,30 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "There should be a space after the if and before the {",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 388,
+        "endChar": 7
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_55acce8b",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/hibernate/AlarmSqlImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_795c8ded",
       "range": {
         "startLine": 388,
         "startChar": 4,
@@ -300,6 +539,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_b5ea5aaa",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_f9687d89",
+      "range": {
+        "startLine": 320,
+        "startChar": 4,
+        "endLine": 320,
+        "endChar": 48
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_87b74885",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
         "patchSetId": 18
@@ -311,6 +574,30 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "This state should be determined by the Sub Expressions. OK should be set if all sub expressions are non-deterministic, UNDETERMINED otherwise",
+      "range": {
+        "startLine": 365,
+        "startChar": 56,
+        "endLine": 365,
+        "endChar": 79
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_d81e335e",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "That\u0027s been changed directly in Alarm class.\nI removed state as argument and allow alarm to decide which state to set based on provided alarm definition.",
+      "parentUuid": "dab17558_87b74885",
       "range": {
         "startLine": 365,
         "startChar": 56,
@@ -340,6 +627,24 @@
     },
     {
       "key": {
+        "uuid": "dab17558_38edbfef",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "I can revert it, but since this property is not actually used (and I\u0027ve removed that from SubAlarm), maybe let\u0027s just keep it as it is right now? What do you think?",
+      "parentUuid": "dab17558_592d4945",
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_b9e39504",
         "filename": "thresh/src/test/java/monasca/thresh/domain/model/AlarmTest.java",
         "patchSetId": 18
@@ -351,6 +656,30 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "Should be a space before {. You might need to adjust your IDE\u0027s settings",
+      "range": {
+        "startLine": 186,
+        "startChar": 78,
+        "endLine": 186,
+        "endChar": 80
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_f25d1848",
+        "filename": "thresh/src/test/java/monasca/thresh/domain/model/AlarmTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "The reason that happens is that, I am having troubles adjusting import rules (as you saw, sometimes imports are reorganized unintentionally).",
+      "parentUuid": "dab17558_b9e39504",
       "range": {
         "startLine": 186,
         "startChar": 78,
@@ -386,6 +715,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_389bff73",
+        "filename": "thresh/src/test/java/monasca/thresh/domain/model/SubAlarmStatsTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_19caa16d",
+      "range": {
+        "startLine": 302,
+        "startChar": 65,
+        "endLine": 302,
+        "endChar": 73
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_42bb8ee5",
         "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDefinitionDAOImplTest.java",
         "patchSetId": 18
@@ -397,6 +750,30 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "Should this be expression7?",
+      "range": {
+        "startLine": 121,
+        "startChar": 64,
+        "endLine": 121,
+        "endChar": 75
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_38a93f7c",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDefinitionDAOImplTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_42bb8ee5",
       "range": {
         "startLine": 121,
         "startChar": 64,
@@ -432,6 +809,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_98b82bca",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDefinitionDAOImplTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_82b576ef",
+      "range": {
+        "startLine": 127,
+        "startChar": 64,
+        "endLine": 127,
+        "endChar": 75
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_d9f93982",
         "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBoltTest.java",
         "patchSetId": 18
@@ -443,6 +844,24 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "Please don\u0027t rearrange the imports. It makes the real changes harder to spot.",
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_23e3d034",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBoltTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_d9f93982",
       "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -518,6 +937,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_8339dca6",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBoltTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_8d580734",
+      "range": {
+        "startLine": 622,
+        "startChar": 0,
+        "endLine": 622,
+        "endChar": 100
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_591389b8",
         "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBoltTest.java",
         "patchSetId": 18
@@ -552,6 +995,30 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "No more sporadic",
+      "range": {
+        "startLine": 180,
+        "startChar": 58,
+        "endLine": 180,
+        "endChar": 66
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_83071cc9",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBoltTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_6d804347",
       "range": {
         "startLine": 180,
         "startChar": 58,
@@ -610,6 +1077,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_83971ceb",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBoltTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "I will try to refactor that a bit with the next patch set.",
+      "parentUuid": "dab17558_2da59bb4",
+      "range": {
+        "startLine": 452,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 3
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_597a69f2",
         "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/MetricFilteringBoltTest.java",
         "patchSetId": 18
@@ -644,6 +1135,30 @@
       "writtenOn": "2016-05-09T22:35:15Z",
       "side": 1,
       "message": "What value does this test add? Where ate things checked differently for non-deterministic alarms?",
+      "range": {
+        "startLine": 498,
+        "startChar": 14,
+        "endLine": 498,
+        "endChar": 44
+      },
+      "revId": "b5052670e32599ccc9c0bc9ccad9e9da0d6a8c67",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_834c3c9f",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/MetricFilteringBoltTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-10T11:17:04Z",
+      "side": 1,
+      "message": "Right now, I don\u0027t think there\u0027s any, so I will just remove it.",
+      "parentUuid": "dab17558_59bd4967",
       "range": {
         "startLine": 498,
         "startChar": 14,
