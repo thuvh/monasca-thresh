@@ -93,6 +93,7 @@ public class AlarmDefinitionDAOImpl implements AlarmDefinitionDAO {
       while (addedDimension(dimensions, id, rows, index)) {
         index++;
       }
+      // TODO(trebskit) get sporadic atribute for metric definition
       subExpressions.add(new SubExpression(id, new AlarmSubExpression(function,
           new MetricDefinition(metricName, dimensions), operator, threshold, period, periods)));
     }

@@ -17,6 +17,7 @@
 
 package monasca.thresh.infrastructure.persistence;
 
+import com.google.common.collect.Lists;
 import monasca.common.model.alarm.AlarmState;
 import monasca.common.model.alarm.AlarmSubExpression;
 import monasca.common.model.metric.MetricDefinition;
@@ -99,7 +100,7 @@ public class AlarmDAOImpl implements AlarmDAO {
           alarm.setId(alarmId);
           alarm.setAlarmDefinitionId(getString(row, "alarm_definition_id"));
           alarm.setState(AlarmState.valueOf(getString(row, "state")));
-          subAlarms = new ArrayList<SubAlarm>();
+          subAlarms = Lists.newArrayListWithExpectedSize(rows.size());
           alarms.add(alarm);
           alarmMap.put(alarmId, alarm);
           tenantIdMap.put(alarmId, getString(row, "tenant_id"));
@@ -131,7 +132,8 @@ public class AlarmDAOImpl implements AlarmDAO {
 
   private void getAlarmedMetrics(Handle h, final Map<String, Alarm> alarmMap,
       final Map<String, String> tenantIdMap, final String additionalWhereClause, String ... params) {
-    final String baseSql = "select a.id, md.name, group_concat(mdim.name, '=', mdim.value order by mdim.name) as dimensions "
+    final String baseSql = "select a.id, md.name, md.sporadic, "
+        + "group_concat(mdim.name, '=', mdim.value order by mdim.name) as dimensions "
         + "from metric_definition as md "
         + "inner join metric_definition_dimensions as mdd on md.id = mdd.metric_definition_id "
         + "inner join alarm_metric as am on mdd.id = am.metric_definition_dimensions_id "
@@ -222,8 +224,7 @@ public class AlarmDAOImpl implements AlarmDAO {
       }
     }
 
-    final byte[] dimensionIdSha1Hash = DigestUtils.sha(dimensionIdStringToHash.toString());
-    return dimensionIdSha1Hash;
+    return DigestUtils.sha(dimensionIdStringToHash.toString());
   }
 
   private Sha1HashId insertMetricDefinition(Handle h, MetricDefinitionAndTenantId mdtid) {
@@ -232,8 +233,11 @@ public class AlarmDAOImpl implements AlarmDAO {
         trunc(mdtid.metricDefinition.name, MAX_COLUMN_LENGTH)
             + trunc(mdtid.tenantId, MAX_COLUMN_LENGTH) + trunc(region, MAX_COLUMN_LENGTH);
     final byte[] id = DigestUtils.sha(definitionIdStringToHash);
-    h.insert("insert into metric_definition(id, name, tenant_id) values (?, ?, ?) " +
-             "on duplicate key update id=id", id, mdtid.metricDefinition.name, mdtid.tenantId);
+
+    h.insert("insert into metric_definition(id, name, tenant_id, sporadic) values (?, ?, ?, ?) " +
+            "on duplicate key update id=id", id, mdtid.metricDefinition.name, mdtid.tenantId,
+        mdtid.metricDefinition.isSporadic());
+
     return new Sha1HashId(id);
   }
 
@@ -306,15 +310,22 @@ public class AlarmDAOImpl implements AlarmDAO {
 
   private MetricDefinition createMetricDefinitionFromRow(final Map<String, Object> row) {
     final Map<String, String> dimensionMap = new HashMap<>();
-    final String dimensions = getString(row, "dimensions");
+
+    final String dimensions = this.getString(row, "dimensions");
+    final Boolean sporadic = this.getBoolean(row, "sporadic");
+    final String name = this.getString(row, "name");
+
     if (dimensions != null) {
       for (String dimension : dimensions.split(",")) {
         final String[] parsed_dimension = dimension.split("=");
         dimensionMap.put(parsed_dimension[0], parsed_dimension[1]);
       }
     }
-    final MetricDefinition md = new MetricDefinition(getString(row, "name"), dimensionMap);
-    return md;
+    return new MetricDefinition(name, dimensionMap, sporadic);
+  }
+
+  private Boolean getBoolean(final Map<String, Object> row, String fieldName) {
+    return (Boolean) row.get(fieldName);
   }
 
   private String getString(final Map<String, Object> row, String fieldName) {

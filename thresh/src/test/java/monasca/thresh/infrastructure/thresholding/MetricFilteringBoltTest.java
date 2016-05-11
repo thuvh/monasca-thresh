@@ -292,7 +292,7 @@ public class MetricFilteringBoltTest {
     final Map<String, String> extraDimensions = new HashMap<>(metricDefinition.dimensions);
     extraDimensions.put("group", "group_a");
     final MetricDefinition inexactMetricDef =
-        new MetricDefinition(metricDefinition.name, extraDimensions);
+        new MetricDefinition(metricDefinition.name, extraDimensions, metricDefinition.isSporadic());
     return inexactMetricDef;
   }
 

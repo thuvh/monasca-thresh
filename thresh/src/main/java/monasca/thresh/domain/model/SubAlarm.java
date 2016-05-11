@@ -20,6 +20,7 @@ package monasca.thresh.domain.model;
 import monasca.common.model.alarm.AlarmState;
 import monasca.common.model.alarm.AlarmSubExpression;
 import monasca.common.model.domain.common.AbstractEntity;
+import monasca.common.model.metric.MetricDefinition;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,10 +38,6 @@ public class SubAlarm extends AbstractEntity implements Serializable {
   private AlarmState state;
   private boolean noState;
   private List<Double> currentValues;
-  /**
-   * Whether metrics for this sub-alarm are received sporadically.
-   */
-  private boolean sporadicMetric;
 
   public SubAlarm(String id, String alarmId, SubExpression expression) {
     this(id, alarmId, expression, AlarmState.UNDETERMINED);
@@ -144,12 +141,23 @@ public class SubAlarm extends AbstractEntity implements Serializable {
     return result;
   }
 
+  /**
+   * Determines if {@link SubAlarm} is sporadic.
+   *
+   * Infrequency of sub alarm is determined based on underlying
+   * metric definition - part of {@link #expression}.
+   *
+   * Note:
+   *  If sub alarm has no expression this method will return
+   *  {@value MetricDefinition#DEFAULT_SPORADIC}.
+   *
+   * @return true/false
+   * @see AlarmSubExpression#getMetricDefinition()
+   * @see MetricDefinition#isSporadic()
+   */
   public boolean isSporadicMetric() {
-    return sporadicMetric;
-  }
-
-  public void setSporadicMetric(boolean sporadicMetric) {
-    this.sporadicMetric = sporadicMetric;
+    return this.expression == null ? MetricDefinition.DEFAULT_SPORADIC : this.expression
+        .getMetricDefinition().isSporadic();
   }
 
   public void setState(AlarmState state) {

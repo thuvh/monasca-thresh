@@ -17,6 +17,9 @@
 
 package monasca.thresh.domain.model;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
 import monasca.common.model.alarm.AlarmExpression;
 import monasca.common.model.alarm.AlarmState;
 import monasca.common.model.alarm.AlarmSubExpression;
@@ -32,6 +35,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 /**
  * An alarm comprised of sub-alarms.
  *
@@ -39,6 +44,18 @@ import java.util.UUID;
  *
  */
 public class Alarm extends AbstractEntity {
+  private static final Predicate<SubAlarm> SPORADIC_PREDICATE = new Predicate<SubAlarm>() {
+    @Override
+    public boolean apply(@Nullable final SubAlarm input) {
+      return input != null && input.isSporadicMetric();
+    }
+  };
+  private static final Predicate<SubAlarm> PERIODIC_PREDICATE = new Predicate<SubAlarm>() {
+    @Override
+    public boolean apply(@Nullable final SubAlarm input) {
+      return !SPORADIC_PREDICATE.apply(input);
+    }
+  };
   private Map<String, SubAlarm> subAlarms;
   private Set<MetricDefinitionAndTenantId> alarmedMetrics = new HashSet<>();
   private AlarmState state;
@@ -293,5 +310,37 @@ public class Alarm extends AbstractEntity {
 
   public void setTransitionSubAlarms(List<AlarmTransitionSubAlarm> transitionSubAlarms) {
     this.transitionSubAlarms = transitionSubAlarms;
+  }
+
+  /**
+   * Returns list of sub alarms which {@link monasca.common.model.metric.MetricDefinition}
+   * are sporadic.
+   *
+   * @return list of {@link SubAlarm} with sporadic metrics
+   * @see #getPeriodicSubAlarms()
+   */
+  public List<SubAlarm> getSporadicSubAlarms() {
+    if (this.subAlarms == null || this.subAlarms.isEmpty()) {
+      return Lists.newArrayList();
+    }
+    return FluentIterable.from(this.getSubAlarms())
+        .filter(SPORADIC_PREDICATE)
+        .toList();
+  }
+
+  /**
+   * Returns list of sub alarms which {@link monasca.common.model.metric.MetricDefinition}
+   * are not sporadic.
+   *
+   * @return list of {@link SubAlarm} with sporadic metrics
+   * @see #getSporadicSubAlarms()
+   */
+  public List<SubAlarm> getPeriodicSubAlarms() {
+    if (this.subAlarms == null || this.subAlarms.isEmpty()) {
+      return Lists.newArrayList();
+    }
+    return FluentIterable.from(this.getSubAlarms())
+        .filter(PERIODIC_PREDICATE)
+        .toList();
   }
 }
