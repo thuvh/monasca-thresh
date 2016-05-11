@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_86450e44",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T21:35:28Z",
+      "side": 1,
+      "message": "Giving it a thought...well, I am not a thresh expert, so this\u0027d be a question. Does what you just wrote apply also for initial state, the first time alarm gets created ?",
+      "parentUuid": "dab17558_b8b3214c",
+      "range": {
+        "startLine": 181,
+        "startChar": 7,
+        "endLine": 181,
+        "endChar": 36
+      },
+      "revId": "23344f2588d491d90c0982a9e647a99cd326aea0",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_c2844b0c",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDefinitionDAOImpl.java",
         "patchSetId": 20
@@ -169,6 +193,30 @@
       "writtenOn": "2016-05-11T15:48:28Z",
       "side": 1,
       "message": "This assumes you are running this test directly on your devstack. Personally, I run this test on my workstation and access the database on my devstack.",
+      "range": {
+        "startLine": 75,
+        "startChar": 31,
+        "endLine": 75,
+        "endChar": 40
+      },
+      "revId": "23344f2588d491d90c0982a9e647a99cd326aea0",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_e965cb1d",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDAOImplTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T21:35:28Z",
+      "side": 1,
+      "message": "My mysql database is not on devstack :). I will revert that.",
+      "parentUuid": "dab17558_58b5d57b",
       "range": {
         "startLine": 75,
         "startChar": 31,
