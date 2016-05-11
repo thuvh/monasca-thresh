@@ -22,6 +22,30 @@
       "revId": "2335a36dbd58755e0c1ad4ec408abc5dcee78d1a",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_ae0bf322",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T08:29:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_3ee487aa",
+      "range": {
+        "startLine": 151,
+        "startChar": 44,
+        "endLine": 151,
+        "endChar": 52
+      },
+      "revId": "2335a36dbd58755e0c1ad4ec408abc5dcee78d1a",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
