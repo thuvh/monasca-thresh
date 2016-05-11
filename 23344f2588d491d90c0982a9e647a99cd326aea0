@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab17558_c2844b0c",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDefinitionDAOImpl.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T08:44:56Z",
+      "side": 1,
+      "message": "I am not sure if that\u0027s because unit test for this is using H2, but underlying type of \u0027is_deterministic\u0027 value is Byte. So applying comparison operator won\u0027t work.",
+      "range": {
+        "startLine": 92,
+        "startChar": 32,
+        "endLine": 92,
+        "endChar": 80
+      },
+      "revId": "23344f2588d491d90c0982a9e647a99cd326aea0",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
