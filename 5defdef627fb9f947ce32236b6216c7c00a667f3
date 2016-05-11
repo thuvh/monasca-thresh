@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a122d0e_55f31a73",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T08:46:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a122d0e_adeb3a77",
+      "range": {
+        "startLine": 145,
+        "startChar": 22,
+        "endLine": 145,
+        "endChar": 28
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a122d0e_a82328a6",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-28T15:16:25Z",
       "side": 1,
       "message": "fix formatting on this line",
+      "range": {
+        "startLine": 170,
+        "startChar": 3,
+        "endLine": 170,
+        "endChar": 20
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_95e93282",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T08:46:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a122d0e_a82328a6",
       "range": {
         "startLine": 170,
         "startChar": 3,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1a122d0e_7e3713b0",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T08:46:03Z",
+      "side": 1,
+      "message": "Yes, I guess that makes sense.\n\nThere will be a unit test that will verify if that is happening. I just hope I\u0027ll get the concept right there.",
+      "parentUuid": "1a122d0e_c8c824ab",
+      "range": {
+        "startLine": 171,
+        "startChar": 21,
+        "endLine": 171,
+        "endChar": 34
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a122d0e_8d659e1f",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
         "patchSetId": 15
@@ -82,6 +154,30 @@
       "writtenOn": "2016-04-28T15:16:25Z",
       "side": 1,
       "message": "probably sub alarms here as well.",
+      "range": {
+        "startLine": 180,
+        "startChar": 58,
+        "endLine": 180,
+        "endChar": 64
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_d5ad6a32",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T08:46:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a122d0e_8d659e1f",
       "range": {
         "startLine": 180,
         "startChar": 58,
@@ -163,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "1a122d0e_bee36bd7",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T08:46:03Z",
+      "side": 1,
+      "message": "Actually removed sporadic metric field from here.\nIf sub alarm has sporadic metric is determined from metric definition.",
+      "parentUuid": "1a122d0e_aa695bfb",
+      "range": {
+        "startLine": 170,
+        "startChar": 31,
+        "endLine": 170,
+        "endChar": 48
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a122d0e_aa379bfd",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
         "patchSetId": 15
@@ -174,6 +294,30 @@
       "writtenOn": "2016-04-28T15:16:25Z",
       "side": 1,
       "message": "Leave the final on",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 24
+      },
+      "revId": "5defdef627fb9f947ce32236b6216c7c00a667f3",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a122d0e_fe3fa322",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-11T08:46:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a122d0e_aa379bfd",
       "range": {
         "startLine": 127,
         "startChar": 0,
