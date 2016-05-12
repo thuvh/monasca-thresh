@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab17558_cfba500a",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-05-12T20:25:13Z",
+      "side": 1,
+      "message": "Is this really needed or was it just too hard to replace all of the places where it was called from? Seems to be a bad idea to override the state to UNDETERMINED if it isn\u0027t allowed",
+      "range": {
+        "startLine": 78,
+        "startChar": 9,
+        "endLine": 78,
+        "endChar": 65
+      },
+      "revId": "e876fc8adc4ec7495c04c1dd26eaf3b3ab8c1939",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_cfd7f0eb",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-05-12T20:25:13Z",
+      "side": 1,
+      "message": "I wonder if this method is really needed? It can be replaced by getExpression().isDeterminstic(). That way you don\u0027t the weird code handling this.expression \u003d\u003d null. If anybody is really calling this method with a null this.expression we should find out rather than defaulting the answer",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 27
+      },
+      "revId": "e876fc8adc4ec7495c04c1dd26eaf3b3ab8c1939",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
