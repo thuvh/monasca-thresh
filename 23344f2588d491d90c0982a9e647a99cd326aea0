@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "dab17558_3b4ef03a",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmCreationBolt.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-12T04:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_d59230f5",
+      "revId": "23344f2588d491d90c0982a9e647a99cd326aea0",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_d8c38536",
         "filename": "thresh/src/test/java/monasca/thresh/domain/model/AlarmTest.java",
         "patchSetId": 20
@@ -148,6 +166,30 @@
       "writtenOn": "2016-05-11T15:48:28Z",
       "side": 1,
       "message": "These should be OK, not UNDETERMINED. Non deterministic SubAlarms should only ever be OK or ALARM",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 50
+      },
+      "revId": "23344f2588d491d90c0982a9e647a99cd326aea0",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_db588433",
+        "filename": "thresh/src/test/java/monasca/thresh/domain/model/AlarmTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-12T04:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_d8c38536",
       "range": {
         "startLine": 195,
         "startChar": 0,
@@ -183,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_3b443048",
+        "filename": "thresh/src/test/java/monasca/thresh/domain/model/AlarmTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-12T04:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_389bb167",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 50
+      },
+      "revId": "23344f2588d491d90c0982a9e647a99cd326aea0",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_b8a7a1a5",
         "filename": "thresh/src/test/java/monasca/thresh/domain/model/AlarmTest.java",
         "patchSetId": 20
@@ -194,6 +260,30 @@
       "writtenOn": "2016-05-11T15:48:28Z",
       "side": 1,
       "message": "See above",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 48
+      },
+      "revId": "23344f2588d491d90c0982a9e647a99cd326aea0",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_bb7660a1",
+        "filename": "thresh/src/test/java/monasca/thresh/domain/model/AlarmTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-12T04:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab17558_b8a7a1a5",
       "range": {
         "startLine": 251,
         "startChar": 0,
@@ -240,6 +330,30 @@
       "writtenOn": "2016-05-11T21:35:28Z",
       "side": 1,
       "message": "My mysql database is not on devstack :). I will revert that.",
+      "parentUuid": "dab17558_58b5d57b",
+      "range": {
+        "startLine": 75,
+        "startChar": 31,
+        "endLine": 75,
+        "endChar": 40
+      },
+      "revId": "23344f2588d491d90c0982a9e647a99cd326aea0",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_fb5628cc",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDAOImplTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-12T04:27:03Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "dab17558_58b5d57b",
       "range": {
         "startLine": 75,
