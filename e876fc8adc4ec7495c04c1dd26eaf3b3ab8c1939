@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dab17558_ff686b23",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-13T20:37:59Z",
+      "side": 1,
+      "message": "There was lots of places to change that, especially in the tests. That\u0027s why I left the comment here. For me it was easier (obviously ;) ) to do just leave this constructor instead of modifying test classes, however I agree with your comment that this may be misleading. \n\nI will refactor the tests to use setter method and remove this constructor.",
+      "parentUuid": "dab17558_cfba500a",
+      "range": {
+        "startLine": 78,
+        "startChar": 9,
+        "endLine": 78,
+        "endChar": 65
+      },
+      "revId": "e876fc8adc4ec7495c04c1dd26eaf3b3ab8c1939",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab17558_cfd7f0eb",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
         "patchSetId": 21
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-12T20:25:13Z",
       "side": 1,
       "message": "I wonder if this method is really needed? It can be replaced by getExpression().isDeterminstic(). That way you don\u0027t the weird code handling this.expression \u003d\u003d null. If anybody is really calling this method with a null this.expression we should find out rather than defaulting the answer",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 27
+      },
+      "revId": "e876fc8adc4ec7495c04c1dd26eaf3b3ab8c1939",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_1f78cfc3",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-13T20:37:59Z",
+      "side": 1,
+      "message": "It can, but I like such constructs, they allow to make code shorter in some places and at some point follow encapsulation pattern. \n\nStill, comment about null expression is valid. Case where expression is null is rather impossible, as far as I am aware. So I\u0027ll just leave \n\n  return this.expression.isDeterministic();\n\nif you don\u0027t have any further objections.\n\nCode here does not break anything but potentially allows to access information about expression trait with less typing. Again that\u0027s what I prefer so if you still find this redundant, let me know, I will just remove it. I see no point in arguing over little method.",
+      "parentUuid": "dab17558_cfd7f0eb",
       "range": {
         "startLine": 144,
         "startChar": 0,
