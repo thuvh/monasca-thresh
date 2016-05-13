@@ -93,6 +93,30 @@
       "revId": "e876fc8adc4ec7495c04c1dd26eaf3b3ab8c1939",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_baea71aa",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-05-13T22:56:17Z",
+      "side": 1,
+      "message": "Changing it that way is fine with me.",
+      "parentUuid": "dab17558_1f78cfc3",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 27
+      },
+      "revId": "e876fc8adc4ec7495c04c1dd26eaf3b3ab8c1939",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
