@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bab6814e_d6c9e95a",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-20T08:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bab6814e_cad20bd2",
+      "range": {
+        "startLine": 147,
+        "startChar": 5,
+        "endLine": 147,
+        "endChar": 16
+      },
+      "revId": "4230840fd423208ba3ed177c294f132c9d3e7c7a",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bab6814e_0de9cde6",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
         "patchSetId": 23
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "bab6814e_337a19f2",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-20T08:21:06Z",
+      "side": 1,
+      "message": "It\u0027s part of the expression, so I think that\u0027s not needed.",
+      "parentUuid": "bab6814e_0de9cde6",
+      "range": {
+        "startLine": 172,
+        "startChar": 31,
+        "endLine": 172,
+        "endChar": 44
+      },
+      "revId": "4230840fd423208ba3ed177c294f132c9d3e7c7a",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bab6814e_983859a2",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
         "patchSetId": 23
@@ -59,6 +107,30 @@
       "writtenOn": "2016-05-19T14:36:33Z",
       "side": 1,
       "message": "Should this be reversed? If the alarm is deterministic, shouldn\u0027t the state be OK?",
+      "range": {
+        "startLine": 187,
+        "startChar": 30,
+        "endLine": 187,
+        "endChar": 31
+      },
+      "revId": "4230840fd423208ba3ed177c294f132c9d3e7c7a",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bab6814e_f6418daa",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-05-20T08:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bab6814e_983859a2",
       "range": {
         "startLine": 187,
         "startChar": 30,
