@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9abb7d3a_7bb761f5",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-06-07T03:48:17Z",
+      "side": 1,
+      "message": "This should be a method on SubAlarm and reuse SubAlarm.initialStateFromExpression instead of writing it again.",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 89
+      },
+      "revId": "52d200817f8abff702bcde36ce56b109ffb83c28",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
