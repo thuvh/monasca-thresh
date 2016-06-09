@@ -42,9 +42,11 @@ import monasca.thresh.domain.service.SubAlarmStatsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -236,8 +238,16 @@ public class MetricAggregationBolt extends BaseRichBolt {
         new SubAlarm(original.getId(), original.getAlarmId(), new SubExpression(
             original.getAlarmSubExpressionId(), original.getExpression()), original.getState());
     newSubAlarm.setNoState(original.isNoState());
-    newSubAlarm.setCurrentValues(original.getCurrentValues());
+    cloneCurrentValues(original, newSubAlarm);
     return newSubAlarm;
+  }
+
+  private void cloneCurrentValues(final SubAlarm original, final SubAlarm newSubAlarm) {
+    final List<Double> originalCurrentValues = original.getCurrentValues();
+    if (originalCurrentValues == null) {
+      return;
+    }
+    newSubAlarm.setCurrentValues(new ArrayList<>(originalCurrentValues));
   }
 
   /**
