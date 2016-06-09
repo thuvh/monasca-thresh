@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aa08908_67c6ec17",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 18179
+      },
+      "writtenOn": "2016-06-09T20:43:29Z",
+      "side": 1,
+      "message": "# (C) Copyright 2014, 2016 Hewlett Packard Enterprise Development Company LP",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 68
+      },
+      "revId": "50d67b214e960642147f51b53fcbaf8fa76949d6",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
