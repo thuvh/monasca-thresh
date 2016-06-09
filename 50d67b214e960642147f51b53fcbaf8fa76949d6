@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7aa08908_cfd7f6eb",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-06-09T21:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aa08908_67c6ec17",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 68
+      },
+      "revId": "50d67b214e960642147f51b53fcbaf8fa76949d6",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7aa08908_1c2ade7e",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-09T21:06:14Z",
       "side": 1,
       "message": "I am fan of utils methods so I\u0027d ask here if there is any method from Guava or Apache that would do the same by single line of code ?",
+      "range": {
+        "startLine": 241,
+        "startChar": 32,
+        "endLine": 241,
+        "endChar": 33
+      },
+      "revId": "50d67b214e960642147f51b53fcbaf8fa76949d6",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa08908_8fd7aebe",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-06-09T21:42:19Z",
+      "side": 1,
+      "message": "I looked but didn\u0027t see anything. Let me know if you find something",
+      "parentUuid": "7aa08908_1c2ade7e",
       "range": {
         "startLine": 241,
         "startChar": 32,
