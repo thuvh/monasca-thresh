@@ -93,6 +93,30 @@
       "revId": "50d67b214e960642147f51b53fcbaf8fa76949d6",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa08908_672ffbf6",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-06-10T05:54:45Z",
+      "side": 1,
+      "message": "Yeah, I think that there is nothing like that.\nWell I think you could you Lists utils from Guava but in worst case that would return empty list from what I could see. \n\nThere\u0027s a method\n\n java.util.Collections.nCopies\n\nbut I looks rather odd and most likely wouldn\u0027t fit in here.",
+      "parentUuid": "7aa08908_8fd7aebe",
+      "range": {
+        "startLine": 241,
+        "startChar": 32,
+        "endLine": 241,
+        "endChar": 33
+      },
+      "revId": "50d67b214e960642147f51b53fcbaf8fa76949d6",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
