@@ -1,0 +1,10 @@
+Code-Review+2: Tomasz Trębski <tomasz.trebski@ts.fujitsu.com>
+Code-Review+1: Kaiyan Sheng <kaiyan.sheng@hp.com>
+Code-Review+2: Roland Hochmuth <roland.hochmuth@hp.com>
+Workflow+1: Roland Hochmuth <roland.hochmuth@hp.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 14 Jun 2016 21:15:49 +0000
+Reviewed-on: https://review.openstack.org/327931
+Project: openstack/monasca-thresh
+Branch: refs/heads/master
