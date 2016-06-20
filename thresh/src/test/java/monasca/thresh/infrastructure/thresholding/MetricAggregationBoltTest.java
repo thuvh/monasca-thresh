@@ -394,7 +394,27 @@ public class MetricAggregationBoltTest {
     verify(collector, times(1)).emit(new Values(subAlarm2.getAlarmId(), subAlarm2));
   }
 
-  public void shouldNeverLeaveOkIfThresholdNotExceededForNonDeterministic() {
+  public void shouldSendAlarmIfMetricBeforeSubAlarm() {
+    long t1 = 50000;
+    bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
+    t1 += 1000;
+    bolt.setCurrentTime(t1);
+    sendSubAlarmCreated(metricDef4, subAlarm4);
+    bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
+    t1 += 1000;
+    bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
+    t1 += 1000;
+    bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
+    t1 += 1000;
+    bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
+
+    bolt.setCurrentTime(t1 += 60000);
+    sendTickTuple();
+    assertEquals(subAlarm4.getState(), AlarmState.ALARM);
+    verify(collector, times(1)).emit(new Values(subAlarm4.getAlarmId(), subAlarm4));
+  }
+
+  public void shouldNeverLeaveOkIfThresholdNotExceededForDeterministic() {
     long t1 = 50000;
     bolt.setCurrentTime(t1);
     sendSubAlarmCreated(metricDef4, subAlarm4);
