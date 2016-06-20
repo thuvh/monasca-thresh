@@ -308,6 +308,23 @@ public class MetricAggregationBoltTest {
     verify(collector, never()).emit(new Values(subAlarm4.getAlarmId(), subAlarm4));
   }
 
+
+  public void shouldImmediatelyGoToAlarmUsingSavedMetric() {
+    long t1 = 170000;
+    bolt.setCurrentTime(t1);
+    bolt.execute(createMetricTuple(metricDef3, new Metric(metricDef3, t1 + 1000, 100000, null)));
+
+    sendSubAlarmCreated(metricDef2, subAlarm2);
+    sendSubAlarmCreated(metricDef3, subAlarm3);
+
+    // subAlarm2 is AVG so it can't be evaluated immediately like the MAX for subalarm3
+    assertEquals(subAlarm3.getState(), AlarmState.ALARM);
+    assertEquals(subAlarm2.getState(), AlarmState.UNDETERMINED);
+
+    verify(collector, never()).emit(new Values(subAlarm2.getAlarmId(), subAlarm2));
+    verify(collector, times(1)).emit(new Values(subAlarm3.getAlarmId(), subAlarm3));
+  }
+
   private void sendTickTuple() {
     final Tuple tickTuple = createTickTuple();
     bolt.execute(tickTuple);
@@ -397,12 +414,12 @@ public class MetricAggregationBoltTest {
     verify(collector, times(1)).emit(new Values(subAlarm2.getAlarmId(), subAlarm2));
   }
 
-  public void shouldSendOkAfterAlarmIfNoMetrics() {
+  public void shouldSendAlarmIfMetricBeforeSubAlarm() {
     long t1 = 50000;
-    bolt.setCurrentTime(t1);
-    sendSubAlarmCreated(metricDef4, subAlarm4);
     bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
     t1 += 1000;
+    bolt.setCurrentTime(t1);
+    sendSubAlarmCreated(metricDef4, subAlarm4);
     bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
     t1 += 1000;
     bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
@@ -415,6 +432,14 @@ public class MetricAggregationBoltTest {
     sendTickTuple();
     assertEquals(subAlarm4.getState(), AlarmState.ALARM);
     verify(collector, times(1)).emit(new Values(subAlarm4.getAlarmId(), subAlarm4));
+  }
+
+  public void shouldSendOkAfterAlarmIfNoMetrics() {
+    long t1 = 50000;
+    bolt.setCurrentTime(t1);
+    sendSubAlarmCreated(metricDef4, subAlarm4);
+    bolt.execute(createMetricTuple(metricDef4, new Metric(metricDef4, t1, 1.0, null)));
+    t1 += 1000;
 
     // Have to reset the mock so it can tell the difference when subAlarm4 is emitted again.
     reset(collector);
