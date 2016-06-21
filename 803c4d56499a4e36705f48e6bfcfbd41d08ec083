@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a9d85d2_6e5fcb41",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-06-21T03:57:35Z",
+      "side": 1,
+      "message": "Couldn\u0027t we take this operation\n  \n timestamp / 1000\n\ninto specific method, this operation seems to be repeated in at least two places (according to changed lines of code). Perhaps there\u0027s more. Maybe something like\n\n timestampToSeconds(int timestamp) {}\n\nwhat do you think ?",
+      "range": {
+        "startLine": 236,
+        "startChar": 57,
+        "endLine": 236,
+        "endChar": 61
+      },
+      "revId": "803c4d56499a4e36705f48e6bfcfbd41d08ec083",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
