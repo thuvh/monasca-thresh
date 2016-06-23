@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aaa91ec_ab55ec50",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 16222
+      },
+      "writtenOn": "2016-06-23T15:06:54Z",
+      "side": 1,
+      "message": "MetricFilteringBolt",
+      "range": {
+        "startLine": 334,
+        "startChar": 50,
+        "endLine": 334,
+        "endChar": 68
+      },
+      "revId": "98c3e31a85b110ea2e3376db3c023f8831651566",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
