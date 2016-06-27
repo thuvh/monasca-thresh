@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3aaa91ec_69542221",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-06-27T14:41:19Z",
+      "side": 1,
+      "message": "Good idea. Can\u0027t have too much debug logging. Done",
+      "parentUuid": "3aaa91ec_9b30be57",
+      "range": {
+        "startLine": 239,
+        "startChar": 15,
+        "endLine": 239,
+        "endChar": 32
+      },
+      "revId": "0cc32bc6b9bd5218e06f90a7ca0793a95d29e0a8",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aaa91ec_dbb526ed",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-27T11:35:53Z",
       "side": 1,
       "message": "So effectively it means that if we did not receive metric for 10 seconds measurements are lost ? If that\u0027s a correct assumption, could you rename variable to something like\n\n  MAX_SAVED_METRIC_AGE_SECONDS",
+      "range": {
+        "startLine": 262,
+        "startChar": 17,
+        "endLine": 262,
+        "endChar": 37
+      },
+      "revId": "0cc32bc6b9bd5218e06f90a7ca0793a95d29e0a8",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_29217ab5",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-06-27T14:41:19Z",
+      "side": 1,
+      "message": "Yes, that assumption is correct. Done",
+      "parentUuid": "3aaa91ec_dbb526ed",
       "range": {
         "startLine": 262,
         "startChar": 17,
