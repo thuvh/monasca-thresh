@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aaa91ec_6b622fda",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-06-28T07:43:32Z",
+      "side": 1,
+      "message": "I am looking at this name and I don\u0027t feel like savedMetrics is correct one. After all you are not persisting them here, only temporarily store.\n\nPerhaps we could use stashedMetrics as a name, what do you think ?",
+      "range": {
+        "startLine": 86,
+        "startChar": 51,
+        "endLine": 86,
+        "endChar": 63
+      },
+      "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_ab36d7b1",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-06-28T07:43:32Z",
+      "side": 1,
+      "message": "That line keeps me wonder, why do we need new method to actually clean stashed metric, couldn\u0027t we rely on this code here ?",
+      "range": {
+        "startLine": 194,
+        "startChar": 15,
+        "endLine": 194,
+        "endChar": 19
+      },
+      "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_ab81b74f",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-06-28T07:43:32Z",
+      "side": 1,
+      "message": "Should be\n\n  isSavedMetricTooOld\n\nor \n\n isStashedMetricTooOld\n\nif we change the name of variable.",
+      "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
