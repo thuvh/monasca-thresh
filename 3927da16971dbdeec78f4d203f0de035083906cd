@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3aaa91ec_9f3fbc24",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-06-28T14:44:06Z",
+      "side": 1,
+      "message": "I don\u0027t see any real difference between saved and stashed. They are really synonyms",
+      "parentUuid": "3aaa91ec_6b622fda",
+      "range": {
+        "startLine": 86,
+        "startChar": 51,
+        "endLine": 86,
+        "endChar": 63
+      },
+      "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aaa91ec_ab36d7b1",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3aaa91ec_1f60ec34",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-06-28T14:44:06Z",
+      "side": 1,
+      "message": "Only if the SubAlarm does show up. If it doesn\u0027t, then the saved metric would never be deleted",
+      "parentUuid": "3aaa91ec_ab36d7b1",
+      "range": {
+        "startLine": 194,
+        "startChar": 15,
+        "endLine": 194,
+        "endChar": 19
+      },
+      "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aaa91ec_ab81b74f",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
         "patchSetId": 6
@@ -59,6 +107,24 @@
       "writtenOn": "2016-06-28T07:43:32Z",
       "side": 1,
       "message": "Should be\n\n  isSavedMetricTooOld\n\nor \n\n isStashedMetricTooOld\n\nif we change the name of variable.",
+      "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_dfe5c4a8",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-06-28T14:44:06Z",
+      "side": 1,
+      "message": "See above",
+      "parentUuid": "3aaa91ec_ab81b74f",
       "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
