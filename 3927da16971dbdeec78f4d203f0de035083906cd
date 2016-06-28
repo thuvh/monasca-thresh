@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3aaa91ec_b1b736f4",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2016-06-28T22:16:31Z",
+      "side": 1,
+      "message": "I am not native english speaker, sometimes I get caught up in things like that. I am fine with the name :)",
+      "parentUuid": "3aaa91ec_9f3fbc24",
+      "range": {
+        "startLine": 86,
+        "startChar": 51,
+        "endLine": 86,
+        "endChar": 63
+      },
+      "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aaa91ec_ab36d7b1",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
         "patchSetId": 6
