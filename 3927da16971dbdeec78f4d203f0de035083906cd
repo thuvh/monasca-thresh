@@ -152,6 +152,24 @@
       "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_9f114755",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBolt.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 16222
+      },
+      "writtenOn": "2016-06-29T12:26:02Z",
+      "side": 1,
+      "message": "I think Tomasz meant primarily the \u0027is\u0027 prefix because the method returns boolean value. Also for me is\n\n isSavedMetricTooOld\n\nbetter.",
+      "parentUuid": "3aaa91ec_dfe5c4a8",
+      "revId": "3927da16971dbdeec78f4d203f0de035083906cd",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
