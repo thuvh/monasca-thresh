@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2014,2016 Hewlett Packard Enterprise Development Company LP.
+ * (C) Copyright 2014-2016 Hewlett Packard Enterprise Development LP
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,7 +128,7 @@ public class AlarmThresholdingBoltTest {
             + "\"timestamp\":1395587091003}}";
 
     verify(alarmEventForwarder, times(1)).send(alarmJson);
-    verify(alarmDAO, times(1)).updateState(alarmId, AlarmState.ALARM);
+    verify(alarmDAO, times(1)).updateState(alarmId, AlarmState.ALARM, System.currentTimeMillis());
 
     // Now clear the alarm and ensure another notification gets sent out
     subAlarm.setState(AlarmState.OK);
@@ -153,7 +153,7 @@ public class AlarmThresholdingBoltTest {
             + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
             + "\"timestamp\":1395587091003}}";
     verify(alarmEventForwarder, times(1)).send(okJson);
-    verify(alarmDAO, times(1)).updateState(alarmId, AlarmState.OK);
+    verify(alarmDAO, times(1)).updateState(alarmId, AlarmState.OK, System.currentTimeMillis());
   }
 
   public void simpleAlarmUpdate() {
