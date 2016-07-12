@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa78d24_c659fffe",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-07-12T22:39:58Z",
+      "side": 1,
+      "message": "SimpleDateFormat is not thread safe. Unbelievable, I know, but still true",
+      "range": {
+        "startLine": 59,
+        "startChar": 33,
+        "endLine": 59,
+        "endChar": 49
+      },
+      "revId": "c5af0b7e3cbdc0868522566208eafb72cad77983",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_464fcf33",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDAOImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2016-07-12T22:39:58Z",
+      "side": 1,
+      "message": "You should also verify the time, if you can.",
+      "range": {
+        "startLine": 212,
+        "startChar": 60,
+        "endLine": 212,
+        "endChar": 76
+      },
+      "revId": "c5af0b7e3cbdc0868522566208eafb72cad77983",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
