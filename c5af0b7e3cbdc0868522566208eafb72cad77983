@@ -45,6 +45,30 @@
       "revId": "c5af0b7e3cbdc0868522566208eafb72cad77983",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_dd836554",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/persistence/AlarmDAOImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 15027
+      },
+      "writtenOn": "2016-07-13T14:17:01Z",
+      "side": 1,
+      "message": "it is not in the alarm object or attainable by any of the dao methods let me see what i can do",
+      "parentUuid": "1aa78d24_464fcf33",
+      "range": {
+        "startLine": 212,
+        "startChar": 60,
+        "endLine": 212,
+        "endChar": 76
+      },
+      "revId": "c5af0b7e3cbdc0868522566208eafb72cad77983",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
