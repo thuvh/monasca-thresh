@@ -19,6 +19,7 @@ package monasca.thresh.infrastructure.thresholding;
 
 import monasca.common.configuration.KafkaProducerConfiguration;
 import monasca.common.model.event.AlarmDefinitionUpdatedEvent;
+import monasca.common.model.event.AlarmDefinitionDeletedEvent;
 import monasca.common.model.event.AlarmStateTransitionedEvent;
 import monasca.common.model.event.AlarmUpdatedEvent;
 import monasca.common.model.alarm.AlarmState;
@@ -115,7 +116,9 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
       }
       else if (EventProcessingBolt.ALARM_DEFINITION_EVENT_STREAM_ID.equals(tuple.getSourceStreamId())) {
         String eventType = tuple.getString(0);
-        if (EventProcessingBolt.UPDATED.equals(eventType)) {
+        if (EventProcessingBolt.DELETED.equals(eventType)) {
+          handle((AlarmDefinitionDeletedEvent) tuple.getValue(1));
+        } else if (EventProcessingBolt.UPDATED.equals(eventType)) {
           handle((AlarmDefinitionUpdatedEvent) tuple.getValue(1));
         }
       } else if (EventProcessingBolt.METRIC_SUB_ALARM_EVENT_STREAM_ID.equals(tuple
@@ -169,6 +172,18 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
     }
   }
 
+  private void handle(AlarmDefinitionDeletedEvent event) {
+    final AlarmDefinition alarmDefinition = alarmDefinitions.get(event.alarmDefinitionId);
+    if (alarmDefinition == null) {
+      // This is OK. No Alarms are using this AlarmDefinition
+      logger.debug("Removal of AlarmDefinition {} skipped. Not in use by this bolt",
+              event.alarmDefinitionId);
+      return;
+    }
+    logger.info("Removing AlarmDefinition {}", event.alarmDefinitionId);
+    alarmDefinitions.remove(event.alarmDefinitionId);
+  }
+
   @Override
   @SuppressWarnings("rawtypes")
   public void prepare(Map config, TopologyContext context, OutputCollector collector) {
@@ -199,9 +214,15 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
 
     AlarmState initialState = alarm.getState();
     // Wait for all sub alarms to have a state before evaluating to prevent flapping on startup
-    if (allSubAlarmsHaveState(alarm)
-        && alarm.evaluate(alarmDefinitions.get(alarm.getAlarmDefinitionId()).getAlarmExpression())) {
-      changeAlarmState(alarm, initialState, alarm.getStateChangeReason());
+    if (allSubAlarmsHaveState(alarm)) {
+      final AlarmDefinition alarmDefinition = alarmDefinitions.get(alarm.getAlarmDefinitionId());
+      if (alarmDefinition == null) {
+        logger.debug("Alarm-Definition for sub-alarm {} already removed", subAlarm);
+        return;
+      }
+      if (alarm.evaluate(alarmDefinition.getAlarmExpression())) {
+        changeAlarmState(alarm, initialState, alarm.getStateChangeReason());
+      }
     }
   }
 
