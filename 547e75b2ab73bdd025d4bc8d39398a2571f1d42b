@@ -46,6 +46,30 @@
       "revId": "547e75b2ab73bdd025d4bc8d39398a2571f1d42b",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_cb49e332",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/thresholding/AlarmThresholdingBolt.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2017-02-08T16:29:38Z",
+      "side": 1,
+      "message": "The Alarm would have to change state between the time the Alarm Definition Deleted event was received and before the Alarm Deleted Event was received. That should be a very small window, so I think it is a corner case.\n\nIf you wish to change the Threshold Engine to clean up the Alarms, that would be great. Please create a blueprint to document your design for that change and I can comment on it\n\nMetricFilteringBolt.deleteAlarmDefinition() can\u0027t call removeAlarm() because it doesn\u0027t know the actual metric that was used for each Alarm. It could do an exhaustive search of the entire alreadyFound ExistingHolder object and delete ones that matched the AlarmDefinitionId, but since that alreadyFound can be quite large, I wanted to avoid the exhaustive search",
+      "parentUuid": "1a430d35_d371b145",
+      "range": {
+        "startLine": 219,
+        "startChar": 6,
+        "endLine": 219,
+        "endChar": 36
+      },
+      "revId": "547e75b2ab73bdd025d4bc8d39398a2571f1d42b",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
