@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da36d5c6_7ba447b9",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/hibernate/AlarmDefinitionSqlImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 16168
+      },
+      "writtenOn": "2017-02-24T11:36:00Z",
+      "side": 1,
+      "message": "Not really sure, but looks like something that might be added to every method here. Was long time ago when I was working on those bits of code.",
+      "revId": "4b4411188e9a0feca88bbdff52490e12de2590ec",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
