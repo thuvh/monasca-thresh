@@ -181,4 +181,11 @@ public class AlarmDefinitionDAOImpl implements AlarmDefinitionDAO {
       return alarmDefinition;
     }
   }
+
+  @Override
+  public void deleteByDefinitionId(String alarmDefinitionId) {
+    try (Handle h = db.open()) {
+      h.execute("delete from alarm_definition where id = :id", alarmDefinitionId);
+    }
+  }
 }

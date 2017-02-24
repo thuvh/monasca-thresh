@@ -146,7 +146,7 @@ public class TopologyModule extends AbstractModule {
 
     // Filtering /Event -> Alarm Creation
     builder
-        .setBolt("alarm-creation-bolt", new AlarmCreationBolt(config.database),
+        .setBolt("alarm-creation-bolt", new AlarmCreationBolt(config.database, config.keepAlarmDefs),
             config.alarmCreationBoltThreads)
         .fieldsGrouping("filtering-bolt",
             MetricFilteringBolt.NEW_METRIC_FOR_ALARM_DEFINITION_STREAM,

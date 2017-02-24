@@ -25,4 +25,6 @@ public interface AlarmDefinitionDAO {
   public List<AlarmDefinition> listAll();
   
   AlarmDefinition findById(String id);
+
+  void deleteByDefinitionId(String alarmDefinitionId);
 }

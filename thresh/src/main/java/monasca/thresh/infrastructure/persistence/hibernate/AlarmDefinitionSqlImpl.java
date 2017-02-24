@@ -39,11 +39,15 @@ import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * AlarmDefinitionDAO hibernate implementation.
@@ -52,6 +56,8 @@ import org.hibernate.criterion.Restrictions;
  */
 public class AlarmDefinitionSqlImpl
     implements AlarmDefinitionDAO {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(AlarmSqlImpl.class);
 
   private final SessionFactory sessionFactory;
 
@@ -237,5 +243,48 @@ public class AlarmDefinitionSqlImpl
     subAlarmDefinitionResult.close();
 
     return subExpressions;
+  }
+
+  /**
+   * Rollbacks passed {@code tx} transaction if such is not null.
+   * Assumption is being made that {@code tx} being null means transaction
+   * has been successfully comitted.
+   *
+   * @param tx {@link Transaction} object
+   */
+  private void rollbackIfNotNull(final Transaction tx) {
+    if (tx != null) {
+      try {
+        tx.rollback();
+      } catch (RuntimeException rbe) {
+        LOGGER.error("Couldn’t roll back transaction", rbe);
+      }
+    }
+  }
+
+  @Override
+  public void deleteByDefinitionId(final String alarmDefinitionId) {
+    Transaction tx = null;
+    Session session = null;
+
+    try {
+      session = sessionFactory.openSession();
+      tx = session.beginTransaction();
+
+      session
+              .getNamedQuery(AlarmDefinitionDb.Queries.DELETE_BY_ID)
+              .setString("id", alarmDefinitionId)
+              .executeUpdate();
+
+      tx.commit();
+      tx = null;
+
+    } finally {
+      this.rollbackIfNotNull(tx);
+      if (session != null) {
+        session.close();
+      }
+    }
+
   }
 }

@@ -64,6 +64,7 @@ public class AlarmCreationBolt extends BaseRichBolt {
 
   private transient Logger logger;
   private DataSourceFactory dbConfig;
+  private final boolean keepAlarmDefs;
   private transient AlarmDefinitionDAO alarmDefDAO;
   private transient AlarmDAO alarmDAO;
   private OutputCollector collector;
@@ -72,14 +73,16 @@ public class AlarmCreationBolt extends BaseRichBolt {
   private final Map<String, AlarmDefinition> alarmDefinitionCache = new HashMap<>();
   private static final List<Alarm> EMPTY_LIST = Collections.<Alarm>emptyList();
 
-  public AlarmCreationBolt(DataSourceFactory dbConfig) {
+  public AlarmCreationBolt(DataSourceFactory dbConfig, boolean keepAlarmDefs) {
     this.dbConfig = dbConfig;
+    this.keepAlarmDefs = keepAlarmDefs;
   }
 
   public AlarmCreationBolt(AlarmDefinitionDAO alarmDefDAO,
                            AlarmDAO alarmDAO) {
     this.alarmDefDAO = alarmDefDAO;
     this.alarmDAO = alarmDAO;
+    this.keepAlarmDefs = false;
   }
 
   @Override
@@ -207,6 +210,9 @@ public class AlarmCreationBolt extends BaseRichBolt {
     alarmCache.remove(alarmDefinitionId);
     alarmDefinitionCache.remove(alarmDefinitionId);
     alarmDAO.deleteByDefinitionId(alarmDefinitionId);
+    if(!keepAlarmDefs) {
+      alarmDefDAO.deleteByDefinitionId(alarmDefinitionId);
+    }
   }
 
   protected void handleNewMetricDefinition(
