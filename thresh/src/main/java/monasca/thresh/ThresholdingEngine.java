@@ -26,6 +26,7 @@ import org.apache.storm.StormSubmitter;
 import org.apache.storm.generated.StormTopology;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.log4j.*;
 
 import java.io.File;
 
@@ -99,6 +100,7 @@ public class ThresholdingEngine {
     StormTopology topology = Injector.getInstance(StormTopology.class);
     config.registerSerialization(monasca.thresh.domain.model.SubAlarm.class);
     config.registerSerialization(monasca.thresh.domain.model.SubExpression.class);
+    BasicConfigurator.configure();
 
     if (local) {
       logger.info("submitting topology {} to local storm cluster", topologyName);
