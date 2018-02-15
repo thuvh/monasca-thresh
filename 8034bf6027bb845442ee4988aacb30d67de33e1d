@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_84a3d100",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-15T13:43:00Z",
+      "side": 1,
+      "message": "No dot at the end of commit subject",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "8034bf6027bb845442ee4988aacb30d67de33e1d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_44adc9e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-15T13:43:00Z",
+      "side": 1,
+      "message": "Add empty line between commit subject and rest of the commit message body.",
+      "revId": "8034bf6027bb845442ee4988aacb30d67de33e1d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_c4e79946",
+        "filename": "README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-15T13:43:00Z",
+      "side": 1,
+      "message": "Add empty line after markdown title",
+      "revId": "8034bf6027bb845442ee4988aacb30d67de33e1d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_04b7c13c",
+        "filename": "README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-15T13:43:00Z",
+      "side": 1,
+      "message": "remove space",
+      "range": {
+        "startLine": 90,
+        "startChar": 102,
+        "endLine": 90,
+        "endChar": 103
+      },
+      "revId": "8034bf6027bb845442ee4988aacb30d67de33e1d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_e4873561",
+        "filename": "README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-15T13:43:00Z",
+      "side": 1,
+      "message": "One empty line at the end of file.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 0
+      },
+      "revId": "8034bf6027bb845442ee4988aacb30d67de33e1d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_c42c794c",
+        "filename": "thresh/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-15T13:43:00Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 370,
+        "startChar": 57,
+        "endLine": 370,
+        "endChar": 77
+      },
+      "revId": "8034bf6027bb845442ee4988aacb30d67de33e1d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_041a6116",
+        "filename": "thresh/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-15T13:43:00Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 379,
+        "startChar": 57,
+        "endLine": 379,
+        "endChar": 77
+      },
+      "revId": "8034bf6027bb845442ee4988aacb30d67de33e1d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
