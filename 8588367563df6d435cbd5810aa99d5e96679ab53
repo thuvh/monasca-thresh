@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_0c835106",
+        "filename": "README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-16T12:38:32Z",
+      "side": 1,
+      "message": "When executing",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 1
+      },
+      "revId": "8588367563df6d435cbd5810aa99d5e96679ab53",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_ec79452f",
+        "filename": "README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-02-16T12:38:32Z",
+      "side": 1,
+      "message": "remove, configure you editor to automatically strip spaces at the end of lines, please.",
+      "range": {
+        "startLine": 91,
+        "startChar": 100,
+        "endLine": 91,
+        "endChar": 101
+      },
+      "revId": "8588367563df6d435cbd5810aa99d5e96679ab53",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
