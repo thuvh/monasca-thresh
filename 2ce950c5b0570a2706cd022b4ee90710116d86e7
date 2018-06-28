@@ -1,0 +1,8 @@
+Code-Review+2: Dobroslaw Zybort <dobroslaw.zybort@ts.fujitsu.com>
+Workflow+1: Dobroslaw Zybort <dobroslaw.zybort@ts.fujitsu.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Thu, 28 Jun 2018 12:52:34 +0000
+Reviewed-on: https://review.openstack.org/576828
+Project: openstack/monasca-thresh
+Branch: refs/heads/master
