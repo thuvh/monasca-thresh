@@ -1,0 +1,8 @@
+Code-Review+2: Witold Bedyk <witold.bedyk@est.fujitsu.com>
+Workflow+1: Witold Bedyk <witold.bedyk@est.fujitsu.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Thu, 09 Aug 2018 15:54:41 +0000
+Reviewed-on: https://review.openstack.org/590379
+Project: openstack/monasca-thresh
+Branch: refs/heads/stable/rocky
