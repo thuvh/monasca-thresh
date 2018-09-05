@@ -52,7 +52,7 @@ public class SubAlarmStatsTest {
     lastExpression =
         new SubExpression(UUID.randomUUID().toString(),
             AlarmSubExpression.of("last(hpcs.compute.cpu{id=5}) > 0"));
-    lastSubAlarm = new SubAlarm("456", "1", lastExpression, AlarmState.UNDETERMINED);
+    lastSubAlarm = new SubAlarm("456", "1", lastExpression, AlarmState.UNDETERMINED, null);
     lastSubAlarm.setNoState(true);
     lastViewStartTime = 10000;
     lastSubAlarmStats = new SubAlarmStats(lastSubAlarm,

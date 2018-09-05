@@ -55,7 +55,7 @@ public class AlarmTest {
     subAlarm2.setState(AlarmState.ALARM);
 
     assertFalse(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.UNDETERMINED);
+    assertEquals(alarm.getState(), AlarmState.UNDETERMINED, null);
   }
 
   private Alarm createAlarm(AlarmExpression expr) {
@@ -74,7 +74,7 @@ public class AlarmTest {
     SubAlarm subAlarm2 = iter.next();
 
     assertFalse(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.UNDETERMINED);
+    assertEquals(alarm.getState(), AlarmState.UNDETERMINED, null);
 
     subAlarm1.setState(AlarmState.OK);
     assertFalse(alarm.evaluate(expr));
@@ -82,7 +82,7 @@ public class AlarmTest {
     // UNDETERMINED -> OK
     subAlarm2.setState(AlarmState.OK);
     assertTrue(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.OK);
+    assertEquals(alarm.getState(), AlarmState.OK, null);
 
     subAlarm2.setState(AlarmState.ALARM);
     assertFalse(alarm.evaluate(expr));
@@ -90,12 +90,12 @@ public class AlarmTest {
     // OK -> ALARM
     subAlarm1.setState(AlarmState.ALARM);
     assertTrue(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.ALARM);
+    assertEquals(alarm.getState(), AlarmState.ALARM, null);
 
     // ALARM -> UNDETERMINED
     subAlarm1.setState(AlarmState.UNDETERMINED);
     assertTrue(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.UNDETERMINED);
+    assertEquals(alarm.getState(), AlarmState.UNDETERMINED, null);
   }
 
   public void shouldEvaluateExpressionWithBooleanOr() {
@@ -109,7 +109,7 @@ public class AlarmTest {
     SubAlarm subAlarm2 = iter.next();
 
     assertFalse(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.UNDETERMINED);
+    assertEquals(alarm.getState(), AlarmState.UNDETERMINED, null);
 
     subAlarm1.setState(AlarmState.ALARM);
     assertFalse(alarm.evaluate(expr));
@@ -117,27 +117,27 @@ public class AlarmTest {
     // UNDETERMINED -> ALARM
     subAlarm2.setState(AlarmState.OK);
     assertTrue(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.ALARM);
+    assertEquals(alarm.getState(), AlarmState.ALARM, null);
 
     // ALARM -> OK
     subAlarm1.setState(AlarmState.OK);
     subAlarm2.setState(AlarmState.OK);
     assertTrue(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.OK);
+    assertEquals(alarm.getState(), AlarmState.OK, null);
 
     // OK -> ALARM
     subAlarm2.setState(AlarmState.ALARM);
     assertTrue(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.ALARM);
+    assertEquals(alarm.getState(), AlarmState.ALARM, null);
 
     // ALARM -> ALARM
     assertFalse(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.ALARM);
+    assertEquals(alarm.getState(), AlarmState.ALARM, null);
 
     // ALARM -> UNDETERMINED
     subAlarm2.setState(AlarmState.UNDETERMINED);
     assertTrue(alarm.evaluate(expr));
-    assertEquals(alarm.getState(), AlarmState.UNDETERMINED);
+    assertEquals(alarm.getState(), AlarmState.UNDETERMINED, null);
   }
 
   public void shouldBuiltStateChangeReason() {
@@ -194,7 +194,7 @@ public class AlarmTest {
 
     assertFalse(alarm.evaluate(expr));
     assertTrue(alarm.isDeterministic());
-    assertEquals(alarm.getState(), AlarmState.OK);
+    assertEquals(alarm.getState(), AlarmState.OK, null);
   }
 
   public void testShouldNotInitiallyProceedToOKIfNotAllSubAlarmsAreDeterministic() {
@@ -212,7 +212,7 @@ public class AlarmTest {
 
     assertFalse(alarm.evaluate(expr));
     assertFalse(alarm.isDeterministic());
-    assertEquals(alarm.getState(), AlarmState.UNDETERMINED);
+    assertEquals(alarm.getState(), AlarmState.UNDETERMINED, null);
   }
 
   public void testShouldStayInAlarmDeterministic() {
@@ -228,7 +228,7 @@ public class AlarmTest {
 
     assertFalse(alarm.evaluate(expr));
     assertTrue(alarm.isDeterministic());
-    assertEquals(alarm.getState(), AlarmState.ALARM);
+    assertEquals(alarm.getState(), AlarmState.ALARM, null);
   }
 
   public void testShouldStayInOkDeterministic() {
@@ -240,7 +240,7 @@ public class AlarmTest {
 
     assertFalse(alarm.evaluate(expr));
     assertTrue(alarm.isDeterministic());
-    assertEquals(alarm.getState(), AlarmState.OK);
+    assertEquals(alarm.getState(), AlarmState.OK, null);
   }
 
   public void testShouldEnterOkFromAlarmDeterministic() {
@@ -256,20 +256,20 @@ public class AlarmTest {
 
     assertTrue(alarm.evaluate(expr));
     assertTrue(alarm.isDeterministic());
-    assertEquals(alarm.getState(), AlarmState.OK);
+    assertEquals(alarm.getState(), AlarmState.OK, null);
   }
 
   public void testShouldInitiallySetOKForDeterministic() {
     assertEquals(
         this.createAlarm(AlarmExpression.of("count(log.error,deterministic) > 2")).getState(),
-        AlarmState.OK
+        AlarmState.OK, null
     );
   }
 
   public void testShouldInitiallySetUndeterminedForNonDeterministic() {
     assertEquals(
         this.createAlarm(AlarmExpression.of("count(log.error) > 2")).getState(),
-        AlarmState.UNDETERMINED
+        AlarmState.UNDETERMINED, null
     );
   }
 

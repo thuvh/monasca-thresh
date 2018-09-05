@@ -26,6 +26,8 @@ import monasca.common.util.time.TimeResolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 /**
  * Aggregates statistics for a specific SubAlarm.
  */
@@ -148,9 +150,9 @@ public class SubAlarmStats {
       newState = this.determineAlarmStateUsingView();
       immediateAlarmTransition = false;
     }
-  
+
     final boolean shouldSendStateChange = this.shouldSendStateChange(newState);
-  
+
     if (shouldSendStateChange && (shouldEvaluate || immediateAlarmTransition)) {
       logger.debug("SubAlarm[deterministic={}] {} transitions from {} to {}",
           this.getSubAlarm().isDeterministic(),
@@ -283,9 +285,13 @@ public class SubAlarmStats {
     return newState != null && (!subAlarm.getState().equals(newState) || subAlarm.isNoState());
   }
 
-  private void setSubAlarmState(AlarmState newState) {
+  private void setSubAlarmState(AlarmState newState){
     subAlarm.setState(newState);
     subAlarm.setNoState(false);
+  }
+
+  public void setValueMeta(Map<String, String> valueMeta) {
+    subAlarm.setValueMeta(valueMeta);
   }
 
   /**
