@@ -204,8 +204,8 @@ public class MetricAggregationBolt extends BaseRichBolt {
       if (stats.addValue(metric.value, timestamp_secs)) {
         logger.trace("Aggregated value {} at {} for {}. Updated {}", metric.value,
             metric.timestamp, metricDefinitionAndTenantId, stats.getStats());
-        if (stats.evaluateAndSlideWindow(timestamp_secs, config.alarmDelay)) {
-          sendSubAlarmStateChange(stats);
+        if (stats.evaluateAndSlideWindow(timestamp_secs, config.alarmDelay, metric.getValueMeta())) {
+          sendSubAlarmStateChange(stats, metric.getValueMeta());
         }
       } else {
         logger.warn("Metric is too old, age {} seconds: timestamp {} for {}, {}",
@@ -236,7 +236,7 @@ public class MetricAggregationBolt extends BaseRichBolt {
       if (upToDate) {
         logger.debug("Evaluating {}", subAlarmStats);
         if (subAlarmStats.evaluateAndSlideWindow(newWindowTimestamp, config.alarmDelay)) {
-          sendSubAlarmStateChange(subAlarmStats);
+          sendSubAlarmStateChange(subAlarmStats, null);
         }
       } else {
         subAlarmStats.slideWindow(newWindowTimestamp, config.alarmDelay);
@@ -248,11 +248,12 @@ public class MetricAggregationBolt extends BaseRichBolt {
     }
   }
 
-  private void sendSubAlarmStateChange(SubAlarmStats subAlarmStats) {
+  private void sendSubAlarmStateChange(SubAlarmStats subAlarmStats, Map<String, String> valueMeta) {
     logger.debug("Alarm state changed for {}", subAlarmStats);
     if (subAlarmStats.getSubAlarm().onlyImmediateEvaluation()) {
       alarmDAO.updateSubAlarmState(subAlarmStats.getSubAlarm().getId(),
-                                   subAlarmStats.getSubAlarm().getState());
+                                   subAlarmStats.getSubAlarm().getState(),
+                                   valueMeta);
     }
     collector.emit(new Values(subAlarmStats.getSubAlarm().getAlarmId(), duplicate(subAlarmStats
         .getSubAlarm())));
@@ -268,7 +269,8 @@ public class MetricAggregationBolt extends BaseRichBolt {
   public SubAlarm duplicate(final SubAlarm original) {
     final SubAlarm newSubAlarm =
         new SubAlarm(original.getId(), original.getAlarmId(), new SubExpression(
-            original.getAlarmSubExpressionId(), original.getExpression()), original.getState());
+            original.getAlarmSubExpressionId(), original.getExpression()), original.getState(),
+            original.getValueMeta());
     newSubAlarm.setNoState(original.isNoState());
     newSubAlarm.setCurrentValues(cloneCurrentValues(original));
     return newSubAlarm;

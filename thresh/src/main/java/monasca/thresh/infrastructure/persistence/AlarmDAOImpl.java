@@ -20,6 +20,7 @@ package monasca.thresh.infrastructure.persistence;
 import monasca.common.model.alarm.AlarmState;
 import monasca.common.model.alarm.AlarmSubExpression;
 import monasca.common.model.metric.MetricDefinition;
+import monasca.common.util.Serialization;
 import monasca.thresh.domain.model.Alarm;
 import monasca.thresh.domain.model.MetricDefinitionAndTenantId;
 import monasca.thresh.domain.model.SubAlarm;
@@ -78,9 +79,10 @@ public class AlarmDAOImpl implements AlarmDAO {
   private List<Alarm> findAlarms(final String additionalWhereClause, String ... params) {
     try (final Handle h = db.open()) {
 
-      final String ALARMS_SQL =
+      final String ALARMS_SQL = 
             "select a.id, a.alarm_definition_id, a.state, sa.id as sub_alarm_id, sa.expression, "
-          + "sa.state as sub_alarm_state, sa.sub_expression_id, ad.tenant_id from alarm a "
+          + "sa.state as sub_alarm_state, sa.sub_expression_id, ad.tenant_id from alarm a, "
+          + "sa.value_meta as sub_alarm_value_meta"
           + "inner join sub_alarm sa on sa.alarm_id = a.id "
           + "inner join alarm_definition ad on a.alarm_definition_id = ad.id "
           + "where ad.deleted_at is null and %s "
@@ -115,8 +117,12 @@ public class AlarmDAOImpl implements AlarmDAO {
             new SubExpression(getString(row, "sub_expression_id"), AlarmSubExpression.of(getString(
                 row, "expression")));
         final AlarmState subAlarmState = AlarmState.valueOf(getString(row, "sub_alarm_state"));
+        
+        final Map<String, String> valueMeta = getString(row, "sub_alarm_value_meta").equals("") 
+            ? null
+            : Serialization.fromJson(getString(row, "sub_alarm_value_meta"), new HashMap<String, String>().getClass());
         final SubAlarm subAlarm =
-            new SubAlarm(getString(row, "sub_alarm_id"), alarmId, subExpression, subAlarmState);
+            new SubAlarm(getString(row, "sub_alarm_id"), alarmId, subExpression, subAlarmState, valueMeta);
         subAlarms.add(subAlarm);
         prevAlarmId = alarmId;
       }
@@ -309,13 +315,15 @@ public class AlarmDAOImpl implements AlarmDAO {
   }
 
   @Override
-  public void updateSubAlarmState(String id, AlarmState subAlarmState) {
+  public void updateSubAlarmState(String id, AlarmState subAlarmState, Map<String, String> valueMeta) {
     try (Handle h = db.open()) {
       final String timestamp  = formatDateFromMillis(System.currentTimeMillis());
+      final String value_meta = valueMeta != null ? Serialization.toJson(valueMeta) : null;
       h.createStatement(
-              "update sub_alarm set state=:state, updated_at=:updated_at where id=:id")
+              "update sub_alarm set state=:state, updated_at=:updated_at, value_meta=:value_meta where id=:id")
           .bind("state", subAlarmState.toString())
           .bind("updated_at", timestamp)
+          .bind("value_meta", value_meta)
           .bind("id", id).execute();
       }
   }

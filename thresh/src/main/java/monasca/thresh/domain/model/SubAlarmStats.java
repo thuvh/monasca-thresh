@@ -26,6 +26,8 @@ import monasca.common.util.time.TimeResolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 /**
  * Aggregates statistics for a specific SubAlarm.
  */
@@ -67,15 +69,19 @@ public class SubAlarmStats {
     emptyWindowObservations = 0;
   }
 
+  public boolean evaluateAndSlideWindow(long slideToTimestamp, long alarmDelay) {
+    return evaluateAndSlideWindow(slideToTimestamp, alarmDelay, null);
+  }
+
   /**
    * Evaluates the {@link #subAlarm} for the current stats window, updating the sub-alarm's state if
    * necessary and sliding the window to the {@code slideToTimestamp}.
    *
    * @return true if the alarm's state changed, else false.
    */
-  public boolean evaluateAndSlideWindow(long slideToTimestamp, long alarmDelay) {
+  public boolean evaluateAndSlideWindow(long slideToTimestamp, long alarmDelay, Map<String, String> valueMeta) {
     try {
-      return evaluate(slideToTimestamp, alarmDelay);
+      return evaluate(slideToTimestamp, alarmDelay, valueMeta);
     } catch (Exception e) {
       logger.error("Failed to evaluate {}", this, e);
       return false;
@@ -125,7 +131,7 @@ public class SubAlarmStats {
    * @param now Current time
    * @param alarmDelay How long to give metrics a chance to arrive
    */
-  boolean evaluate(final long now, long alarmDelay) {
+  boolean evaluate(final long now, long alarmDelay, Map<String, String> valueMeta) {
     final boolean shouldEvaluate = this.stats.shouldEvaluate(now, alarmDelay);
     final AlarmState newState;
 
@@ -158,7 +164,7 @@ public class SubAlarmStats {
           this.getSubAlarm().getState(),
           newState
       );
-      setSubAlarmState(newState);
+      setSubAlarmState(newState, valueMeta);
       return true;
     }
 
@@ -283,8 +289,8 @@ public class SubAlarmStats {
     return newState != null && (!subAlarm.getState().equals(newState) || subAlarm.isNoState());
   }
 
-  private void setSubAlarmState(AlarmState newState) {
-    subAlarm.setState(newState);
+  private void setSubAlarmState(AlarmState newState, Map<String, String> valueMeta) {
+    subAlarm.setStateAndValueMeta(newState, valueMeta);
     subAlarm.setNoState(false);
   }
 

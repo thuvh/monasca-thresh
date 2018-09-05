@@ -263,7 +263,7 @@ public class AlarmSqlImpl
   }
 
   @Override
-  public void updateSubAlarmState(String subAlarmId, AlarmState subAlarmState) {
+  public void updateSubAlarmState(String subAlarmId, AlarmState subAlarmState, Map<String, String> valueMeta) {
     Transaction tx = null;
     Session session = null;
     try {

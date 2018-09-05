@@ -52,7 +52,7 @@ public class SubAlarmStatsTest {
     lastExpression =
         new SubExpression(UUID.randomUUID().toString(),
             AlarmSubExpression.of("last(hpcs.compute.cpu{id=5}) > 0"));
-    lastSubAlarm = new SubAlarm("456", "1", lastExpression, AlarmState.UNDETERMINED);
+    lastSubAlarm = new SubAlarm("456", "1", lastExpression, AlarmState.UNDETERMINED, null);
     lastSubAlarm.setNoState(true);
     lastViewStartTime = 10000;
     lastSubAlarmStats = new SubAlarmStats(lastSubAlarm,
@@ -61,63 +61,63 @@ public class SubAlarmStatsTest {
 
   public void shouldAcceptLastMetricIfOld() {
     assertTrue(lastSubAlarmStats.addValue(99, 10));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.ALARM);
   }
 
   public void shouldImmediateTransitionToOk() {
     assertTrue(lastSubAlarmStats.addValue(0, lastViewStartTime + 10));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.OK);
   }
 
   public void shouldNotTransitionToAlarmTwice() {
     assertTrue(lastSubAlarmStats.addValue(99, lastViewStartTime + 10));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.ALARM);
 
     assertTrue(lastSubAlarmStats.addValue(98, lastViewStartTime + 20));
-    assertFalse(lastSubAlarmStats.evaluate(lastViewStartTime + 20, 0));
+    assertFalse(lastSubAlarmStats.evaluate(lastViewStartTime + 20, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.ALARM);
   }
 
   public void shouldNotTransitionToOkTwice() {
     assertTrue(lastSubAlarmStats.addValue(0, lastViewStartTime + 10));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.OK);
 
     assertTrue(lastSubAlarmStats.addValue(0, lastViewStartTime + 20));
-    assertFalse(lastSubAlarmStats.evaluate(lastViewStartTime + 20, 0));
+    assertFalse(lastSubAlarmStats.evaluate(lastViewStartTime + 20, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.OK);
   }
 
   public void shouldNotTransitionOnOldMeasurement() {
     assertTrue(lastSubAlarmStats.addValue(99, lastViewStartTime + 10));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.ALARM);
 
     assertTrue(lastSubAlarmStats.addValue(0, lastViewStartTime + 5));
-    assertFalse(lastSubAlarmStats.evaluate(lastViewStartTime + 5, 0));
+    assertFalse(lastSubAlarmStats.evaluate(lastViewStartTime + 5, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.ALARM);
   }
 
   public void shouldImmediatelyTransition() {
     assertTrue(lastSubAlarmStats.addValue(99, lastViewStartTime + 10));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.ALARM);
 
     assertTrue(lastSubAlarmStats.addValue(0, lastViewStartTime + 15));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 15, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 15, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.OK);
 
     assertTrue(lastSubAlarmStats.addValue(99, lastViewStartTime + 20));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 20, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 20, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.ALARM);
   }
 
   public void shouldNotTransitionFromAlarmWithNoMetrics() {
     assertTrue(lastSubAlarmStats.addValue(99, lastViewStartTime + 10));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.ALARM);
     for (int period = 1; period < 10; period++) {
       long time = lastViewStartTime + period * lastSubAlarm.getExpression().getPeriod();
@@ -128,7 +128,7 @@ public class SubAlarmStatsTest {
 
   public void shouldNotTransitionFromOkWithNoMetrics() {
     assertTrue(lastSubAlarmStats.addValue(0, lastViewStartTime + 10));
-    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0));
+    assertTrue(lastSubAlarmStats.evaluate(lastViewStartTime + 10, 0, null));
     assertEquals(lastSubAlarmStats.getSubAlarm().getState(), AlarmState.OK);
     for (int period = 1; period < 10; period++) {
       long time = lastViewStartTime + period * lastSubAlarm.getExpression().getPeriod();

@@ -1,4 +1,4 @@
-/*
+ /*
  * (C) Copyright 2014-2016 Hewlett Packard Enterprise Development LP
  * Copyright 2016 FUJITSU LIMITED
  *
@@ -60,6 +60,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Test
 public class MetricAggregationBoltTest {
@@ -476,12 +477,12 @@ public class MetricAggregationBoltTest {
     long t1 = 50000;
     bolt.setCurrentTime(t1);
     sendSubAlarmCreated(metricDef5, subAlarm5);
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
     t1 += 1000;
     bolt.execute(createMetricTuple(metricDef5, new Metric(metricDef5, t1, 1.0, null)));
     assertEquals(subAlarm5.getState(), AlarmState.ALARM);
     verify(collector, times(1)).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), AlarmState.ALARM);
+    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), AlarmState.ALARM, null);
 
     t1 += 1000;
 
@@ -494,19 +495,19 @@ public class MetricAggregationBoltTest {
     sendTickTuple();
     assertEquals(subAlarm5.getState(), AlarmState.ALARM);
     verify(collector, never()).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
 
     bolt.setCurrentTime(t1 += 60000);
     sendTickTuple();
     assertEquals(subAlarm5.getState(), AlarmState.ALARM);
     verify(collector, never()).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
 
     bolt.setCurrentTime(t1 += 60000);
     sendTickTuple();
     assertEquals(subAlarm5.getState(), AlarmState.ALARM);
     verify(collector, never()).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
 
     bolt.setCurrentTime(t1 += 60000);
     sendTickTuple();
@@ -516,7 +517,7 @@ public class MetricAggregationBoltTest {
     bolt.execute(createMetricTuple(metricDef5, new Metric(metricDef5, t1, 0.0, null)));
     assertEquals(subAlarm5.getState(), AlarmState.OK);
     verify(collector, times(1)).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), AlarmState.OK);
+    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), AlarmState.OK, null);
 
     // Have to reset the mock so it can tell the difference when subAlarm5 is emitted again.
     reset(collector);
@@ -527,25 +528,25 @@ public class MetricAggregationBoltTest {
     sendTickTuple();
     assertEquals(subAlarm5.getState(), AlarmState.OK);
     verify(collector, never()).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
 
     bolt.setCurrentTime(t1 += 60000);
     sendTickTuple();
     assertEquals(subAlarm5.getState(), AlarmState.OK);
     verify(collector, never()).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
 
     bolt.setCurrentTime(t1 += 60000);
     sendTickTuple();
     assertEquals(subAlarm5.getState(), AlarmState.OK);
     verify(collector, never()).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
 
     bolt.setCurrentTime(t1 += 60000);
     sendTickTuple();
     assertEquals(subAlarm5.getState(), AlarmState.OK);
     verify(collector, never()).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
   }
 
   public void shouldTransitionLastImmediatelyToAlarmForExistingAlarm() {
@@ -560,14 +561,14 @@ public class MetricAggregationBoltTest {
       final AlarmState expectedState) {
     long t1 = 50000;
     bolt.setCurrentTime(t1);
-    subAlarm5.setState(initialState);
+    subAlarm5.setStateAndValueMeta(initialState, null);
     sendSubAlarmCreated(metricDef5, subAlarm5);
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
     t1 += 1000;
     bolt.execute(createMetricTuple(metricDef5, new Metric(metricDef5, t1, value, null)));
     assertEquals(subAlarm5.getState(), expectedState);
     verify(collector, times(1)).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), expectedState);
+    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), expectedState, null);
   }
 
   public void testAlarmStateUpdatedWithLast() {
@@ -576,11 +577,11 @@ public class MetricAggregationBoltTest {
     final AlarmState expectedState = AlarmState.OK;
     long t1 = 50000;
     bolt.setCurrentTime(t1);
-    subAlarm5.setState(initialState);
+    subAlarm5.setStateAndValueMeta(initialState, null);
     sendSubAlarmCreated(metricDef5, subAlarm5);
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm5.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
     t1 += 1000;
-    final SubAlarm updated = new SubAlarm(subAlarm5.getId(), subAlarm5.getAlarmId(), new SubExpression("", subAlarm5.getExpression()), AlarmState.OK);
+    final SubAlarm updated = new SubAlarm(subAlarm5.getId(), subAlarm5.getAlarmId(), new SubExpression("", subAlarm5.getExpression()), AlarmState.OK, null);
     // Simulate an Alarm Update message from the API that would toggle the Alarm to ALARM
     sendSubAlarmMsg(EventProcessingBolt.UPDATED, metricDef5, updated);
 
@@ -588,7 +589,7 @@ public class MetricAggregationBoltTest {
     bolt.execute(createMetricTuple(metricDef5, new Metric(metricDef5, t1, 0, null)));
     assertEquals(subAlarm5.getState(), expectedState);
     verify(collector, times(1)).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), expectedState);
+    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), expectedState, null);
 
     // Simulate another Alarm Update message from the API that would toggle the Alarm to ALARM
     t1 += 1000;
@@ -602,7 +603,7 @@ public class MetricAggregationBoltTest {
     bolt.execute(createMetricTuple(metricDef5, new Metric(metricDef5, t1, 0, null)));
     assertEquals(subAlarm5.getState(), expectedState);
     verify(collector, times(1)).emit(new Values(subAlarm5.getAlarmId(), subAlarm5));
-    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), expectedState);
+    verify(alarmDao, times(1)).updateSubAlarmState(subAlarm5.getId(), expectedState, null);
   }
 
   public void testImmediateChangeWithOldMetric() {
@@ -629,16 +630,16 @@ public class MetricAggregationBoltTest {
       final AlarmState initialState, final double value, final AlarmState expectedState) {
     long t1 = 500000;
     bolt.setCurrentTime(t1);
-    subAlarm.setState(initialState);
+    subAlarm.setStateAndValueMeta(initialState, null);
     sendSubAlarmCreated(metricDef, subAlarm);
-    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm.getId()), (AlarmState) any());
+    verify(alarmDao, never()).updateSubAlarmState(eq(subAlarm.getId()), (AlarmState) any(), (Map<String, String>) eq(null));
     // Even though this measurement is way outside the window, make sure it gets processed
     // anyways
     bolt.execute(createMetricTuple(metricDef, new Metric(metricDef, 1000, value, null)));
     assertEquals(subAlarm.getState(), expectedState);
     if (initialState != expectedState) {
       verify(collector, times(1)).emit(new Values(subAlarm.getAlarmId(), subAlarm));
-      verify(alarmDao, times(1)).updateSubAlarmState(subAlarm.getId(), expectedState);
+      verify(alarmDao, times(1)).updateSubAlarmState(subAlarm.getId(), expectedState, null);
     }
   }
 
