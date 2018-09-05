@@ -435,7 +435,7 @@ public class ThresholdingEngineAlarmTest extends TopologyTestCase {
     }
 
     @Override
-    public void updateSubAlarmState(String subAlarmId, AlarmState subAlarmState) {
+    public void updateSubAlarmState(String subAlarmId, AlarmState subAlarmState, Map<String, String> valueMeta) {
       for (final Alarm alarm : alarms) {
         for (final SubAlarm subAlarm : alarm.getSubAlarms()) {
           if (subAlarm.getId().equals(subAlarmId)) {

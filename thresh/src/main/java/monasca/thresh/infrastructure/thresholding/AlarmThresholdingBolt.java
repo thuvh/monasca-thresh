@@ -237,7 +237,7 @@ public class AlarmThresholdingBolt extends BaseRichBolt {
             alarmDefinition.getDescription(), initialState, alarm.getState(),
             alarmDefinition.getSeverity(), alarm.getLink(), alarm.getLifecycleState(),
             alarmDefinition.isActionsEnabled(), stateChangeReason,
-            alarm.getTransitionSubAlarms(), timestamp);
+            alarm.getAlarmMetaValue(), alarm.getTransitionSubAlarms(), timestamp);
     try {
       alarmEventForwarder.send(Serialization.toJson(event));
     } catch (Exception ignore) {
