@@ -205,6 +205,7 @@ public class MetricAggregationBolt extends BaseRichBolt {
         logger.trace("Aggregated value {} at {} for {}. Updated {}", metric.value,
             metric.timestamp, metricDefinitionAndTenantId, stats.getStats());
         if (stats.evaluateAndSlideWindow(timestamp_secs, config.alarmDelay)) {
+          stats.setValueMeta(metric.getValueMeta());
           sendSubAlarmStateChange(stats);
         }
       } else {
@@ -252,7 +253,8 @@ public class MetricAggregationBolt extends BaseRichBolt {
     logger.debug("Alarm state changed for {}", subAlarmStats);
     if (subAlarmStats.getSubAlarm().onlyImmediateEvaluation()) {
       alarmDAO.updateSubAlarmState(subAlarmStats.getSubAlarm().getId(),
-                                   subAlarmStats.getSubAlarm().getState());
+                                   subAlarmStats.getSubAlarm().getState(),
+                                   subAlarmStats.getSubAlarm().getValueMeta());
     }
     collector.emit(new Values(subAlarmStats.getSubAlarm().getAlarmId(), duplicate(subAlarmStats
         .getSubAlarm())));
@@ -268,7 +270,8 @@ public class MetricAggregationBolt extends BaseRichBolt {
   public SubAlarm duplicate(final SubAlarm original) {
     final SubAlarm newSubAlarm =
         new SubAlarm(original.getId(), original.getAlarmId(), new SubExpression(
-            original.getAlarmSubExpressionId(), original.getExpression()), original.getState());
+            original.getAlarmSubExpressionId(), original.getExpression()), original.getState(),
+            original.getValueMeta());
     newSubAlarm.setNoState(original.isNoState());
     newSubAlarm.setCurrentValues(cloneCurrentValues(original));
     return newSubAlarm;

@@ -23,6 +23,7 @@ import monasca.thresh.domain.model.Alarm;
 import monasca.thresh.domain.model.MetricDefinitionAndTenantId;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Alarm DAO.
@@ -53,5 +54,5 @@ public interface AlarmDAO {
   void deleteByDefinitionId(String alarmDefinitionId);
 
   /** Update the state of the given SubAlarm */
-  void updateSubAlarmState(String subAlarmId, AlarmState subAlarmState);
+  void updateSubAlarmState(String subAlarmId, AlarmState subAlarmState, Map<String, String> valueMeta);
 }
