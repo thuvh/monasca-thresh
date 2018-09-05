@@ -56,6 +56,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Test
 public class AlarmThresholdingBoltTest {
 
@@ -107,7 +110,7 @@ public class AlarmThresholdingBoltTest {
       }
     }
     assertNotNull(lastSubAlarm, "Did not find a SubAlarm with Function of last");
-    lastSubAlarm.setState(AlarmState.OK);
+    lastSubAlarm.setStateAndValueMeta(AlarmState.OK, null);
   }
 
   /**
@@ -119,10 +122,38 @@ public class AlarmThresholdingBoltTest {
     final String alarmId = alarm.getId();
     when(alarmDAO.findById(alarmId)).thenReturn(alarm);
     when(alarmDefinitionDAO.findById(alarmDefinition.getId())).thenReturn(alarmDefinition);
-    emitSubAlarmStateChange(alarmId, subAlarm, AlarmState.ALARM);
-    for (int i = 1; i < subAlarms.size(); i++) {
-      emitSubAlarmStateChange(alarmId, subAlarms.get(i), AlarmState.OK);
+    
+    Map<String, String> alarmValueMeta = new HashMap<>();
+    alarmValueMeta.put("rc", "1");
+    
+    emitSubAlarmStateChange(alarmId, subAlarm, AlarmState.ALARM, alarmValueMeta);
+    for(int i = 1; i < subAlarms.size(); i++) {
+        emitSubAlarmStateChange(alarmId, subAlarms.get(i), AlarmState.OK, null);
     }
+    
+    final ObjectMapper mapper = new ObjectMapper();
+    final ObjectNode alarm_value_meta = mapper.createObjectNode();
+    final ObjectNode alarmed_sub_alarm_value_meta = mapper.createObjectNode();
+    alarmed_sub_alarm_value_meta.put("state", "ALARM");
+    alarmed_sub_alarm_value_meta.put("sub_expression", String.valueOf(subAlarm.getExpression()));
+    final ObjectNode alarmValueMetaJSON = mapper.createObjectNode();
+    alarmValueMetaJSON.put("rc", "1");
+    alarmed_sub_alarm_value_meta.put("value_meta", alarmValueMetaJSON);
+    alarm_value_meta.put(subAlarm.getId(), alarmed_sub_alarm_value_meta);
+
+    List<SubAlarm> mySubAlarms = new ArrayList(alarm.getSubAlarms());
+    for (int i = 1; i < mySubAlarms.size(); i++) {
+        final ObjectNode ok_sub_alarm_value_meta = mapper.createObjectNode();
+        ok_sub_alarm_value_meta.put("state", "OK");
+        ok_sub_alarm_value_meta.put("sub_expression", String.valueOf(mySubAlarms.get(i).getExpression()));
+        ok_sub_alarm_value_meta.putNull("value_meta");
+        alarm_value_meta.put(mySubAlarms.get(i).getId(), ok_sub_alarm_value_meta);
+    }
+
+    String alarmValueMetaString = Serialization.toJson(alarm_value_meta.toString());
+    alarmValueMetaString = alarmValueMetaString.substring(10, alarmValueMetaString.length() -1);
+
+
     final String alarmJson =
         "{\"alarm-transitioned\":{\"tenantId\":\""
             + tenantId
@@ -134,6 +165,7 @@ public class AlarmThresholdingBoltTest {
             + "\"actionsEnabled\":true,"
             + "\"stateChangeReason\":\"Thresholds were exceeded for the sub-alarms: "
             + subAlarm.getExpression().getExpression() + " with the values: []\"," + "\"severity\":\"LOW\","
+            + "\"valueMeta\":" + alarmValueMetaString + "," 
             + "\"link\":null," + "\"lifecycleState\":null,"
             + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
             + "\"timestamp\":1395587091003}}";
@@ -141,8 +173,14 @@ public class AlarmThresholdingBoltTest {
     verify(alarmEventForwarder, times(1)).send(alarmJson);
     verify(alarmDAO, times(1)).updateState(eq(alarmId), eq(AlarmState.ALARM), anyLong());
 
+    alarmed_sub_alarm_value_meta.put("state", "OK");
+    alarmed_sub_alarm_value_meta.putNull("value_meta");
+    alarm_value_meta.put(subAlarm.getId(), alarmed_sub_alarm_value_meta);
+    alarmValueMetaString = Serialization.toJson(alarm_value_meta.toString());
+    alarmValueMetaString = alarmValueMetaString.substring(10, alarmValueMetaString.length() -1);
+
     // Now clear the alarm and ensure another notification gets sent out
-    subAlarm.setState(AlarmState.OK);
+    subAlarm.setStateAndValueMeta(AlarmState.OK, null);
     final Tuple clearTuple = createSubAlarmStateChangeTuple(alarmId, subAlarm);
     bolt.execute(clearTuple);
     verify(collector, times(1)).ack(clearTuple);
@@ -160,6 +198,7 @@ public class AlarmThresholdingBoltTest {
             + subAlarms.get(1).getExpression().getExpression() + " with the values: [], "
             + subAlarms.get(2).getExpression().getExpression() + " with the values: []"
             + "\",\"severity\":\"LOW\","
+            + "\"valueMeta\":" + alarmValueMetaString + "," 
             + "\"link\":null," + "\"lifecycleState\":null,"
             + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
             + "\"timestamp\":1395587091003}}";
@@ -185,15 +224,48 @@ public class AlarmThresholdingBoltTest {
     when(alarmDefinitionDAO.findById(alarmDefinition.getId())).thenReturn(alarmDefinition);
     SubAlarm firstAlarmSubAlarm = null;
     AlarmState sendState = AlarmState.ALARM;
-    for (SubAlarm subAlarm : subAlarms) {
+    
+    Map<String, String> alarmValueMeta = new HashMap<>();
+    alarmValueMeta.put("rc", "1");
+
+    for(int i = 0; i < subAlarms.size(); i++) {
+      SubAlarm subAlarm = subAlarms.get(i);
       if (lastSubAlarm != subAlarm) {
         if (firstAlarmSubAlarm == null) {
           firstAlarmSubAlarm = subAlarm;
         }
-        emitSubAlarmStateChange(alarmId, subAlarm, sendState);
+        emitSubAlarmStateChange(alarmId, subAlarm, sendState, alarmValueMeta);
         sendState = AlarmState.OK;
+        alarmValueMeta = null;
       }
     }
+
+    final ObjectMapper mapper = new ObjectMapper();
+    final ObjectNode alarmValueMetaJSON = mapper.createObjectNode();
+    alarmValueMetaJSON.put("rc", "1");
+    final ObjectNode alarm_value_meta = mapper.createObjectNode();
+    sendState = AlarmState.ALARM;
+    for (int i = 0; i < subAlarms.size(); i++) {
+      SubAlarm subAlarm = subAlarms.get(i);
+      final ObjectNode alarmed_sub_alarm_value_meta = mapper.createObjectNode();
+      if(lastSubAlarm != subAlarm) {
+        alarmed_sub_alarm_value_meta.put("state", sendState.toString());
+        sendState = AlarmState.OK;
+      } else {
+        alarmed_sub_alarm_value_meta.put("state", AlarmState.OK.toString());
+      }
+      alarmed_sub_alarm_value_meta.put("sub_expression", String.valueOf(subAlarm.getExpression()));
+      if(sendState == AlarmState.ALARM && subAlarm != lastSubAlarm)
+        alarmed_sub_alarm_value_meta.put("value_meta", alarmValueMetaJSON);
+      else
+        alarmed_sub_alarm_value_meta.putNull("value_meta");
+      alarm_value_meta.put(subAlarm.getId(), alarmed_sub_alarm_value_meta);
+    }
+    
+
+    String alarmValueMetaString = Serialization.toJson(alarm_value_meta.toString());
+    alarmValueMetaString = alarmValueMetaString.substring(10, alarmValueMetaString.length() - 1);
+
     final String alarmJson =
         "{\"alarm-transitioned\":{\"tenantId\":\""
             + tenantId
@@ -205,12 +277,15 @@ public class AlarmThresholdingBoltTest {
             + "\"actionsEnabled\":true,"
             + "\"stateChangeReason\":\"Thresholds were exceeded for the sub-alarms: "
             + firstAlarmSubAlarm.getExpression().getExpression() + " with the values: []\"," + "\"severity\":\"LOW\","
+            + "\"valueMeta\":" + alarmValueMetaString + ","
             + "\"link\":null," + "\"lifecycleState\":null,"
             + "\"subAlarms\":[" + buildSubAlarmJson(alarm.getSubAlarms()) + "],"
             + "\"timestamp\":1395587091003}}";
 
     verify(alarmEventForwarder, times(1)).send(alarmJson);
-    verify(alarmDAO, times(1)).updateState(eq(alarmId), eq(AlarmState.ALARM), anyLong());  }
+    verify(alarmDAO, times(1)).updateState(eq(alarmId), eq(AlarmState.ALARM), anyLong());  
+  }
+
   public void simpleAlarmUpdate() {
     // Now send an AlarmUpdatedEvent
     final AlarmState newState = AlarmState.OK;
@@ -230,7 +305,7 @@ public class AlarmThresholdingBoltTest {
     final String alarmId = alarm.getId();
     when(alarmDAO.findById(alarmId)).thenReturn(alarm);
     when(alarmDefinitionDAO.findById(alarmDefinition.getId())).thenReturn(alarmDefinition);
-    emitSubAlarmStateChange(alarmId, subAlarm, AlarmState.ALARM);
+    emitSubAlarmStateChange(alarmId, subAlarm, AlarmState.ALARM, null);
 
     // Now send an AlarmDefinitionUpdatedEvent
     final Map<String, AlarmSubExpression> empty = new HashMap<>();
@@ -259,7 +334,7 @@ public class AlarmThresholdingBoltTest {
 
     // Make sure the Alarm gets loaded
     for (final SubAlarm subAlarm : alarm.getSubAlarms()) {
-      emitSubAlarmStateChange(alarmId, subAlarm, AlarmState.OK);
+      emitSubAlarmStateChange(alarmId, subAlarm, AlarmState.OK, null);
     }
 
     assertNotNull(bolt.alarms.get(alarmId));
@@ -317,7 +392,7 @@ public class AlarmThresholdingBoltTest {
     final String alarmId = alarm.getId();
     when(alarmDAO.findById(alarmId)).thenReturn(alarm);
     // Load up the original Alarm
-    emitSubAlarmStateChange(alarmId, subAlarms.get(0), AlarmState.ALARM);
+    emitSubAlarmStateChange(alarmId, subAlarms.get(0), AlarmState.ALARM, null);
     return alarmId;
   }
 
@@ -331,15 +406,15 @@ public class AlarmThresholdingBoltTest {
       stringBuilder.append("\"subAlarmState\":\"").append(subAlarm.getState()).append("\",");
       stringBuilder.append("\"currentValues\":").append(subAlarm.getCurrentValues()).append("}");
     }
-  return stringBuilder.toString().replace("AlarmSubExpression","subAlarmExpression");
+    return stringBuilder.toString().replace("AlarmSubExpression","subAlarmExpression");
   }
 
-  private void emitSubAlarmStateChange(String alarmId, final SubAlarm subAlarm, AlarmState state) {
+  private void emitSubAlarmStateChange(String alarmId, final SubAlarm subAlarm, AlarmState state, Map<String, String> valueMeta) {
     // Create a copy so changing the state doesn't directly update the ones in the bolt
     final SubAlarm toEmit =
         new SubAlarm(subAlarm.getId(), subAlarm.getAlarmId(), new SubExpression(
             subAlarm.getAlarmSubExpressionId(), subAlarm.getExpression()));
-    toEmit.setState(state);
+    toEmit.setStateAndValueMeta(state, valueMeta);
     final Tuple tuple = createSubAlarmStateChangeTuple(alarmId, toEmit);
     bolt.execute(tuple);
     verify(collector, times(1)).ack(tuple);

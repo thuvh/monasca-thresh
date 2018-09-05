@@ -23,6 +23,10 @@ import monasca.common.model.alarm.AlarmState;
 import monasca.common.model.alarm.AlarmSubExpression;
 import monasca.common.model.alarm.AlarmTransitionSubAlarm;
 import monasca.common.model.domain.common.AbstractEntity;
+import monasca.common.util.Serialization;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,6 +62,7 @@ public class Alarm extends AbstractEntity {
   private String link;
   private String lifecycleState;
   private String stateChangeReason;
+  private String alarmMetaValue;
   private String alarmDefinitionId;
   private List<AlarmTransitionSubAlarm> transitionSubAlarms = new ArrayList<>();
   public Alarm() {
@@ -99,6 +104,28 @@ public class Alarm extends AbstractEntity {
     } else {
       return String.format("The alarm threshold(s) have not been exceeded for the sub-alarms: %s", stringBuilder.toString());
     }
+  }
+
+  public String buildAlarmMetaValue(Collection<SubAlarm> subAlarms) {
+    final ObjectMapper mapper = new ObjectMapper();
+    final ObjectNode alarm_meta_value = mapper.createObjectNode();
+    for(SubAlarm subAlarm : subAlarms) {
+        if(subAlarm.getState() != AlarmState.UNDETERMINED) {
+            final ObjectNode sub_alarm_meta_description = mapper.createObjectNode();
+            sub_alarm_meta_description.put("state", subAlarm.getState().name());
+            sub_alarm_meta_description.put("sub_expression", subAlarm.getExpression().toString());
+            if(subAlarm.getValueMeta() != null){
+                final ObjectNode value_meta = mapper.createObjectNode();
+                for(Map.Entry<String, String> entry: subAlarm.getValueMeta().entrySet())
+                    value_meta.put(entry.getKey(), entry.getValue());
+                sub_alarm_meta_description.put("value_meta", value_meta);
+            } else {
+                sub_alarm_meta_description.putNull("value_meta");
+            }
+            alarm_meta_value.put(subAlarm.getId(), sub_alarm_meta_description);
+        }
+    }
+    return alarm_meta_value.toString();
   }
 
   @Override
@@ -158,7 +185,6 @@ public class Alarm extends AbstractEntity {
    */
   public boolean evaluate(AlarmExpression expression) {
     transitionSubAlarms.clear();
-
     AlarmState initialState = state;
     boolean uninitialized = false;
 
@@ -178,6 +204,7 @@ public class Alarm extends AbstractEntity {
 
       state = AlarmState.UNDETERMINED;
       stateChangeReason = buildStateChangeReason(state);
+      alarmMetaValue = buildAlarmMetaValue(subAlarms.values());
       return true;
     }
 
@@ -196,6 +223,7 @@ public class Alarm extends AbstractEntity {
       }
       state = AlarmState.ALARM;
       stateChangeReason = buildStateChangeReason(state);
+      alarmMetaValue = buildAlarmMetaValue(subAlarms.values());
       return true;
     }
 
@@ -204,6 +232,7 @@ public class Alarm extends AbstractEntity {
     }
     state = AlarmState.OK;
     stateChangeReason = buildStateChangeReason(state);
+    alarmMetaValue = buildAlarmMetaValue(subAlarms.values());
     return true;
   }
 
@@ -217,6 +246,10 @@ public class Alarm extends AbstractEntity {
 
   public String getStateChangeReason() {
     return stateChangeReason;
+  }
+
+  public String getAlarmMetaValue() {
+    return alarmMetaValue;
   }
 
   public Collection<SubAlarm> getSubAlarms() {
@@ -233,6 +266,7 @@ public class Alarm extends AbstractEntity {
     result = prime * result + ((subAlarms == null) ? 0 : subAlarms.hashCode());
     result = prime * result + ((alarmDefinitionId == null) ? 0 : alarmDefinitionId.hashCode());
     result = prime * result + ((stateChangeReason == null) ? 0 : stateChangeReason.hashCode());
+    result = prime * result + ((alarmMetaValue == null) ? 0 : alarmMetaValue.hashCode());
     result = prime * result + ((alarmedMetrics == null) ? 0 : alarmedMetrics.hashCode());
     return result;
   }

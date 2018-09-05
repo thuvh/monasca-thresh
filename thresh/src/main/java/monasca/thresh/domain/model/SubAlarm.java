@@ -25,6 +25,7 @@ import monasca.common.model.domain.common.AbstractEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Sub-alarm. Decorates an AlarmSubExpression.
@@ -38,9 +39,10 @@ public class SubAlarm extends AbstractEntity implements Serializable {
   private AlarmState state;
   private boolean noState;
   private List<Double> currentValues;
+  private Map<String, String> valueMeta;
 
   public SubAlarm(String id, String alarmId, SubExpression expression) {
-    this(id, alarmId, expression, SubAlarm.initialStateFromExpression(expression));
+    this(id, alarmId, expression, SubAlarm.initialStateFromExpression(expression), null);
   }
 
   // Need this for kryo serialization/deserialization. Fixes a bug in default java
@@ -49,13 +51,14 @@ public class SubAlarm extends AbstractEntity implements Serializable {
   public SubAlarm() {
   }
 
-  public SubAlarm(String id, String alarmId, SubExpression expression, AlarmState state) {
+  public SubAlarm(String id, String alarmId, SubExpression expression, AlarmState state, Map<String, String> valueMeta) {
     this.id = id;
     this.alarmId = alarmId;
     this.expression = expression.getAlarmSubExpression();
     this.alarmSubExpressionId = expression.getId();
     this.state = state;
     this.currentValues = new ArrayList<>();
+    this.valueMeta = valueMeta;
   }
 
   @Override
@@ -130,6 +133,7 @@ public class SubAlarm extends AbstractEntity implements Serializable {
     this.currentValues.clear();
   }
 
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -154,8 +158,13 @@ public class SubAlarm extends AbstractEntity implements Serializable {
     return this.expression.isDeterministic();
   }
 
-  public void setState(AlarmState state) {
+  public void setStateAndValueMeta(AlarmState state, Map<String, String> valueMeta) {
     this.state = state;
+    this.valueMeta = valueMeta;
+  }
+
+  public Map<String, String> getValueMeta() {
+    return valueMeta;
   }
 
   public boolean isNoState() {
@@ -169,8 +178,9 @@ public class SubAlarm extends AbstractEntity implements Serializable {
   @Override
   public String toString() {
     return String.format("SubAlarm [id=%s, alarmId=%s, alarmSubExpressionId=%s, expression=%s, " +
-        "state=%s, noState=%s, currentValues:[", id,
-        alarmId, alarmSubExpressionId, expression, state, noState) + currentValues + "]]";
+        "state=%s, noState=%s, currentValues:%s, valueMeta:%s ]", id,
+        alarmId, alarmSubExpressionId, expression, state, noState, currentValues.toString()
+        , String.valueOf(valueMeta));
   }
 
   /**
