@@ -1,0 +1,8 @@
+Code-Review+2: Dobroslaw Zybort <dobroslaw.zybort@ts.fujitsu.com>
+Workflow+1: Dobroslaw Zybort <dobroslaw.zybort@ts.fujitsu.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Wed, 12 Sep 2018 11:14:40 +0000
+Reviewed-on: https://review.openstack.org/595699
+Project: openstack/monasca-thresh
+Branch: refs/heads/stable/ocata
