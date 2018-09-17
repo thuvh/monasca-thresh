@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f79a3b5_5968d586",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "nit: remove this newline",
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_39c07950",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "Can we split this into two methods, keeping the old one and adding a new setter for the valueMeta field?",
+      "range": {
+        "startLine": 161,
+        "startChar": 2,
+        "endLine": 161,
+        "endChar": 8
+      },
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_99a18d98",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "Strictly, this is unrelated to this change.",
+      "range": {
+        "startLine": 182,
+        "startChar": 67,
+        "endLine": 182,
+        "endChar": 80
+      },
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_39a5d9b5",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "Will this throw a null pointer exception if this is Null? You could default it to an empty string? It would be nice to have some better test coverage.",
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_9fdbad7b",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "Rather than passing in the valueMeta here, can we set it here if evaluate returns True? This will keep the purpose of the evaluate method focused and reduce boiler plate in the tests.",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 21
+      },
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_d9e4e5aa",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "nit: remove space",
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_b97249e2",
+        "filename": "thresh/src/test/java/monasca/thresh/ThresholdingEngineAlarmTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "Why do we ignore valueMeta here?",
+      "range": {
+        "startLine": 442,
+        "startChar": 57,
+        "endLine": 442,
+        "endChar": 61
+      },
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_b95b2952",
+        "filename": "thresh/src/test/java/monasca/thresh/domain/model/SubAlarmStatsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "This would be a lot cleaner if we didn\u0027t need to pass in the valueMeta here and in the other places. Let\u0027s try and add the valueMeta if evaluate returns True.",
+      "range": {
+        "startLine": 76,
+        "startChar": 69,
+        "endLine": 76,
+        "endChar": 73
+      },
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_f913e163",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/AlarmThresholdingBoltTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "I think we need at least one test here with multiple entries in this map.",
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_990c2d43",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBoltTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-17T16:45:18Z",
+      "side": 1,
+      "message": "Please undo this.",
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
