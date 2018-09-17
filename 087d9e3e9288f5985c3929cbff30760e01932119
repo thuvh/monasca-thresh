@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f79a3b5_2e72784b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-09-17T10:01:39Z",
+      "side": 1,
+      "message": "Also add reference to topic (I just added it 26492 )",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 15
+      },
+      "revId": "087d9e3e9288f5985c3929cbff30760e01932119",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_8e794c30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2018-09-17T10:01:39Z",
+      "side": 1,
+      "message": "Add empty line after commit first line.",
+      "revId": "087d9e3e9288f5985c3929cbff30760e01932119",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
