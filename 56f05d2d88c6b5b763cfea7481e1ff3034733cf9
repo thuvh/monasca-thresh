@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f79a3b5_f73e76b7",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 17669
+      },
+      "writtenOn": "2018-09-18T10:49:57Z",
+      "side": 1,
+      "message": "Don\u0027t you want to set the valueMeta here?",
+      "revId": "56f05d2d88c6b5b763cfea7481e1ff3034733cf9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
