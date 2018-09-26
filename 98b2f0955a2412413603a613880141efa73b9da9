@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "3f79a3b5_cd7226b1",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 16222
+      },
+      "writtenOn": "2018-09-26T14:29:54Z",
+      "side": 1,
+      "message": "Why are we duplicating the data and copying `state` and `sub_expression` from subAlarm to value_meta? All this information can be retrieved from subAlarm, right?",
+      "range": {
+        "startLine": 115,
+        "startChar": 12,
+        "endLine": 116,
+        "endChar": 98
+      },
+      "revId": "98b2f0955a2412413603a613880141efa73b9da9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f79a3b5_4dd64cc7",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
         "patchSetId": 6
