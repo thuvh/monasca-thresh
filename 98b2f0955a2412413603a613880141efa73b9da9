@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "3f79a3b5_d2cdbe30",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "Notice that the original code has a space after \"for\" and \"if\" statements. Please follow the existing code formatting",
+      "revId": "98b2f0955a2412413603a613880141efa73b9da9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f79a3b5_cd7226b1",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
         "patchSetId": 6
@@ -36,6 +53,64 @@
         "endLine": 116,
         "endChar": 98
       },
+      "revId": "98b2f0955a2412413603a613880141efa73b9da9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_92d746c1",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "I agree with Witold",
+      "parentUuid": "3f79a3b5_cd7226b1",
+      "range": {
+        "startLine": 115,
+        "startChar": 12,
+        "endLine": 116,
+        "endChar": 98
+      },
+      "revId": "98b2f0955a2412413603a613880141efa73b9da9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_92e3c606",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "If there are more than one sub alarm, you are only saving the last one. And it might not be the one with actual data in value_meta",
+      "revId": "98b2f0955a2412413603a613880141efa73b9da9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_120256bb",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "If you modify hashCode() you MUST modify Equals so they both use the same fields. See how they are used in HashMaps",
       "revId": "98b2f0955a2412413603a613880141efa73b9da9",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
@@ -93,6 +168,40 @@
     },
     {
       "key": {
+        "uuid": "3f79a3b5_f2e9da7e",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "Remove trailing space",
+      "revId": "98b2f0955a2412413603a613880141efa73b9da9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_528f6ecc",
+        "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/AlarmDAOImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "IF you were going to save value_meta in the database then you need to handle the fact that the serialized form could be longer than the field in your database table. Just truncation json rarely works well",
+      "revId": "98b2f0955a2412413603a613880141efa73b9da9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f79a3b5_1072a713",
         "filename": "thresh/src/main/java/monasca/thresh/infrastructure/persistence/hibernate/AlarmSqlImpl.java",
         "patchSetId": 6
@@ -144,6 +253,23 @@
         "endLine": 147,
         "endChar": 51
       },
+      "revId": "98b2f0955a2412413603a613880141efa73b9da9",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_f2455a70",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/MetricAggregationBoltTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "If you\u0027ve added a new parameter to the call, you need to add tests that ensure it gets set sometimes",
       "revId": "98b2f0955a2412413603a613880141efa73b9da9",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f79a3b5_32f0b266",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarmStats.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 0,
+      "message": "Why are you deleting this line?",
+      "revId": "a9b759dbfb01a0de50da531f4552d578160a044b",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
