@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "3f79a3b5_bfad4932",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "Notice all the current code has a space after the for and if in these statements. Please make your code match to make it easier to read",
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_3f35b9f7",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/Alarm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "If you change hashCode(), you MUST change Equals to also use alarmMetaValue",
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_bf09c931",
+        "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "Did you mean not to add valueMeta to Equals and hashCode?",
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f79a3b5_5968d586",
         "filename": "thresh/src/main/java/monasca/thresh/domain/model/SubAlarm.java",
         "patchSetId": 2
@@ -162,6 +213,23 @@
         "endLine": 76,
         "endChar": 73
       },
+      "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f79a3b5_1e2f86f5",
+        "filename": "thresh/src/test/java/monasca/thresh/infrastructure/thresholding/AlarmThresholdingBoltTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 11809
+      },
+      "writtenOn": "2018-09-27T19:40:15Z",
+      "side": 1,
+      "message": "Please remove all trailing whitespace from the lines you have added in all files",
       "revId": "ec369c1afdc7d9afccdd6e2cd77b0447b574d752",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
