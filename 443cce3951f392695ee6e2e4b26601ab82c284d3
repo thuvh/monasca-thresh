@@ -1,0 +1,8 @@
+Code-Review+2: Adrian Czarnecki <adrian.czarnecki@ts.fujitsu.com>
+Workflow+1: Adrian Czarnecki <adrian.czarnecki@ts.fujitsu.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Mon, 11 Feb 2019 13:32:52 +0000
+Reviewed-on: https://review.openstack.org/634310
+Project: openstack/monasca-thresh
+Branch: refs/heads/master
