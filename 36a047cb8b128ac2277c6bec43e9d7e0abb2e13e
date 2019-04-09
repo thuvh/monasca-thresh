@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc1f717_4eaeb82e",
+        "filename": ".zuul.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-04-09T13:15:19Z",
+      "side": 1,
+      "message": "remove, true is by default",
+      "range": {
+        "startLine": 14,
+        "startChar": 14,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "36a047cb8b128ac2277c6bec43e9d7e0abb2e13e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc1f717_ee02040c",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-04-09T13:15:19Z",
+      "side": 1,
+      "message": "move COMMON_REPO to next line and end this line with ` \\` (like in monasca-base Dockerfile)",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "36a047cb8b128ac2277c6bec43e9d7e0abb2e13e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc1f717_513dfdb8",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-04-09T13:15:19Z",
+      "side": 1,
+      "message": "this variables should not have `_DB` part, check in docker/mysql_check.py script in monasca-common",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 27
+      },
+      "revId": "36a047cb8b128ac2277c6bec43e9d7e0abb2e13e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc1f717_b175419a",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-04-09T13:15:19Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 13
+      },
+      "revId": "36a047cb8b128ac2277c6bec43e9d7e0abb2e13e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc1f717_f1174945",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-04-09T13:15:19Z",
+      "side": 1,
+      "message": "move apk to next line",
+      "range": {
+        "startLine": 36,
+        "startChar": 3,
+        "endLine": 36,
+        "endChar": 7
+      },
+      "revId": "36a047cb8b128ac2277c6bec43e9d7e0abb2e13e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc1f717_51665def",
+        "filename": "docker/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-04-09T13:15:19Z",
+      "side": 1,
+      "message": "change to rst format, this is in markdown",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 55
+      },
+      "revId": "36a047cb8b128ac2277c6bec43e9d7e0abb2e13e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc1f717_91a5a505",
+        "filename": "docker/build.yml",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-04-09T13:15:19Z",
+      "side": 1,
+      "message": "remove file, not needed here",
+      "revId": "36a047cb8b128ac2277c6bec43e9d7e0abb2e13e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc1f717_118a1563",
+        "filename": "docker/start.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-04-09T13:15:19Z",
+      "side": 1,
+      "message": "use wait scripts from monasca-common/docker folder for all checks",
+      "revId": "36a047cb8b128ac2277c6bec43e9d7e0abb2e13e",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
