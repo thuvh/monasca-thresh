@@ -341,7 +341,11 @@ public class AlarmDAOImpl implements AlarmDAO {
     if (dimensions != null) {
       for (String dimension : dimensions.split(",")) {
         final String[] parsed_dimension = dimension.split("=");
-        dimensionMap.put(parsed_dimension[0], parsed_dimension[1]);
+        if (parsed_dimension.length > 1) {
+	    dimensionMap.put(parsed_dimension[0], parsed_dimension[1]);
+        } else {
+	    dimensionMap.put(parsed_dimension[0], null);
+        }
       }
     }
     final MetricDefinition md = new MetricDefinition(getString(row, "name"), dimensionMap);
