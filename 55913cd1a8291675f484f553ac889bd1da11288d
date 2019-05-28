@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb3d3c7_6a612ca9",
+        "filename": "docker/kafka_wait_for_topics.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-05-28T13:23:34Z",
+      "side": 1,
+      "message": "use version from monasca-common/docker",
+      "revId": "55913cd1a8291675f484f553ac889bd1da11288d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
