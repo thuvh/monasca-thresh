@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb3d3c7_caa5b848",
+        "filename": "docker/build_image.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-05-28T13:23:34Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 95,
+        "startChar": 29,
+        "endLine": 95,
+        "endChar": 47
+      },
+      "revId": "55a6679cd83e547a321186d06dd6563b2a6d1108",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb3d3c7_0a7510cb",
+        "filename": "docker/build_image.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-05-28T13:23:34Z",
+      "side": 1,
+      "message": "remove, no longer used upstream",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 64
+      },
+      "revId": "55a6679cd83e547a321186d06dd6563b2a6d1108",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb3d3c7_8a2020ae",
+        "filename": "docker/start.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-05-28T13:23:34Z",
+      "side": 1,
+      "message": "ok, you removed old bash checks but why are you not using python scripts for testing accessibility...",
+      "revId": "55a6679cd83e547a321186d06dd6563b2a6d1108",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
