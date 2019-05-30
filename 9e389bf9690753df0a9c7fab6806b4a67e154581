@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb3d3c7_bcf7448b",
+        "filename": "docker/README.rst",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-05-30T11:28:04Z",
+      "side": 1,
+      "message": "This is markdown, not rst README formating.",
+      "revId": "9e389bf9690753df0a9c7fab6806b4a67e154581",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
