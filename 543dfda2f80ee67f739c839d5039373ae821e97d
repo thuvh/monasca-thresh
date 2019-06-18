@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fb8cfa7_6509f32f",
+        "filename": "docker/README.rst",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 14123
+      },
+      "writtenOn": "2019-06-18T06:57:30Z",
+      "side": 1,
+      "message": "why don\u0027t refer to opendev.org repo?",
+      "range": {
+        "startLine": 141,
+        "startChar": 31,
+        "endLine": 141,
+        "endChar": 49
+      },
+      "revId": "543dfda2f80ee67f739c839d5039373ae821e97d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
