@@ -22,6 +22,30 @@
       "revId": "543dfda2f80ee67f739c839d5039373ae821e97d",
       "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fb8cfa7_9d4eea6c",
+        "filename": "docker/README.rst",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 21922
+      },
+      "writtenOn": "2019-07-01T12:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fb8cfa7_6509f32f",
+      "range": {
+        "startLine": 141,
+        "startChar": 31,
+        "endLine": 141,
+        "endChar": 49
+      },
+      "revId": "543dfda2f80ee67f739c839d5039373ae821e97d",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
     }
   ]
 }
