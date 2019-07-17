@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_0d80b545",
+        "filename": "docker/README.rst",
+        "patchSetId": 18
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 28062
+      },
+      "writtenOn": "2019-07-17T07:34:55Z",
+      "side": 1,
+      "message": "Hi, with this change the image monasca/thresh will be based on the official Storm image _/storm:1.1.1 But here in the \"with Storm Daemons\" mode the reference is to monasca/storm:1.0.3\n\nDoes work the Threshold Engine in \"with Storm Daemons\" mode using _/storm:1.1.1 ?",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 13
+      },
+      "revId": "88d2c05bfb0bf73c9ff8017b75ad9a58d2057328",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543",
+      "unresolved": false
+    }
+  ]
+}
