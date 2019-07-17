@@ -1,0 +1,9 @@
+Code-Review+2: Witold Bedyk <witold.bedyk@suse.com>
+Code-Review+2: Doug Szumski <doug@stackhpc.com>
+Workflow+1: Doug Szumski <doug@stackhpc.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Wed, 17 Jul 2019 12:22:57 +0000
+Reviewed-on: https://review.opendev.org/660703
+Project: openstack/monasca-thresh
+Branch: refs/heads/master
