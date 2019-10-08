@@ -1,0 +1,8 @@
+Code-Review+2: Witold Bedyk <witold.bedyk@suse.com>
+Workflow+1: Witold Bedyk <witold.bedyk@suse.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Tue, 08 Oct 2019 09:52:40 +0000
+Reviewed-on: https://review.opendev.org/685943
+Project: openstack/monasca-thresh
+Branch: refs/heads/stable/train
