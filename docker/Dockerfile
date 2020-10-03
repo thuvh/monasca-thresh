@@ -67,7 +67,7 @@ RUN \
     apk add --no-cache --virtual build-dep maven git py3-pip python3-dev git openjdk8 make g++ && \
     apk add --no-cache python3 mysql-client && \
     mkdir /root/.m2 && \
-    pip3 install --no-cache-dir \
+    pip3 --no-cache-dir install \
         jinja2 \
         pykafka \
         pymysql \
