@@ -1,0 +1,9 @@
+Code-Review+2: Adrian Czarnecki <adrian.czarnecki@ts.fujitsu.com>
+Code-Review+2: Martin Chacon Piza <martin@chaconpiza.com>
+Workflow+1: Martin Chacon Piza <martin@chaconpiza.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Fri, 12 Mar 2021 10:02:53 +0000
+Reviewed-on: https://review.opendev.org/c/openstack/monasca-thresh/+/778211
+Project: openstack/monasca-thresh
+Branch: refs/heads/master
