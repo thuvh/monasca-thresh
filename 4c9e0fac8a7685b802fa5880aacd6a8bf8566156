@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "994aef94_e48f215a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17685
+      },
+      "writtenOn": "2024-02-10T08:13:29Z",
+      "side": 1,
+      "message": "recheck - unmaintained/requirements branch is created, gate should be in a better shape",
+      "revId": "4c9e0fac8a7685b802fa5880aacd6a8bf8566156",
+      "serverId": "4a232e18-c5a9-48ee-94c0-e04e7cca6543"
+    }
+  ]
+}
