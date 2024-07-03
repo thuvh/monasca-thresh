@@ -68,7 +68,7 @@ RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends iproute2 net-tools netcat unzip software-properties-common && \
     apt-add-repository -y 'deb http://ftp.de.debian.org/debian sid main' && \
-    apt-add-repository -y 'deb http://security.debian.org/debian-security stretch/updates main' && \
+    apt-add-repository -y 'deb http://archive.debian.org/debian-security stretch/updates main' && \
     apt-get update && \
     apt-get install -y --no-install-recommends openjdk-8-jdk -o APT::Immediate-Configure=0 && \
     apt-get install -y --no-install-recommends maven git python3-pip && \
