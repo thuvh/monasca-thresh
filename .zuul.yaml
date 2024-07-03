@@ -7,8 +7,6 @@
             voting: false
         - monasca-tempest-java-influxdb:
             voting: false
-        - monasca-tempest-java-cassandra:
-            voting: false
         - legacy-monasca-thresh-maven-build
         - build-monasca-docker-image
     gate:
