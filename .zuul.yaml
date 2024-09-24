@@ -1,3 +1,16 @@
+- job:
+    name: monasca-thresh-localrepo-upload
+    parent: legacy-publish-openstack-artifacts
+    run: playbooks/legacy/monasca-thresh-localrepo-upload/run.yaml
+    post-run: playbooks/legacy/monasca-thresh-localrepo-upload/post.yaml
+    timeout: 1800
+
+- job:
+    name: monasca-thresh-maven-build
+    parent: legacy-base
+    run: playbooks/legacy/monasca-thresh-maven-build/run.yaml
+    timeout: 1800
+
 - project:
     check:
       jobs:
@@ -7,15 +20,21 @@
             voting: false
         - monasca-tempest-java-influxdb:
             voting: false
+<<<<<<< HEAD   (d256f0 Merge "Revert "Use external Zookeeper in Local mode"")
         - monasca-tempest-java-cassandra:
             voting: false
         - legacy-monasca-thresh-maven-build
         - build-monasca-docker-image
+=======
+        - monasca-thresh-maven-build
+#       - build-monasca-docker-image
+>>>>>>> CHANGE (2694dd zuul: Move legacy jobs to project)
     gate:
       jobs:
-        - legacy-monasca-thresh-maven-build
+        - monasca-thresh-maven-build
     post:
       jobs:
+<<<<<<< HEAD   (d256f0 Merge "Revert "Use external Zookeeper in Local mode"")
         - legacy-monasca-thresh-localrepo-upload
         - publish-monasca-thresh-docker-image
     periodic:
@@ -24,6 +43,16 @@
     release:
       jobs:
         - publish-monasca-thresh-docker-image
+=======
+        - monasca-thresh-localrepo-upload
+#       - publish-monasca-thresh-docker-image
+#   periodic:
+#     jobs:
+#       - publish-monasca-thresh-docker-image
+#   release:
+#     jobs:
+#       - publish-monasca-thresh-docker-image
+>>>>>>> CHANGE (2694dd zuul: Move legacy jobs to project)
 
 
 - job:
