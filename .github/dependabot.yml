@@ -1,0 +1,24 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directories: 
+    - "/"
+    - "/thresh"
+  schedule:
+    interval: weekly
+  ignore:
+    # ignore Maven APIs/SPIs
+    - dependency-name: org.apache.maven:*
+  open-pull-requests-limit: 50
+
+# Enable version updates for python
+- package-ecosystem: "pip"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+
+# Enable version updates for GitHub Actions
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "monthly"
