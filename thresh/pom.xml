@@ -314,7 +314,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>3.7.1</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/tar.xml</descriptor>
