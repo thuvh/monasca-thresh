@@ -26,7 +26,7 @@
         <postgresql.version>9.1-901.jdbc4</postgresql.version>
         <hikaricp.version>2.3.9</hikaricp.version>
         <reflections.version>0.9.9-RC1</reflections.version>
-        <javax.el-api.version>2.2.5</javax.el-api.version>
+        <javax.el-api.version>3.0.0</javax.el-api.version>
         <skipITs>false</skipITs>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
