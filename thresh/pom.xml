@@ -211,7 +211,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.16</version>
+                <version>3.5.4</version>
                 <configuration>
                     <groups>performance,functional,integration,database,slow,orm</groups>
                     <skipTests>${skipITs}</skipTests>
